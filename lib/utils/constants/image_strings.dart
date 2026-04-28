@@ -12,5 +12,6 @@ class MImages {
   static const String ngFlag = "assets/images/login/ng-flag.png";
   static const String phone = "assets/images/onboarding/phone.png";
   static const String location = "assets/images/login/location.png";
+  static const String outlet = "assets/images/login/outlet-logo.png";
 
 }

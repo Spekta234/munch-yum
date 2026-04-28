@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:munch_yum/common/styles/spacing_styles.dart';
+import 'package:munch_yum/features/authentication/screens/location/location_loader.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/logo_avatar.dart';
+import 'package:munch_yum/navigation_menu.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 
@@ -134,7 +136,7 @@ class LocationScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => Get.to(() => const NavigationMenu()),
                     child: Text(
                       'Set location',
                       style: Theme.of(context).textTheme.bodySmall!.apply(color: Colors.white),

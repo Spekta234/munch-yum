@@ -109,7 +109,7 @@ class LoginForm extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => Get.to(() => ConfirmPhoneNoScreen()),
+              onPressed: () => Get.to(() => const ConfirmPhoneNoScreen()),
               child: Text('Continue'),
             ),
           ),

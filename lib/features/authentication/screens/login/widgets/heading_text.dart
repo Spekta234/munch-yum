@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:munch_yum/navigation_menu.dart';
 
 import '../../../../../utils/constants/colors.dart';
 
@@ -34,7 +36,7 @@ class MHeadingText extends StatelessWidget {
           ),
           if (showGuestButton)
           TextButton(
-            onPressed: onTap,
+            onPressed: () => Get.to(NavigationMenu()),
             child: Text(
               'View as guest',
               style: Theme.of(context).textTheme.labelSmall!.apply(
