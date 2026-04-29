@@ -13,5 +13,6 @@ class MImages {
   static const String phone = "assets/images/onboarding/phone.png";
   static const String location = "assets/images/login/location.png";
   static const String outlet = "assets/images/login/outlet-logo.png";
+  static const String chickenAvatar = "assets/icons/avatars/chicken-avatar.png";
 
 }
