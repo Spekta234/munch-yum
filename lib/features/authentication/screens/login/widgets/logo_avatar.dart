@@ -52,7 +52,7 @@ class MLogoAvatar extends StatelessWidget {
         ),
         child: CircleAvatar(
           radius: radius,
-          backgroundColor: MColors.secondary,
+          backgroundColor: Colors.red.shade100,
           child: Image(image: AssetImage(image)),
         ),
       ),

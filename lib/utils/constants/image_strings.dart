@@ -15,15 +15,8 @@ class MImages {
   static const String outlet = "assets/images/login/outlet-logo.png";
 
   // HomeScreen images
+     // * ------- Avatars ------- * //
   static const String chickenAvatar = "assets/icons/avatars/chicken-avatar.png";
-  static const String avatar1 = "assets/icons/avatars/guy1-avatar.png";
-  static const String avatar2 = "assets/icons/avatars/guy2-avatar.png";
-  static const String avatar3 = "assets/icons/avatars/guy3-avatar.png";
-  static const String avatar4 = "assets/icons/avatars/guy4-avatar.png";
-  static const String avatar5 = "assets/icons/avatars/girl1-avatar.png";
-  static const String avatar6 = "assets/icons/avatars/girl2-avatar.png";
-  static const String avatar7 = "assets/icons/avatars/girl3-avatar.png";
-
   static const String ava1 = "assets/icons/avatars/ava1.png";
   static const String ava2 = "assets/icons/avatars/ava2.png";
   static const String ava3 = "assets/icons/avatars/ava3.png";
@@ -32,4 +25,13 @@ class MImages {
   static const String ava6 = "assets/icons/avatars/ava6.png";
   static const String ava7 = "assets/icons/avatars/ava7.png";
 
+    // * ------- Banners ------- * //
+
+  static const String banner1 = "assets/images/banners/banner1.png";
+  static const String banner2 = "assets/images/banners/banner2.jpg";
+  static const String banner3 = "assets/images/banners/banner3.png";
+  static const String banner4 = "assets/images/banners/banner4.png";
+  static const String banner5 = "assets/images/banners/banner5.jpg";
+  static const String banner6 = "assets/images/banners/banner6.png";
+  static const String banner7 = "assets/images/banners/banner7.png";
 }
