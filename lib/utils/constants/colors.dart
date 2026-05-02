@@ -23,7 +23,11 @@ class MColors {
   // Background Colors
   static const Color light = Color(0xFFF6F6F6);
   static const Color dark = Color(0xFF272727);
-  static const Color primaryBackground = Color(0xFFF3F5FF);
+  static const Color categoryBackground = Color(0xFFfff2ea);
+  static const Color categoryBackground2 = Color(0xFFf2fefc);
+  static const Color categoryBackground3 = Color(0xFFffebea);
+  static const Color categoryBackground4 = Color(0xFFe9f2f1);
+  static const Color categoryBackground5 = Color(0xFFffe1c9);
 
   // Background Containers Button
   static const Color lightContainer = Color(0xFFF6F6F6);

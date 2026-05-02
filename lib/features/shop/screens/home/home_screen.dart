@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/styles/spacing_styles.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/logo_avatar.dart';
-import 'package:munch_yum/features/shop/controllers/home/home_controller.dart';
+import 'package:munch_yum/features/shop/controllers/home_controller.dart';
+import 'package:munch_yum/features/shop/screens/home/widgets/home_category.dart';
 import 'package:munch_yum/features/shop/screens/home/widgets/home_header.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
+import 'package:munch_yum/utils/constants/sizes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,7 +23,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             /// Header 
             MHomeHeader(name: 'Okey',),
-            SizedBox(height: 2,),
+            const SizedBox(height: 2,),
             Expanded(
               child: SingleChildScrollView(
               child: Padding(padding: const EdgeInsets.only(top: 0, right: 13, left: 13, bottom: 2),
@@ -109,6 +111,44 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(height: MSizes.spaceBtwSections),
+
+                  /// Section header
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('How may we', style: Theme.of(context).textTheme.headlineSmall,),
+                            const SizedBox(height: 3,),
+                            Text('Delight you today?', style: Theme.of(context).textTheme.headlineSmall,),
+                          ],
+                        ),
+
+                        GestureDetector(
+                          onTap: () {},
+                          child: MLogoAvatar(image: MImages.search, showBorder: false, size: 22,),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: MSizes.spaceBtwSections),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Align(alignment: Alignment.centerLeft,child: Text('Categories',  style: Theme.of(context).textTheme.bodyLarge)),
+                        const SizedBox(height: MSizes.spaceBtwItems),
+                        HomeCategory(),
+
+                      ],
+                    ),
                   )
                   
                 ],

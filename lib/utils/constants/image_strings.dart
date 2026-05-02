@@ -34,4 +34,19 @@ class MImages {
   static const String banner5 = "assets/images/banners/banner5.jpg";
   static const String banner6 = "assets/images/banners/banner6.png";
   static const String banner7 = "assets/images/banners/banner7.png";
+
+   // * ------- Icons ------- * //
+  static const String search = "assets/icons/icons/search-icon.png";
+
+   // * ------- Categories ------- * //
+   static const String category1 = "assets/images/categories/category-image1.png";
+   static const String category2 = "assets/images/categories/category-image2.png";
+   static const String category3 = "assets/images/categories/category-image3.png";
+   static const String category4 = "assets/images/categories/category-image4.png";
+   static const String category5 = "assets/images/categories/category-image5.png";
+   static const String category6 = "assets/images/categories/category-image6.png";
+   static const String category7 = "assets/images/categories/category-image7.png";
+   static const String category8 = "assets/images/categories/category-image8.png";
+   static const String category9 = "assets/images/categories/category-image9.png";
+
 }

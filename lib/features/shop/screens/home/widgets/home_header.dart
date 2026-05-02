@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/common/widgets/avatar_bottomsheet/avatar_bottomsheet.dart';
-import 'package:munch_yum/features/shop/controllers/home/home_controller.dart';
+import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/image_strings.dart';
