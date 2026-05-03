@@ -77,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                   Column(
                     children: [
                       SizedBox(
-                        height: 150,
+                        height: 130,
                         child: PageView.builder(
                           controller: controller.bannerController,
                           onPageChanged: controller.onBannerPageChanged,
@@ -137,7 +137,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: MSizes.spaceBtwSections),
+                  const SizedBox(height: MSizes.spaceBtwItems),
 
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -145,11 +145,21 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Align(alignment: Alignment.centerLeft,child: Text('Categories',  style: Theme.of(context).textTheme.bodyLarge)),
                         const SizedBox(height: MSizes.spaceBtwItems),
-                        HomeCategory(),
+                        const HomeCategory(),
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(7.0),
+                    child: Column(
+                      children: [
+                        Align(alignment: Alignment.centerLeft, child: Text('Food', style: Theme.of(context).textTheme.bodyLarge,)),
+                        const SizedBox(height: MSizes.spaceBtwItems),
 
                       ],
                     ),
-                  )
+                  ),
                   
                 ],
               ),
