@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:munch_yum/common/layout/grid_layout.dart';
+import 'package:munch_yum/common/menu/menu_card.dart';
 import 'package:munch_yum/common/styles/spacing_styles.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/logo_avatar.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
@@ -151,12 +153,29 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.all(7.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         Align(alignment: Alignment.centerLeft, child: Text('Food', style: Theme.of(context).textTheme.bodyLarge,)),
                         const SizedBox(height: MSizes.spaceBtwItems),
-
+                        MGridLayout(
+                          itemCount: 8,
+                          itemBuilder: (_, index) => MMenuCardVertical(),
+                        ),
+                        const SizedBox(height: MSizes.spaceBtwItems),
+                        Align(alignment: Alignment.centerLeft, child: Text('Protein', style: Theme.of(context).textTheme.bodyLarge,)),
+                        const SizedBox(height: MSizes.spaceBtwItems),
+                        MGridLayout(
+                          itemCount: 8,
+                          itemBuilder: (_, index) => MMenuCardVertical(),
+                        ),
+                        const SizedBox(height: MSizes.spaceBtwItems),
+                        Align(alignment: Alignment.centerLeft, child: Text('Pastry', style: Theme.of(context).textTheme.bodyLarge,)),
+                        const SizedBox(height: MSizes.spaceBtwItems),
+                        MGridLayout(
+                          itemCount: 8,
+                          itemBuilder: (_, index) => MMenuCardVertical(),
+                        ),
                       ],
                     ),
                   ),

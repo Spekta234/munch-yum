@@ -49,4 +49,7 @@ class MImages {
    static const String category8 = "assets/images/categories/category-image8.png";
    static const String category9 = "assets/images/categories/category-image9.png";
 
+    // * ------- menu ------- * //
+  static const String ofadaRice = "assets/images/menu/ofada-rice.png";
+  static const String ofadaRice2 = "assets/images/menu/ofada-rice2.jpg";
 }

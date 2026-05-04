@@ -117,7 +117,6 @@ class HomeCategory extends StatelessWidget {
                       child: Container(
                         width: 45,
                         height: 45,
-                        color: Colors.grey.shade100,
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
