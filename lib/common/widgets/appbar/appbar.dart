@@ -32,7 +32,7 @@ class MAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         automaticallyImplyLeading: false,
         leading: showBackArrow
-            ? IconButton(onPressed: () => Get.back(), icon: Icon(Iconsax.arrow_left, color: MColors.dark,))
+            ? IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios_new, color: MColors.dark,))
             : leadingIcon != null ? IconButton(onPressed: leadingOnPressed, icon: Icon(leadingIcon)) : null,
         title: title,
         actions: actions,
@@ -42,5 +42,5 @@ class MAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(MDeviceUtils.getAppBarHeight());
+  Size get preferredSize => Size.fromHeight(30);
 }

@@ -8,6 +8,7 @@ import 'package:munch_yum/features/authentication/screens/login/widgets/logo_ava
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 import 'package:munch_yum/features/shop/screens/home/widgets/home_category.dart';
 import 'package:munch_yum/features/shop/screens/home/widgets/home_header.dart';
+import 'package:munch_yum/features/shop/screens/search/search_screen.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
@@ -132,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                         ),
 
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () => Get.to(() => SearchScreen()),
                           child: MLogoAvatar(image: MImages.search, showBorder: false, size: 22,),
                         ),
                       ],

@@ -9,6 +9,7 @@ import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../utils/constants/colors.dart';
+import '../custom_shapes/buttons/add_to_cart_button.dart';
 
 class MMenuCardVertical extends StatelessWidget {
   const MMenuCardVertical({super.key});
@@ -55,22 +56,7 @@ class MMenuCardVertical extends StatelessWidget {
                           MMenuPriceText(price: ' 2,500'),
 
                           const SizedBox(height: MSizes.spaceBtwSections),
-                          SizedBox(
-                            width:  double.infinity,
-                            child: ElevatedButton.icon(
-                              onPressed: (){},
-                              icon: Icon(Iconsax.shopping_cart),
-                              label: Text('Add to cart'),
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)
-                                ),
-                                minimumSize: Size.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                            ),
-                          )
+                          AddToCartButton()
                         ],
                       ),
                     ),
@@ -85,3 +71,4 @@ class MMenuCardVertical extends StatelessWidget {
     );
   }
 }
+
