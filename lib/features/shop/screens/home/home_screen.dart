@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/layout/grid_layout.dart';
 import 'package:munch_yum/common/menu/menu_card.dart';
 import 'package:munch_yum/common/styles/spacing_styles.dart';
+import 'package:munch_yum/features/authentication/screens/location/location.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/logo_avatar.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 import 'package:munch_yum/features/shop/screens/home/widgets/home_category.dart';
@@ -34,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   /// Order menu
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => Get.to(() => LocationScreen(showBackButton: true)),
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
@@ -72,7 +73,17 @@ class HomeScreen extends StatelessWidget {
                     offset: Offset(10, -10),
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: TextButton(onPressed: () {}, child: Text('Having issues?' , style: TextStyle(color: MColors.primary),), ),
+                      child: TextButton(
+                        onPressed: () => Get.to(LocationScreen(showBackButton: true)),
+                        child: Text(
+                          'Having issues?',
+                          style: Theme.of(context).textTheme.labelSmall!.apply(
+                            color: MColors.primary,
+                            decoration: TextDecoration.underline,
+                            decorationColor: MColors.primary,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
 

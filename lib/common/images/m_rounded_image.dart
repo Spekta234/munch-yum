@@ -53,7 +53,7 @@ class MRoundedImage extends StatelessWidget {
           borderRadius:
           applyImageRadius
               ? BorderRadius.only(topLeft: Radius.circular(borderRadius), topRight: Radius.circular(borderRadius))
-              : BorderRadius.zero,
+              : BorderRadius.only(bottomLeft: Radius.circular(borderRadius), topLeft: Radius.circular(borderRadius)),
           child: Image(
             fit: fit,
             image:

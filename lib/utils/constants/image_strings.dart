@@ -52,4 +52,11 @@ class MImages {
     // * ------- menu ------- * //
   static const String ofadaRice = "assets/images/menu/ofada-rice.png";
   static const String ofadaRice2 = "assets/images/menu/ofada-rice2.jpg";
+  static const String porridgeYam = "assets/images/menu/porridge-yam.png";
+  static const String parfait = "assets/images/menu/parfait.jpg";
+  static const String catfishPeppersoup = "assets/images/menu/catfish-peppersoup.jpg";
+  static const String cheeseburger = "assets/images/menu/cheeseburger.jpg";
+  static const String shawarma = "assets/images/menu/shawarma.jpg";
+  static const String friedRice = "assets/images/menu/fried-rice.jpg";
+  static const String smokedChicken = "assets/images/menu/smoked-chicken.jpg";
 }

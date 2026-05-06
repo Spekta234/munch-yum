@@ -87,7 +87,7 @@ class ConfirmPhoneNoForm extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => Get.to(() => const LocationScreen()),
+              onPressed: () => Get.to(() => const LocationScreen(showBackButton: false,)),
               child: Text('Continue'),
             ),
           ),
