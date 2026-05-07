@@ -104,24 +104,25 @@ class SearchScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     /// Recent Searches
-                    ListView.builder(
+                    ListView.separated(
+                      itemCount: 2,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) => SizedBox(height: 10),
                       itemBuilder: (context, index) => MMenuCardHorizontal(),
                     ),
                     const SizedBox(height: MSizes.spaceBtwSections,),
 
                     /// Popular Searches
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Popular Search'),
-                        const SizedBox(height: MSizes.spaceBtwItems,),
-
-                      ],
+                    Align(alignment: AlignmentGeometry.centerLeft, child: Text('Popular Searches')),
+                    const SizedBox(height: MSizes.spaceBtwItems,),
+                    ListView.separated(
+                      itemCount: 2,
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) => SizedBox(height: 10),
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => MMenuCardHorizontal(),
                     ),
-
-
                   ],
                 ),
               ),

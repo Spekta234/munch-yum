@@ -6,64 +6,134 @@ import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../utils/constants/colors.dart';
 
+// class AddToCartButton extends StatelessWidget {
+//   const AddToCartButton({
+//     super.key,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final controller = Get.put(AddToCartBtnController(), tag: UniqueKey().toString());
+//     return
+//       Obx(() => controller.isAddedToCart.value
+//           ?
+//       Padding(
+//         padding: const EdgeInsets.all(MSizes.xs),
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             // Minus button
+//             GestureDetector(
+//               onTap: controller.decreaseQuality,
+//               child: CircleAvatar(
+//                 radius: 14,
+//                 backgroundColor: Colors.grey.shade200,
+//                 child: Icon(Icons.remove, color: Colors.black, size: 25,),
+//               ),
+//             ),
+//             //
+//             Obx(() => Text(
+//               '${controller.quantity.value}',
+//               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+//             )),
+//             // Plus button
+//             GestureDetector(
+//               onTap: controller.increaseQuality,
+//               child: CircleAvatar(
+//                 radius: 14,
+//                 backgroundColor: MColors.primary,
+//                 child: Icon(Icons.add, color: Colors.white, size: 25,),
+//               ),
+//             ),
+//           ],
+//         ),
+//       )
+//         :SizedBox(
+//       width:  double.infinity,
+//       child: ElevatedButton.icon(
+//         onPressed: controller.addToCart,
+//         icon: Icon(Iconsax.shopping_cart),
+//         label: Text('Add to cart'),
+//         style: ElevatedButton.styleFrom(
+//           padding: EdgeInsets.symmetric(vertical: 8),
+//           shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(8)
+//           ),
+//           minimumSize: Size.zero,
+//           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+//         ),
+//       ),
+//       )
+//     );
+//   }
+// }
+
 class AddToCartButton extends StatelessWidget {
   const AddToCartButton({
     super.key,
+    this.isSmall = false, // ← add this
   });
+
+  final bool isSmall;
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AddToCartBtnController(), tag: UniqueKey().toString());
-    return
-      Obx(() => controller.isAddedToCart.value
-          ?
-      Padding(
-        padding: const EdgeInsets.all(MSizes.xs),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Minus button
-            GestureDetector(
-              onTap: controller.decreaseQuality,
-              child: CircleAvatar(
-                radius: 14,
-                backgroundColor: Colors.grey.shade200,
-                child: Icon(Icons.remove, color: Colors.black, size: 25,),
-              ),
+    return Obx(() => controller.isAddedToCart.value
+        ? Padding(
+      padding: const EdgeInsets.all(MSizes.xs),
+      child: Row(
+        mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: controller.decreaseQuality,
+            child: CircleAvatar(
+              radius: isSmall ? 12 : 14, // ← smaller when isSmall
+              backgroundColor: Colors.grey.shade200,
+              child: Icon(Icons.remove, color: Colors.black, size: isSmall ? 20 : 25),
             ),
-            //
-            Obx(() => Text(
-              '${controller.quantity.value}',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            )),
-            // Plus button
-            GestureDetector(
-              onTap: controller.increaseQuality,
-              child: CircleAvatar(
-                radius: 14,
-                backgroundColor: MColors.primary,
-                child: Icon(Icons.add, color: Colors.white, size: 25,),
-              ),
+          ),
+          SizedBox(width: isSmall? 10 : null,),
+          Obx(() => Text(
+            '${controller.quantity.value}',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: isSmall ? 16 : 16, // ← smaller font
             ),
-          ],
-        ),
-      )
-        :SizedBox(
-      width:  double.infinity,
+          )),
+          SizedBox(width: isSmall? 10 : null,),
+          GestureDetector(
+            onTap: controller.increaseQuality,
+            child: CircleAvatar(
+              radius: isSmall ? 12 : 14, // ← smaller when isSmall
+              backgroundColor: MColors.primary,
+              child: Icon(Icons.add, color: Colors.white, size: isSmall ? 20 : 25),
+            ),
+          ),
+        ],
+      ),
+    )
+        : SizedBox(
+      height: isSmall ? 35 : null,
+      width: isSmall? 100 : double.infinity,
       child: ElevatedButton.icon(
         onPressed: controller.addToCart,
-        icon: Icon(Iconsax.shopping_cart),
-        label: Text('Add to cart'),
+        icon: Icon(Iconsax.shopping_cart, size: isSmall ? 14 : 18), // ← smaller icon
+        label: Text(
+          'Add to cart',
+          style: TextStyle(fontSize: isSmall ? 11 : 14), // ← smaller text
+        ),
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(
+            vertical: isSmall ? 4 : 8, // ← less padding when small
+          ),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8)
+            borderRadius: BorderRadius.circular(8),
           ),
           minimumSize: Size.zero,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
       ),
-      )
-    );
+    ));
   }
 }

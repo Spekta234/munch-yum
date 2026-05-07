@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/custom_shapes/containers/rounded_container.dart';
 import 'package:munch_yum/common/images/m_rounded_image.dart';
 import 'package:munch_yum/common/texts/m_ctgy_title_text_with_icon.dart';
 import 'package:munch_yum/common/texts/menu_price_text.dart';
 import 'package:munch_yum/common/texts/menu_title_text.dart';
+import 'package:munch_yum/features/shop/screens/menu_details/menu_details.dart' hide AddToCartButton;
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
@@ -17,7 +19,7 @@ class MMenuCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: () => Get.to(() => MenuDetails()),
       child: Container(
         width: 155,
         decoration: BoxDecoration(
@@ -29,7 +31,7 @@ class MMenuCardVertical extends StatelessWidget {
         child: Column(
           children: [
             /// image
-            SizedBox(height: 90, width: 170, child: MRoundedImage(margin: EdgeInsets.only(bottom: 2), imageUrl: MImages.ofadaRice2,  fit: BoxFit.fill, )),
+            SizedBox(height: 90, width: 170, child: MRoundedImage(margin: EdgeInsets.only(bottom: 2), imageUrl: MImages.shawarma,  fit: BoxFit.fill, )),
             MRoundedContainer(
               child: Stack(
                 children: [
@@ -43,17 +45,17 @@ class MMenuCardVertical extends StatelessWidget {
                         children: [
                           /// Ctgy title
                           MCtgyTitleTextWithIcon(
-                            title: 'Food',
+                            title: 'Shawarma',
                             textColor: MColors.darkerGrey,
                           ),
                           const SizedBox(height: MSizes.spaceBtwItems / 2),
 
                           /// Menu title
-                          MMenuTitleText(title: 'Ofada Rice (wrapped)', smallSize: true,),
+                          MMenuTitleText(title: 'Chicken Shawarma', smallSize: true,),
                           const SizedBox(height: MSizes.spaceBtwItems / 2),
 
                           /// Menu Price
-                          MMenuPriceText(price: ' 2,500'),
+                          MMenuPriceText(price: ' 3,200'),
 
                           const SizedBox(height: MSizes.spaceBtwSections),
                           AddToCartButton()

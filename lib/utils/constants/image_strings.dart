@@ -59,4 +59,5 @@ class MImages {
   static const String shawarma = "assets/images/menu/shawarma.jpg";
   static const String friedRice = "assets/images/menu/fried-rice.jpg";
   static const String smokedChicken = "assets/images/menu/smoked-chicken.jpg";
+  static const String ofada = "assets/images/menu/ofada-rice3.png";
 }

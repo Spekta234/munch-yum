@@ -91,7 +91,7 @@ class HomeScreen extends StatelessWidget {
                   Column(
                     children: [
                       SizedBox(
-                        height: 130,
+                        height: MSizes.imageCarouselHeight,
                         child: PageView.builder(
                           controller: controller.bannerController,
                           onPageChanged: controller.onBannerPageChanged,
