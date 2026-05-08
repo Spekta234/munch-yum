@@ -31,7 +31,7 @@ class MMenuCardVertical extends StatelessWidget {
         child: Column(
           children: [
             /// image
-            SizedBox(height: 90, width: 170, child: MRoundedImage(margin: EdgeInsets.only(bottom: 2), imageUrl: MImages.shawarma,  fit: BoxFit.fill, )),
+            SizedBox(height: 90, width: 170, child: MRoundedImage(margin: EdgeInsets.only(bottom: 2), imageUrl: MImages.ofadaRice2,  fit: BoxFit.fill, )),
             MRoundedContainer(
               child: Stack(
                 children: [
@@ -45,17 +45,17 @@ class MMenuCardVertical extends StatelessWidget {
                         children: [
                           /// Ctgy title
                           MCtgyTitleTextWithIcon(
-                            title: 'Shawarma',
+                            title: 'Ofada Rice (wrapped)',
                             textColor: MColors.darkerGrey,
                           ),
                           const SizedBox(height: MSizes.spaceBtwItems / 2),
 
                           /// Menu title
-                          MMenuTitleText(title: 'Chicken Shawarma', smallSize: true,),
+                          MMenuTitleText(title: 'Ofada Rice', smallSize: true,),
                           const SizedBox(height: MSizes.spaceBtwItems / 2),
 
                           /// Menu Price
-                          MMenuPriceText(price: ' 3,200'),
+                          MMenuPriceText(price: '2,500',),
 
                           const SizedBox(height: MSizes.spaceBtwSections),
                           AddToCartButton()

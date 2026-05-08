@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/navigation_menu.dart';
+import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../../utils/constants/colors.dart';
 
@@ -19,7 +20,8 @@ class MHeadingText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [Row(
+      children: [
+        Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text.rich(
@@ -50,7 +52,7 @@ class MHeadingText extends StatelessWidget {
       ),
         Text(
           subtitle,
-          style: Theme.of(context).textTheme.labelMedium!.apply(color: Colors.grey.shade800),
+          style: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey.shade800),
         ),
       ],
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/features/shop/screens/home/home_screen.dart';
+import 'package:munch_yum/features/shop/screens/offers/offers_screen.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 
 class NavigationMenu extends StatelessWidget {
@@ -76,5 +77,5 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController{
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = [const HomeScreen(), Container(color: Colors.red), Container(color: Colors.blue), Container(color: Colors.green), Container(color: Colors.purple)];
+  final screens = [const HomeScreen(), const OffersScreen(), Container(color: Colors.blue), Container(color: Colors.green), Container(color: Colors.purple)];
 }
