@@ -1,9 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:munch_yum/common/styles/spacing_styles.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/login_form.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/logo_avatar.dart';
+import 'package:munch_yum/navigation_menu.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 
@@ -24,11 +26,12 @@ class LoginScreen extends StatelessWidget {
             children: [
               // ── Header ──
               /// Welcome texts
-              const MHeadingText(
+               MHeadingText(
                 title: 'Welcome to ',
                 name: 'MUNCH YUM',
                 subtitle: 'Please enter your correct phone number below',
                 showGuestButton: true,
+                onTap: () => Get.to(() => NavigationMenu()),
               ),
               SizedBox(height: screenHeight * 0.05),
 

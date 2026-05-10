@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:munch_yum/common/layout/grid_layout.dart';
+import 'package:munch_yum/common/menu/menu_card.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 import 'package:munch_yum/features/shop/screens/offers/widgets/menu_card_offers.dart';
@@ -101,6 +103,16 @@ class OffersScreen extends StatelessWidget {
                     price: '14,999',
                     isCurved: false,
                   ),
+
+                  const SizedBox(height: MSizes.spaceBtwSections,),
+                  Text('More offers', style: Theme.of(context).textTheme.bodyLarge!.apply(color: Colors.black),),
+                  Text('Get discount on our available meals here', style: Theme.of(context).textTheme.labelSmall,),
+                  const SizedBox(height: MSizes.spaceBtwItems),
+                  MGridLayout(
+                    itemCount: 7,
+                    itemBuilder: (_, index) => MMenuCardVertical(isOutOfStock: true, hasDiscount: true,),
+                  ),
+
                 ],
               ),
 

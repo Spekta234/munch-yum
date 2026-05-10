@@ -61,7 +61,6 @@ class MenuDetails extends StatelessWidget {
                     ),
                     const SizedBox(height: MSizes.spaceBtwItems),
                     Divider(),
-                    const SizedBox(height: MSizes.sm),
                     ///
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -73,7 +72,6 @@ class MenuDetails extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: MSizes.sm),
                     Divider(),
                     const SizedBox(height: MSizes.spaceBtwSections),
                     Padding(
@@ -101,7 +99,7 @@ class MenuDetails extends StatelessWidget {
                     const SizedBox(height: MSizes.spaceBtwItems),
                     MGridLayout(
                       itemCount: 8,
-                      itemBuilder: (_, index) => MMenuCardVertical(),
+                      itemBuilder: (_, index) => MMenuCardVertical(hasDiscount: true,),
                     ),
                   ],
                 ),
