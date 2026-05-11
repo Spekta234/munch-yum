@@ -10,6 +10,8 @@ import 'package:munch_yum/navigation_menu.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 
+import '../../../../utils/constants/sizes.dart';
+
 
 class LocationScreen extends StatelessWidget {
   const LocationScreen({super.key, required this.showBackButton});
@@ -28,9 +30,17 @@ class LocationScreen extends StatelessWidget {
             children: [
               // -- header --
               if (showBackButton)
-                IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios_new)),
-
-
+                SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: IconButton(
+                    onPressed: ()  => Get.back(),
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(),
+                    icon: Icon(Icons.arrow_back_ios_new, size: 24, color: Colors.black),
+                  ),
+                ),
+              const SizedBox(height: MSizes.md),
               const MHeadingText(
                 title: 'Enter Location ', subtitle: 'Kindly choose a Munch Yum outlet near you.', showGuestButton: false,
               ),

@@ -14,7 +14,7 @@ class MCheckBoxTheme{
     }),
     fillColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
-        return Colors.red;
+        return Colors.green.shade900;
       } else {
         return Colors.transparent;
       }
@@ -32,7 +32,7 @@ class MCheckBoxTheme{
     }),
     fillColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
-        return Colors.red;
+        return Colors.green.shade900;
       } else {
         return Colors.transparent;
       }

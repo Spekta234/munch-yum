@@ -88,7 +88,7 @@ class NavigationMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(NavigationController());
 
-    // ── Reusable cart icon with badge ──
+    //Reusable cart icon with badge
     Widget cartIcon() => badges.Badge(
       position: badges.BadgePosition.topEnd(top: -2, end: -2),
       badgeStyle: badges.BadgeStyle(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:munch_yum/common/menu/cart_item_card.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
 import 'package:munch_yum/features/shop/screens/cart/widgets/cart_item_with_image.dart';
+import 'package:munch_yum/features/shop/screens/checkout/checkout_screen.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 
 import '../../../../utils/constants/colors.dart';
@@ -92,7 +94,8 @@ class CartScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(right: MSizes.md, left: MSizes.md, bottom: MSizes.md, top: MSizes.xs ),
         child: ElevatedButton(
-          onPressed: (){}, child: 
+          onPressed: () => Get.to(() => CheckoutScreen()),
+          child:
           Text('Proceed to checkout'),
         ),
       ),
