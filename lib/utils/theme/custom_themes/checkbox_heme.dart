@@ -16,7 +16,7 @@ class MCheckBoxTheme{
       if (states.contains(WidgetState.selected)) {
         return Colors.green.shade900;
       } else {
-        return Colors.transparent;
+        return Colors.grey;
       }
     }),
   );
