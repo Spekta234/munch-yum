@@ -20,7 +20,7 @@ class MMenuTitleText extends StatelessWidget {
       title,
       style:
           smallSize
-              ? Theme.of(context).textTheme.labelLarge
+              ? Theme.of(context).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600)
               : Theme.of(context).textTheme.titleSmall,
       overflow: TextOverflow.ellipsis,
       maxLines: maxLines,

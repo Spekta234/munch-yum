@@ -5,8 +5,10 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/features/shop/controllers/checkout_controller.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/checkbox_row.dart';
+import 'package:munch_yum/features/shop/screens/checkout/widgets/coupon_code.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/delivery_bottomsheet.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/required_badge.dart';
+import 'package:munch_yum/features/shop/screens/checkout/widgets/special_note_field.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/summary_row.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
@@ -63,6 +65,8 @@ class CheckoutScreen extends StatelessWidget {
                         () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
+                            /// Who are you ordering for
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -129,6 +133,8 @@ class CheckoutScreen extends StatelessWidget {
                                 ],
                               ),
                             const SizedBox(height: MSizes.spaceBtwItems),
+
+                            /// Packaging type
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -156,6 +162,8 @@ class CheckoutScreen extends StatelessWidget {
                               onTap: () => controller.packagingType.value = 'Love box (ideal for gift)',
                             ),
                             const SizedBox(height: MSizes.spaceBtwItems),
+
+                            /// Order mode
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -200,77 +208,23 @@ class CheckoutScreen extends StatelessWidget {
                               }
                             ),
                             const SizedBox(height: MSizes.spaceBtwItems),
+
+                            /// Special note
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('Note', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500)),
                                 const SizedBox(height: MSizes.sm),
-                                TextFormField(
-                                  maxLines: 5,
-                                  decoration: InputDecoration(
-                                    hintText: 'Special instructions or delivery notes',
-                                    hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                    contentPadding: EdgeInsets.all(MSizes.md),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: Colors.grey),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(color: MColors.darkerGrey),
-                                    )
-                                  ),
-                                ),
+                                MSpecialNoteField(),
                               ],
                             ),
                             const SizedBox(height: MSizes.spaceBtwItems),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey.shade300),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Row(
-                                children: [
-                                  // ── Coupon icon ──
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 12),
-                                    child: Icon(Iconsax.ticket_discount5, size: 28, color: MColors.primary),
-                                  ),
-                                  // ── Divider ──
-                                  SizedBox(width: 8,),
-                                  Container(width: 2, height: 24, color: Colors.grey.shade300),
-                                  SizedBox(width: 8,),
-                                  // ── Text input ──
-                                  Expanded(
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        hintText: 'Coupon code (optional)',
-                                        border: InputBorder.none,
-                                        enabledBorder: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                  // ── Apply button ──
-                                  Container(
-                                    margin: EdgeInsets.all(6),
-                                    child: ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: MColors.primary,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        side: BorderSide.none,
-                                      ),
-                                      child: Text('Apply'),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+
+                            /// Coupon code
+                            MCouponCode(),
                             const SizedBox(height: MSizes.spaceBtwItems),
+
+                            /// Summary and total
                             Column(
                               children: [
                                 MSummaryRow(title: 'Total item', amount: '₦8000.00'),
@@ -324,5 +278,7 @@ class CheckoutScreen extends StatelessWidget {
     );
   }
 }
+
+
 
 

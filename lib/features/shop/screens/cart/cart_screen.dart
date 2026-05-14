@@ -4,6 +4,7 @@ import 'package:munch_yum/common/menu/cart_item_card.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
 import 'package:munch_yum/features/shop/screens/cart/widgets/cart_item_with_image.dart';
 import 'package:munch_yum/features/shop/screens/checkout/checkout_screen.dart';
+import 'package:munch_yum/features/shop/screens/orders/orders_screen.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 
 import '../../../../utils/constants/colors.dart';
@@ -30,7 +31,7 @@ class CartScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () => Get.to(() => OrdersScreen()),
                   child: Text(
                   'Order history', style: Theme.of(context).textTheme.labelSmall!.apply(
                 color: MColors.primary,
