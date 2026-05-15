@@ -8,8 +8,10 @@ import '../texts/menu_title_text.dart';
 
 class MMenuCardHorizontal extends StatelessWidget {
   const MMenuCardHorizontal ({
-    super.key,
+    super.key, this.isQty = false,
   });
+
+  final bool? isQty;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,25 @@ class MMenuCardHorizontal extends StatelessWidget {
                   children: [
                     MMenuTitleText(title: 'Parfait', smallSize: true,),
                     SizedBox(height: 30),
-                    MMenuPriceText(price: '2,700',),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MMenuPriceText(price: '2,700', ),
+                        if(isQty!)
+                        Text.rich(
+                          TextSpan(
+                          text: 'Qty: ',
+                            style: Theme.of(context).textTheme.labelSmall,
+                            children: [
+                              TextSpan(
+                                text: '1',
+                                style: Theme.of(context).textTheme.labelSmall,
+                              )
+                            ]
+                        ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ),)
