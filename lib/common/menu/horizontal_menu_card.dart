@@ -8,10 +8,8 @@ import '../texts/menu_title_text.dart';
 
 class MMenuCardHorizontal extends StatelessWidget {
   const MMenuCardHorizontal ({
-    super.key, this.isQty = false,
+    super.key,
   });
-
-  final bool? isQty;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,6 @@ class MMenuCardHorizontal extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MMenuPriceText(price: '2,700', ),
-                        if(isQty!)
                         Text.rich(
                           TextSpan(
                           text: 'Qty: ',

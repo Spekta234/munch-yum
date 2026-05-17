@@ -66,4 +66,8 @@ class MImages {
   static const String birthdayBox = "assets/images/offers/birthday-box.png";
   static const String partyBox = "assets/images/offers/party-box.png";
   static const String valentineBox = "assets/images/offers/valentine-box.png";
+
+   // * ------- loyalty ------- * //
+  static const String loyaltyIntro = "assets/images/loyalty/loyalty-intro.png";
+  static const String loyaltyIntro2 = "assets/images/loyalty/loyalty-intro2.png";
 }

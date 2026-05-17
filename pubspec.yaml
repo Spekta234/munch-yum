@@ -67,6 +67,7 @@ flutter:
     - assets/images/categories/
     - assets/images/menu/
     - assets/images/offers/
+    - assets/images/loyalty/
 
 
   #------------------- LOCAL FONTS ----------------#
