@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 
+import '../../../../../common/custom_shapes/checkbox/custom_checkbox.dart';
 import '../../../../../utils/constants/sizes.dart';
 
 class MCheckboxRow extends StatelessWidget {
@@ -26,26 +27,7 @@ class MCheckboxRow extends StatelessWidget {
           //   visualDensity: VisualDensity.compact,
           //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           // ),
-          GestureDetector(
-            onTap: onTap,
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                color: isSelected ? Colors.green.shade900 : Colors.transparent,
-                border: Border.all(
-                  color: isSelected ? Colors.green.shade900 : Colors.grey,
-                  width: 1.5,
-                ),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Icon(
-                isSelected ? Icons.check : Icons.remove,
-                color: isSelected ? Colors.white : Colors.grey,
-                size: 16,
-              ),
-            ),
-          ),
+          MCustomCheckbox(onTap: onTap, isSelected: isSelected),
           const SizedBox(width: 12),
           Text(title),
           Spacer(),

@@ -7,7 +7,7 @@ import '../../../../../utils/constants/colors.dart';
 
 class MHeadingText extends StatelessWidget {
   const  MHeadingText({
-    super.key, required this.title, this.name, required this.subtitle, required this.showGuestButton, this.onTap,
+    super.key, required this.title, this.name, required this.subtitle, required this.showGuestButton, this.onTap, this.hasSpace = false,
   });
 
   final String title;
@@ -15,6 +15,7 @@ class MHeadingText extends StatelessWidget {
   final String subtitle;
   final bool showGuestButton;
   final VoidCallback? onTap;
+  final bool hasSpace;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,8 @@ class MHeadingText extends StatelessWidget {
           ),
         ],
       ),
+        if(hasSpace)
+          SizedBox(height: MSizes.sm),
         Text(
           subtitle,
           style: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey.shade800),

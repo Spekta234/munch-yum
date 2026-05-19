@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:munch_yum/features/personification/screens/loyalty/loyalty_registration.dart';
 import 'package:munch_yum/features/personification/screens/loyalty/widgets/loyalty_checkbox.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
@@ -34,7 +36,7 @@ class LoyaltyIntro extends StatelessWidget {
               const SizedBox(height: MSizes.spaceBtwSections,),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(onPressed: (){}, child: Text('Get Started')),
+                child: ElevatedButton(onPressed: () => Get.to(() => LoyaltyRegistrationScreen()), child: Text('Get Started')),
               ),
             ],
           ),
