@@ -102,7 +102,6 @@ class HomeCategory extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(
                 children: [
-                  // ── Border outside ClipOval ──
                   Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,

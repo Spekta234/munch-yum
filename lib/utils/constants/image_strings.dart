@@ -70,4 +70,6 @@ class MImages {
    // * ------- loyalty ------- * //
   static const String loyaltyIntro = "assets/images/loyalty/loyalty-intro.png";
   static const String loyaltyIntro2 = "assets/images/loyalty/loyalty-intro2.png";
+  static const String loyaltyAvatar = "assets/images/loyalty/loyalty-avatar.jpg";
+  static const String lb = "assets/images/loyalty/lb.png";
 }
