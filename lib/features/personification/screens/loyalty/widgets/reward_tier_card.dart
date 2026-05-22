@@ -5,18 +5,23 @@ import '../../../../../utils/constants/image_strings.dart';
 
 class MRewardTierCard extends StatelessWidget {
   final String title;
-  final String pointsText;
+  final double currentPoints; // ← replaces pointsText
+  final double maxPoints;
   final double progressValue; // Between 0.0 and 1.0
   final bool isLocked;
   final Widget? leadingWidget;
+  final String? trailingImage;
+
 
   const MRewardTierCard({
     super.key,
     required this.title,
-    required this.pointsText,
     required this.progressValue,
     this.isLocked = false,
     this.leadingWidget,
+    required this.currentPoints,
+    required this.maxPoints,
+    this.trailingImage,
   });
 
   @override
@@ -79,13 +84,15 @@ class MRewardTierCard extends StatelessWidget {
                     CircleAvatar(
                       radius: 8,
                       backgroundColor: Colors.pink.shade50,
-                      backgroundImage: const AssetImage(MImages.category3), // Add your tiny trailing asset here
+                      backgroundImage: trailingImage != null
+                          ? AssetImage(trailingImage!)
+                          : null, // Add your tiny trailing asset here
                     )
                   ],
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  pointsText,
+                    '$currentPoints/$maxPoints points',
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     color: MColors.darkerGrey,
                     fontWeight: FontWeight.w500,
