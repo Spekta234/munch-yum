@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../../../../../utils/constants/colors.dart';
 class MLogoAvatar extends StatelessWidget {
   const MLogoAvatar({
     super.key,
-    required this.image,
+    this.image,
     this.showLoader = false,
     this.showBorder = true,
     this.borderWidth = 2.0,
     this.size,
+    this.child,
+    this.innerRadius,
   });
 
-  final String image;
+  final String? image;
+  final Widget? child;
   final bool showLoader;
   final bool showBorder;
   final double borderWidth;
   final double? size;
+  final double? innerRadius;
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final radius = size ?? screenHeight * 0.06;
+
+    // ── What to show inside the circle ──
+    final innerWidget = child ?? (image != null
+        ? Image(image: AssetImage(image!))
+        : const SizedBox());
 
     return Center(
       child: showLoader
@@ -36,9 +46,9 @@ class MLogoAvatar extends StatelessWidget {
             ),
           ),
           CircleAvatar(
-            radius: radius,
+            radius: innerRadius ?? radius,
             backgroundColor: MColors.secondary,
-            child: Image(image: AssetImage(image)),
+            child: innerWidget,
           ),
         ],
       )
@@ -53,7 +63,7 @@ class MLogoAvatar extends StatelessWidget {
         child: CircleAvatar(
           radius: radius,
           backgroundColor: Colors.red.shade100,
-          child: Image(image: AssetImage(image)),
+          child: innerWidget
         ),
       ),
     );

@@ -3,12 +3,12 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
+import 'package:munch_yum/features/personification/screens/loyalty/loyalty_history.dart';
 import 'package:munch_yum/features/personification/screens/loyalty/widgets/reward_tier_card.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../utils/constants/colors.dart';
-
 
 class LoyaltyProgramScreen extends StatelessWidget {
   const LoyaltyProgramScreen({super.key});
@@ -18,7 +18,12 @@ class LoyaltyProgramScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: MSizes.md, right: MSizes.md, top: MSizes.xs, bottom: MSizes.md,),
+          padding: const EdgeInsets.only(
+            left: MSizes.md,
+            right: MSizes.md,
+            top: MSizes.xs,
+            bottom: MSizes.md,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,7 +35,7 @@ class LoyaltyProgramScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () => Get.to(() => LoyaltyHistory()),
                     child: Text(
                       'History',
                       style: Theme.of(context).textTheme.labelSmall!.apply(
@@ -64,7 +69,8 @@ class LoyaltyProgramScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   'Okechukwu Onoh',
-                                  style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600),
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(fontWeight: FontWeight.w600),
                                 ),
                                 const SizedBox(height: 2),
                                 Row(
@@ -77,13 +83,16 @@ class LoyaltyProgramScreen extends StatelessWidget {
                                     const SizedBox(width: 4),
                                     Text(
                                       'Ruby Cruncher',
-                                      style: Theme.of(context).textTheme.labelSmall!.copyWith(color: MColors.darkerGrey),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall!
+                                          .copyWith(color: MColors.darkerGrey),
                                     ),
                                   ],
                                 ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                       const SizedBox(height: MSizes.spaceBtwItems),
@@ -94,23 +103,45 @@ class LoyaltyProgramScreen extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Icon(Iconsax.discount_shape5, color: Colors.green.shade900, size: 30),
+                              Icon(
+                                Iconsax.discount_shape5,
+                                color: Colors.green.shade900,
+                                size: 30,
+                              ),
                               const SizedBox(width: 5),
                               Text(
                                 '0.0/20 points',
-                                style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.w700, color: Colors.black),
-                              )
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black,
+                                    ),
+                              ),
                             ],
                           ),
                           OutlinedButton.icon(
                             onPressed: () {},
-                            label: Text('Redeem Point', style: Theme.of(context).textTheme.labelLarge!.apply(color: MColors.darkerGrey)),
-                            icon: const Icon(Iconsax.discount_shape, color: Colors.grey),
+                            label: Text(
+                              'Redeem Point',
+                              style: Theme.of(context).textTheme.labelLarge!
+                                  .apply(color: MColors.darkerGrey),
+                            ),
+                            icon: const Icon(
+                              Iconsax.discount_shape,
+                              color: Colors.grey,
+                            ),
                             style: OutlinedButton.styleFrom(
                               backgroundColor: MColors.lightGrey,
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 10,
+                              ),
                               side: BorderSide.none,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
                           ),
                         ],
@@ -120,7 +151,10 @@ class LoyaltyProgramScreen extends StatelessWidget {
                       /// Rewards Header Label
                       Text(
                         'Rewards',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.black, fontWeight: FontWeight.w500),
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       const SizedBox(height: MSizes.spaceBtwItems),
 
@@ -135,7 +169,7 @@ class LoyaltyProgramScreen extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                         ),
                         currentPoints: 0.0,
-                        maxPoints: 20 ,
+                        maxPoints: 20,
                       ),
                       const SizedBox(height: 12),
                       MRewardTierCard(
@@ -193,4 +227,3 @@ class LoyaltyProgramScreen extends StatelessWidget {
     );
   }
 }
-

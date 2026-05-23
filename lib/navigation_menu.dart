@@ -9,6 +9,8 @@ import 'package:munch_yum/features/shop/screens/home/home_screen.dart';
 import 'package:munch_yum/features/shop/screens/offers/offers_screen.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 
+import 'features/personification/screens/support/support.dart';
+
 // class NavigationMenu extends StatelessWidget {
 //   const NavigationMenu({super.key});
 //
@@ -199,6 +201,6 @@ class NavigationController extends GetxController {
     const OffersScreen(),
     const CartScreen(),
     const LoyaltyProgramScreen(),
-    Container(color: Colors.purple),
+    const SupportScreen(),
   ];
 }

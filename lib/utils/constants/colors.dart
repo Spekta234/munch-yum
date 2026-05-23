@@ -44,6 +44,9 @@ class MColors {
   static const Color borderPrimary = Color(0xFFD9D9D9);
   static const Color borderSecondary = Color(0xFFE6E6E6);
 
+  // shades
+  static const Color shade = Color(0xFFF3F9F4);
+
   // Error and Validation Colors
   static const Color error = Color(0xFFD32F2F);
   static const Color success = Color(0xFF388E3C);
