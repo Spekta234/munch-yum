@@ -33,7 +33,7 @@ class MOrderCardHorizontal extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MMenuTitleText(title: 'Parfait', smallSize: true,),
+                  MMenuTitleText(title: 'Catfish Peppersoup', smallSize: true,),
                   SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

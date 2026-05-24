@@ -38,7 +38,7 @@ class MContactInfo extends StatelessWidget {
                 RichText(
                   text: TextSpan(
                     text: '$contactInfo ',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.black, fontWeight: FontWeight.w500, decoration: TextDecoration.underline),
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.black, fontWeight: FontWeight.w500, decoration: TextDecoration.underline),
                     recognizer: TapGestureRecognizer()..onTap = () {},
                   ),
                 )

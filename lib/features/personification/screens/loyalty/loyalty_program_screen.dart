@@ -68,7 +68,7 @@ class LoyaltyProgramScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Okechukwu Onoh',
+                                  'Spekta Codes',
                                   style: Theme.of(context).textTheme.titleLarge!
                                       .copyWith(fontWeight: FontWeight.w600),
                                 ),
