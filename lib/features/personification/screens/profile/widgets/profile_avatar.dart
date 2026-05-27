@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
@@ -12,13 +13,15 @@ class MProfileAvatar extends StatelessWidget {
   const MProfileAvatar({
     super.key,
     required this.name,
+    required this.level,
   });
 
   final String name;
+  final String level;
 
   @override
   Widget build(BuildContext context){
-    final controller = HomeController.instance;
+    final controller = ProfileController.instance;
     return Center(
       child: Column(
         children: [
@@ -57,8 +60,26 @@ class MProfileAvatar extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: MSizes.spaceBtwSections),
-          Text('Hey, $name', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+          const SizedBox(height: MSizes.sm),
+          Text(name, style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: MSizes.spaceBtwItems),
+          Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                width: 20,
+                height: 20,
+                image: AssetImage(MImages.lb),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                level,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelSmall!
+                    .copyWith(color: MColors.darkerGrey),
+              ),
+            ],
           ),
         ],
       ),

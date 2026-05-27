@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
 import 'package:munch_yum/features/personification/screens/profile/widgets/profile_avatar.dart';
+import 'package:munch_yum/features/personification/screens/profile/widgets/profile_info.dart';
 
 import '../../../../common/widgets/avatar_bottomsheet/avatar_bottomsheet.dart';
 import '../../../../utils/constants/colors.dart';
@@ -12,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProfileController());
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -30,7 +34,10 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   Spacer(),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.toggleEdit();
+
+                      },
                       child: Text(
                           'Edit Profile', style: Theme.of(context).textTheme.labelSmall!.apply(
                         color: MColors.primary,
@@ -40,7 +47,9 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: MSizes.spaceBtwItems),
-              MProfileAvatar(name: '',)
+              MProfileAvatar(name: 'Spekta', level: 'Ruby Cruncher'),
+              const SizedBox(height: MSizes.spaceBtwSections),
+              const ProfileInfo()
             ],
           ),
         ),
@@ -48,4 +57,5 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
 

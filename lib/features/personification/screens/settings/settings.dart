@@ -37,7 +37,7 @@ class Settings extends StatelessWidget {
               const SizedBox(height: MSizes.spaceBtwSections),
               Text('More', style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w500)),
               const SizedBox(height: MSizes.spaceBtwItems),
-              MSettingsSections(icon: Iconsax.messages, title: 'Support', onTap: () {}),
+              MSettingsSections(icon: Iconsax.messages5, title: 'Support', onTap: () {}),
               const SizedBox(height: MSizes.lg),
               MSettingsSections(icon: Iconsax.info_circle5, title: 'About us', onTap: () {}),
               const SizedBox(height: MSizes.lg),
