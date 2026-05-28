@@ -68,16 +68,14 @@ class SupportScreen extends StatelessWidget {
                      SizedBox(height: screenHeight * 0.04),
                      SizedBox(
                        width: double.infinity,
-                       child: Expanded(
-                         child: ElevatedButton(
-                           onPressed: () => Get.to(() => Settings()),
-                           style: ElevatedButton.styleFrom(
-                               backgroundColor: Colors.red.shade100,
-                               foregroundColor: MColors.primary,
-                               shape: RoundedRectangleBorder()
-                           ),
-                           child: Text('Go to Settings'),
+                       child: ElevatedButton(
+                         onPressed: () => Get.to(() => Settings()),
+                         style: ElevatedButton.styleFrom(
+                             backgroundColor: Colors.red.shade100,
+                             foregroundColor: MColors.primary,
+                             shape: RoundedRectangleBorder()
                          ),
+                         child: Text('Go to Settings'),
                        ),
                      ),
                    ],

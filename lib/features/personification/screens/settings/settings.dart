@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:munch_yum/features/personification/screens/address/address.dart';
+import 'package:munch_yum/features/personification/screens/address/enter_address.dart';
 import 'package:munch_yum/features/personification/screens/profile/profile.dart';
 import 'package:munch_yum/features/personification/screens/settings/widgets/settings_header.dart';
 import 'package:munch_yum/features/personification/screens/settings/widgets/settings_sections.dart';
@@ -29,7 +31,7 @@ class Settings extends StatelessWidget {
               const SizedBox(height: MSizes.spaceBtwItems,),
               MSettingsSections(icon: Iconsax.profile_2user5, title: 'Profile', onTap: () => Get.to(() => ProfileScreen()),),
               const SizedBox(height: MSizes.lg),
-              MSettingsSections(icon: Iconsax.location5, title: 'Address', onTap: () {}),
+              MSettingsSections(icon: Iconsax.location5, title: 'Address', onTap: () => Get.to(() => Address())),
               const SizedBox(height: MSizes.lg),
               MSettingsSections(icon: Iconsax.shopping_cart5, title: 'My orders', onTap: () {}),
               const SizedBox(height: MSizes.lg),

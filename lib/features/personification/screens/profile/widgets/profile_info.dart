@@ -93,8 +93,13 @@ class ProfileInfo extends StatelessWidget {
             DropdownButtonFormField<String>(
               key: UniqueKey(),
               value: null,
+              disabledHint: Text(
+                'Select a Gender', // ← shows this when disabled
+                style: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.grey),
+              ),
               icon: Icon(Icons.keyboard_arrow_down_outlined, color: Colors.black,),
               decoration: InputDecoration(
+                enabled: controller.isEditing.value,
                 hintText: 'Select a Gender',
                 hintStyle: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.grey),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(28)),
@@ -112,7 +117,8 @@ class ProfileInfo extends StatelessWidget {
                 value: gender,
                 child: Text(gender),
               )).toList(),
-              onChanged: (value) {},
+              onChanged: controller.isEditing.value
+                  ? (value) {} : null,
 
             ),
             SizedBox(height: MSizes.spaceBtwItems),
@@ -120,7 +126,7 @@ class ProfileInfo extends StatelessWidget {
             const SizedBox(height: 6),
             Obx(() => TextFormField(
               readOnly: true,
-              onTap: () {
+              onTap: controller.isEditing.value ? ()  {
                 showModalBottomSheet(
                   showDragHandle: false,
                   context: context,
@@ -130,11 +136,12 @@ class ProfileInfo extends StatelessWidget {
                   ),
                   builder: (context) => const DOBBottomSheet(),
                 );
-              },
+              } : null,
               controller: TextEditingController(
                 text: controller.dob.value,
               ),
               decoration: InputDecoration(
+                enabled: controller.isEditing.value,
                 hintText: 'DD/MM',
                 hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
                 suffixIcon: Icon(Icons.calendar_month_outlined, color: Colors.black,),
@@ -154,6 +161,7 @@ class ProfileInfo extends StatelessWidget {
             Text('Email'),
             const SizedBox(height: 6),
             TextFormField(
+              enabled: controller.isEditing.value,
               decoration: InputDecoration(
                 hintText: 'Enter your email',
                 hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
@@ -171,6 +179,20 @@ class ProfileInfo extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.red),
                 ),
               ),
+            ),
+
+            Obx(() => controller.isEditing.value
+                ? Padding(
+              padding: EdgeInsets.only(top: MSizes.spaceBtwItems),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Update'),
+                ),
+              ),
+            )
+                : SizedBox(),
             ),
           ],
         ),
