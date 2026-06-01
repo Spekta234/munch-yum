@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/texts/m_ctgy_title_text_with_icon.dart';
 import 'package:munch_yum/common/texts/menu_price_text.dart';
 import 'package:munch_yum/common/texts/menu_title_text.dart';
+import 'package:munch_yum/common/widgets/bottomsheets/bottomsheets.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../utils/constants/colors.dart';
@@ -130,7 +131,25 @@ class MCartItemCard extends StatelessWidget {
                         height: 20,
                         width: 20,
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              showDragHandle: false,
+                              isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                              ),
+                              builder: (context) =>
+                                  MBottomSheet(
+                                    title: 'Remove from cart',
+                                    icon: Iconsax.shopping_cart5,
+                                    subtitle1: 'You are about to remove',
+                                    subtitle2: 'from\n your cart. Are you sure?',
+                                    onCancelTap: () {},
+                                    onRemoveTap: () {},
+                                    child: MMenuTitleText(title: 'Smoked Chicken ', smallSize: true,),),
+                            );
+                          },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
                           icon: Icon(Iconsax.trash, size: 18, color: Colors.grey),
