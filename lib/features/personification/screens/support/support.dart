@@ -13,7 +13,9 @@ import 'package:munch_yum/utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 
 class SupportScreen extends StatelessWidget {
-  const SupportScreen({super.key});
+  const SupportScreen({super.key, this.showBackButton = false});
+
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,21 @@ class SupportScreen extends StatelessWidget {
       body: Padding(
         padding: MSpacingStyles.paddingWithAppBarHeight,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // -- header --
+            if (showBackButton)
+              SizedBox(
+                height: 20,
+                width: 20,
+                child: IconButton(
+                  onPressed: ()  => Get.back(),
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  icon: Icon(Icons.arrow_back_ios_new, size: 24, color: Colors.black),
+                ),
+              ),
+            const SizedBox(height: MSizes.md),
             MHeadingText(
               title: 'Support',
               subtitle: 'We are here to assist you any time. Reach out to us through any of our platform below',

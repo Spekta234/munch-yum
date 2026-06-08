@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "933796255036",
+    "project_id": "munch-yum-c58eb",
+    "storage_bucket": "munch-yum-c58eb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933796255036:android:9f86381dd3247fea97ba39",
+        "android_client_info": {
+          "package_name": "com.example.munch_yum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbwY27PUHQIlmniZyQEFtRS__9FPxA30g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

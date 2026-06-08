@@ -15,6 +15,8 @@ import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../personification/screens/support/support.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -74,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () => Get.to(LocationScreen(showBackButton: true)),
+                        onPressed: () => Get.to(SupportScreen(showBackButton: true)),
                         child: Text(
                           'Having issues?',
                           style: Theme.of(context).textTheme.labelSmall!.apply(

@@ -5,9 +5,12 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/features/personification/screens/address/address.dart';
 import 'package:munch_yum/features/personification/screens/address/enter_address.dart';
+import 'package:munch_yum/features/personification/screens/loyalty/loyalty_program_screen.dart';
 import 'package:munch_yum/features/personification/screens/profile/profile.dart';
 import 'package:munch_yum/features/personification/screens/settings/widgets/settings_header.dart';
 import 'package:munch_yum/features/personification/screens/settings/widgets/settings_sections.dart';
+import 'package:munch_yum/features/personification/screens/support/support.dart';
+import 'package:munch_yum/features/shop/screens/orders/orders_screen.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 
 import '../../../../utils/constants/sizes.dart';
@@ -33,13 +36,13 @@ class Settings extends StatelessWidget {
               const SizedBox(height: MSizes.lg),
               MSettingsSections(icon: Iconsax.location5, title: 'Address', onTap: () => Get.to(() => Address())),
               const SizedBox(height: MSizes.lg),
-              MSettingsSections(icon: Iconsax.shopping_cart5, title: 'My orders', onTap: () {}),
+              MSettingsSections(icon: Iconsax.shopping_cart5, title: 'My orders', onTap: () => Get.to(() => OrdersScreen())),
               const SizedBox(height: MSizes.lg),
-              MSettingsSections(icon: Iconsax.discount_shape5, title: 'Loyalty', onTap: () {}),
+              MSettingsSections(icon: Iconsax.discount_shape5, title: 'Loyalty', onTap: () => Get.to(() => LoyaltyProgramScreen())),
               const SizedBox(height: MSizes.spaceBtwSections),
               Text('More', style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w500)),
               const SizedBox(height: MSizes.spaceBtwItems),
-              MSettingsSections(icon: Iconsax.messages5, title: 'Support', onTap: () {}),
+              MSettingsSections(icon: Iconsax.messages5, title: 'Support', onTap: () => Get.to(() => SupportScreen()) ),
               const SizedBox(height: MSizes.lg),
               MSettingsSections(icon: Iconsax.info_circle5, title: 'About us', onTap: () {}),
               const SizedBox(height: MSizes.lg),

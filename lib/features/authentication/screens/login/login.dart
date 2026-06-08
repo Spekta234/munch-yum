@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                MHeadingText(
                 title: 'Welcome to ',
                 name: 'MUNCH YUM',
-                subtitle: 'Please enter your correct phone number below',
+                subtitle: 'login to your account',
                 showGuestButton: true,
                 onTap: () => Get.to(() => NavigationMenu()),
               ),

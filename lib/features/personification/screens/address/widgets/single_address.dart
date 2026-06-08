@@ -4,6 +4,8 @@ import 'package:munch_yum/common/custom_shapes/containers/rounded_container.dart
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
+import '../../../../../common/widgets/bottomsheets/bottomsheets.dart';
+
 class SingleAddress extends StatelessWidget {
   const SingleAddress({super.key, required this.selectedAddress});
 
@@ -61,7 +63,28 @@ class SingleAddress extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              IconButton(onPressed: () {}, icon: Icon(Iconsax.trash, color: MColors.primary,))
+              IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    showDragHandle: false,
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    builder: (context) =>
+                        MBottomSheet(
+                          title: 'Remove Address',
+                          icon: Iconsax.location5,
+                          subtitle1: 'You are about to remove this location',
+                          subtitle2: 'from\n your address. Are you sure you want to remove from\n address?',
+                          onCancelTap: () {},
+                          onRemoveTap: () {}, child: Text(''),
+                        ),
+                  );
+                },
+                icon: Icon(Iconsax.trash, color: MColors.primary,),
+              )
             ],
           )
         ],

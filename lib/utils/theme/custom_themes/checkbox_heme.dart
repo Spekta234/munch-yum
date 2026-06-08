@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:munch_yum/utils/constants/colors.dart';
 
 class MCheckBoxTheme{
   MCheckBoxTheme._();
@@ -14,9 +15,9 @@ class MCheckBoxTheme{
     }),
     fillColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
-        return Colors.green.shade900;
+        return MColors.primary;
       } else {
-        return Colors.grey;
+        return Colors.white;
       }
     }),
   );

@@ -13,7 +13,7 @@ class MBottomSheet extends StatelessWidget {
     required this.icon,
     required this.subtitle1,
     required this.subtitle2,
-    this.child,
+    required this.child,
     required this.onCancelTap,
     required this.onRemoveTap,
   });
@@ -22,7 +22,7 @@ class MBottomSheet extends StatelessWidget {
   final IconData icon;
   final String subtitle1;
   final String subtitle2;
-  final Widget? child;
+  final Widget child;
   final VoidCallback onCancelTap;
   final VoidCallback onRemoveTap;
 
@@ -70,7 +70,7 @@ class MBottomSheet extends StatelessWidget {
                     text: '$subtitle1 ',
                     style: Theme.of(context).textTheme.labelLarge,
                     children: [
-                      WidgetSpan(child: child!),
+                      WidgetSpan(child: child),
                       TextSpan(
                         text: '$subtitle2 ',
                         style: Theme.of(context).textTheme.labelLarge,
