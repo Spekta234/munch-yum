@@ -6,6 +6,7 @@ import 'package:munch_yum/common/custom_shapes/checkbox/custom_checkbox.dart';
 import 'package:munch_yum/common/form_divider.dart';
 import 'package:munch_yum/features/authentication/controllers/login/login_controller.dart';
 import 'package:munch_yum/features/authentication/screens/confirm_phoneno/confirm_phone_no.dart';
+import 'package:munch_yum/features/authentication/screens/password_configuration/forgot_password.dart';
 import 'package:munch_yum/features/authentication/screens/signup/sign_up.dart';
 import 'package:munch_yum/features/shop/screens/home/home_screen.dart';
 import 'package:munch_yum/navigation_menu.dart';
@@ -52,7 +53,7 @@ class LoginForm extends StatelessWidget {
           ),
           SizedBox(height: screenHeight * 0.02),
 
-          /// Passworf input
+          /// Password input
           Text('Password'),
           const SizedBox(height: 6),
           Obx(
@@ -106,7 +107,7 @@ class LoginForm extends StatelessWidget {
 
               /// Forget password
               TextButton(
-                onPressed: () {},
+                onPressed: () => Get.to(() => ForgotPassword()),
                 child: Text('Forgot password?', style: Theme.of(context).textTheme.labelMedium!.copyWith(
                   color: MColors.primary,
                 ),),

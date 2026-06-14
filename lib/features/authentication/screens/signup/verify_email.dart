@@ -62,12 +62,23 @@ class VerifyEmail extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
 
-            SizedBox(height: screenHeight * 0.17),
+            SizedBox(height: screenHeight * 0.08),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () => Get.to(() => const LocationScreen(showBackButton: false,)),
                 child: Text('Proceed to Mail App'),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () => Get.to(() => const LocationScreen(showBackButton: false,)),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide.none
+                ),
+                child: Text('Resend email'),
               ),
             ),
             const SizedBox(height: 10),
