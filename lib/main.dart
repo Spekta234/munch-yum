@@ -14,7 +14,7 @@ Future<void> main() async {
    await MLocalStorage.init('munch_yum');
 
   /// -- Await Splash until other items load
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
 
   /// -- Initialize Firebase & Authentication Repository

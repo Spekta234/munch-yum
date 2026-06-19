@@ -28,9 +28,9 @@ class ResetPassword extends StatelessWidget {
 
             const SizedBox(height: MSizes.spaceBtwSections),
             MLogoAvatar(
-              size: 100,
+              size: 70,
               showBorder: false,
-              child: Icon(Icons.lock, color: MColors.primary, size: 150,),
+              child: Icon(Icons.lock, color: MColors.primary, size: 70,),
             ),
             const SizedBox(height: MSizes.spaceBtwSections),
 

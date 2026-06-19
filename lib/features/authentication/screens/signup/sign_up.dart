@@ -36,7 +36,7 @@ class SignUpScreen extends StatelessWidget {
               SizedBox(height: screenHeight * 0.03),
               MLogoAvatar(image: MImages.loginLogo, showBorder: false,),
               SizedBox(height: screenHeight * 0.03),
-              SignupForm(),
+              const SignupForm(),
             ],
           ),
         ),

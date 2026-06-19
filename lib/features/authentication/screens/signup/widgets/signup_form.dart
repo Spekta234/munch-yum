@@ -8,6 +8,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/features/authentication/screens/confirm_phoneno/confirm_phone_no.dart';
 import 'package:munch_yum/features/authentication/screens/signup/verify_email.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
+import 'package:munch_yum/utils/validators/validation.dart';
 
 import '../../../../../navigation_menu.dart';
 import '../../../../../utils/constants/image_strings.dart';
@@ -21,12 +22,15 @@ class SignupForm extends StatelessWidget {
     final controller = Get.put(SignupController());
     final screenHeight = MediaQuery.of(context).size.height;
     return Form(
+      key: controller.signupFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Full Name'),
           const SizedBox(height: 6),
           TextFormField(
+            controller: controller.fullName,
+            validator: (value) => MValidator.validateEmptyText('Full Name', value),
             decoration: InputDecoration(
               prefixIcon: Icon(Iconsax.user),
               hintText: 'Enter your full name',
@@ -50,6 +54,8 @@ class SignupForm extends StatelessWidget {
           Text('Email Address'),
           const SizedBox(height: 6),
           TextFormField(
+            controller: controller.email,
+            validator: (value) => MValidator.validateEmail(value),
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.mail_outlined),
               hintText: 'Enter your email',
@@ -73,6 +79,7 @@ class SignupForm extends StatelessWidget {
           Text('Phone number'),
           const SizedBox(height: 6),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: const EdgeInsets.all(12),
@@ -84,7 +91,6 @@ class SignupForm extends StatelessWidget {
                   children: [
                     Text('+234'),
                     const SizedBox(width: 6),
-
                     const Image(image: AssetImage(MImages.ngFlag), width: 24),
                   ],
                 ),
@@ -92,6 +98,7 @@ class SignupForm extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
+                  controller: controller.phone,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.phone_sharp),
@@ -117,16 +124,8 @@ class SignupForm extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.red),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your phone number';
-                    }
-                    if (value.length < 10) {
-                      return 'Enter a valid phone number';
-                    }
-                    return null;
-                  },
-                ),
+                  validator: (value) => MValidator.validatePhoneNumber(value),
+              ),
               ),
             ],
           ),
@@ -135,6 +134,8 @@ class SignupForm extends StatelessWidget {
           const SizedBox(height: 6),
           Obx(
                 () => TextFormField(
+                  controller: controller.password,
+                  validator: (value) => MValidator.validatePassword(value),
               obscureText: controller.hidePassword.value,
               decoration: InputDecoration(
                 hintText: 'Enter your password',
@@ -167,7 +168,7 @@ class SignupForm extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => Get.to(() => const VerifyEmail()),
+              onPressed: () => controller.signup(),
               child: Text('Sign in'),
             ),
           ),

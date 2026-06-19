@@ -33,21 +33,6 @@ class MValidator {
       return 'Password must be at least 6 characters long.';
     }
 
-    // Check for uppercase letters
-    if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'Password must contain at least one uppercase letter.';
-    }
-
-    // Check for numbers
-    if (!value.contains(RegExp(r'[0-9]'))) {
-      return 'Password must contain at least one number.';
-    }
-
-    // Check for special characters
-    if (!value.contains(RegExp(r'[!@#$%^&*(),.?:{}|<>]'))) {
-      return 'Password must contain at least one special character.';
-    }
-
     return null;
   }
 
@@ -56,7 +41,7 @@ class MValidator {
       return 'Phone number is required.';
     }
 
-    // Regular expression for phone number validation (assuming a 10-digit US number format)
+    // Regular expression for phone number validation (assuming a 11-digit NG number format)
 
     final phoneRegExp = RegExp(r'^\d{11}$');
 

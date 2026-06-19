@@ -19,11 +19,11 @@ class ForgotPassword extends StatelessWidget {
               alignment: Alignment.topRight,
               child: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.close)),
             ),
-            SizedBox(height: MSizes.spaceBtwSections),
+            const SizedBox(height: MSizes.spaceBtwSections),
             Text('Forgot password', style: Theme.of(context).textTheme.headlineMedium),
-            SizedBox(height: MSizes.spaceBtwItems),
+            const SizedBox(height: MSizes.spaceBtwItems),
             Text('Enter your email below and we will send you a password reset link'),
-            SizedBox(height: MSizes.spaceBtwSections),
+            const SizedBox(height: MSizes.spaceBtwSections),
             Form(
               child: TextFormField(
                 decoration: InputDecoration(

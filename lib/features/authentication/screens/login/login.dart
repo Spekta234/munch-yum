@@ -24,8 +24,6 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Header ──
-              /// Welcome texts
                MHeadingText(
                 title: 'Welcome to ',
                 name: 'MUNCH YUM',
@@ -35,14 +33,11 @@ class LoginScreen extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.05),
 
-              // ── Logo ──
               const MLogoAvatar( image: MImages.loginLogo),
               SizedBox(height: screenHeight * 0.04),
 
-              // ── Form ──
               const LoginForm(),
 
-              // continue button
 
             ],
           ),

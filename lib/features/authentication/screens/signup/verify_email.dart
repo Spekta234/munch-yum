@@ -9,7 +9,9 @@ import '../location/location.dart';
 import '../login/widgets/logo_avatar.dart';
 
 class VerifyEmail extends StatelessWidget {
-  const VerifyEmail({super.key});
+  const VerifyEmail({super.key, this.email});
+
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class VerifyEmail extends StatelessWidget {
             SizedBox(height: screenHeight * 0.14),
 
             const MLogoAvatar(
+              showBorder: false,
               borderWidth: 2.3,
               child: Icon(Icons.mail_outlined, color: MColors.primary, size: 60,),
             ),
@@ -46,7 +49,7 @@ class VerifyEmail extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'spekta205@gmail.com', // ← replace with email later
+                    email ?? '', // ← replace with email later
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -74,7 +77,7 @@ class VerifyEmail extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
-                onPressed: () => Get.to(() => const LocationScreen(showBackButton: false,)),
+                onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   side: BorderSide.none
                 ),

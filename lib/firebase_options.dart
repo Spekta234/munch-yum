@@ -56,7 +56,6 @@ class DefaultFirebaseOptions {
     projectId: 'munch-yum-c58eb',
     storageBucket: 'munch-yum-c58eb.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAsVXt6ZtbPrx_A8wlU-8CEkgLjnbLMeS8',
     appId: '1:933796255036:ios:aa80f2d922592cff97ba39',
