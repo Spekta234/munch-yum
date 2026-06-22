@@ -165,11 +165,15 @@ class SignupForm extends StatelessWidget {
           SizedBox(height: screenHeight * 0.05),
 
           /// Sign up button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => controller.signup(),
-              child: Text('Sign in'),
+          Obx(
+            () =>  SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => controller.isLoading.value? null : controller.signup(),
+                child: controller.isLoading.value
+                    ? const CircularProgressIndicator(color: Colors.white,)
+                    : Text('Sign up'),
+              ),
             ),
           ),
           const SizedBox(height: 10),
