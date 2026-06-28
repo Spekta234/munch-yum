@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:munch_yum/common/styles/spacing_styles.dart';
+import 'package:munch_yum/data/repositories/authentication_repository.dart';
+import 'package:munch_yum/features/authentication/controllers/signup/verify_email_controller.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 
@@ -15,6 +18,7 @@ class VerifyEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(VerifyEmailController());
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
@@ -22,6 +26,15 @@ class VerifyEmail extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                onPressed: () => AuthenticationRepository.instance.logout(),
+                icon: const Icon(Icons.close),
+              ),
+            ),
+
             const MHeadingText(
               title: 'Welcome to ',
               name: 'MUNCH YUM',
@@ -49,7 +62,7 @@ class VerifyEmail extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    email ?? '', // ← replace with email later
+                    email ?? '',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -69,15 +82,15 @@ class VerifyEmail extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Get.to(() => const LocationScreen(showBackButton: false,)),
-                child: Text('Proceed to Mail App'),
+                onPressed: () => controller.checkEmailVerificationStatus(),
+                child: Text('Continue'),
               ),
             ),
             const SizedBox(height: 10),
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () => controller.sendEmailVerification(),
                 style: OutlinedButton.styleFrom(
                   side: BorderSide.none
                 ),
