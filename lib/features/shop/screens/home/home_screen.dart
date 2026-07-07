@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             /// Header 
-            MHomeHeader(name: 'Okey',),
+            MHomeHeader(),
             const SizedBox(height: 2,),
             Expanded(
               child: SingleChildScrollView(
@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 3),
-                                Text('Munch Yum Food & Drinks, beside shoprite GRA Enugu',  style: Theme.of(context).textTheme.labelMedium!.apply(color: Colors.black), overflow: TextOverflow.ellipsis,)
+                                Obx(() => Text(controller.user.value.selectedOutlet,  style: Theme.of(context).textTheme.labelMedium!.apply(color: Colors.black), overflow: TextOverflow.ellipsis,))
                               ],
                             ),
                           ),

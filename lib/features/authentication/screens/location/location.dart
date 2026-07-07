@@ -1,15 +1,19 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:munch_yum/common/styles/spacing_styles.dart';
+import 'package:munch_yum/features/authentication/controllers/location/location_controller.dart';
 import 'package:munch_yum/features/authentication/screens/location/location_loader.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/logo_avatar.dart';
 import 'package:munch_yum/navigation_menu.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
+import 'package:munch_yum/utils/constants/m_nigerian_states.dart';
 
+import '../../../../data/models/location_model.dart';
 import '../../../../utils/constants/sizes.dart';
 
 
@@ -20,6 +24,7 @@ class LocationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LocationController());
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
@@ -76,12 +81,17 @@ class LocationScreen extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.black),
                       ),
                     ),
-                    items: ['Lagos', 'Abuja', 'Enugu', 'Port Harcourt']
-                        .map((item) => DropdownMenuItem(
-                      value: item,
-                      child: Text(item),
-                    )).toList(),
-                    onChanged: (value) {},
+                    items: MNigerianStates.all
+                        .map((state) =>
+                        DropdownMenuItem(value: state, child: Text(state),))
+                        .toList(),
+
+                    onChanged: (value) {
+                      if (value != null) {
+                        controller.selectedState.value = StateModel(id: '', name: value);
+                        controller.fetchCities(value);
+                      }
+                    },
 
                   ),
                   SizedBox(height: screenHeight * 0.02),
@@ -89,63 +99,74 @@ class LocationScreen extends StatelessWidget {
                   /// City
                   Text('City'),
                   const SizedBox(height: 6),
-                  DropdownButtonFormField<String>(
-                    key: UniqueKey(),
-                    value: null,
-                    icon: Icon(Icons.keyboard_arrow_down_outlined, color: Colors.grey,),
-                    decoration: InputDecoration(
-                      hintText: 'Select your city',
-                      hintStyle: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.grey),
-                      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 28,),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(28)),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.grey),
+                  Obx(
+                    () => DropdownButtonFormField<CityModel?>(
+                      key: ValueKey(controller.allCities.length),
+                      value: controller.selectedCity.value,
+                      icon: Icon(Icons.keyboard_arrow_down_outlined, color: Colors.grey,),
+                      decoration: InputDecoration(
+                        hintText: 'Select your city',
+                        hintStyle: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.grey),
+                        contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 28,),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(28)),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                    ),
-                    items: ['Enugu', 'Lekki', 'Ikeja']
-                        .map((item) => DropdownMenuItem(
-                      value: item,
-                      child: Text(item),
-                    )).toList(),
-                    onChanged: (value) {},
+                      items: controller.allCities.isEmpty ? [] : controller.allCities.map((city) => DropdownMenuItem(
+                        value: city,
+                        child: Text(city.name),
+                      )).toList(),
+                      onChanged: (CityModel? value) {
+                        if (value != null) {
+                          controller.selectedCity.value = value;
+                          controller.fetchOutlets(controller.selectedState.value!.name, value.name);
+                        }
+                      },
 
+                    ),
                   ),
                   SizedBox(height: screenHeight * 0.02),
 
                   /// Outlet
                   Text('Outlet'),
                   const SizedBox(height: 6),
-                  DropdownButtonFormField<String>(
-                    isExpanded: true,
-                    key: UniqueKey(),
-                    value: null,
-                    icon: Icon(Icons.keyboard_arrow_down_outlined, color: Colors.grey,),
-                    decoration: InputDecoration(
-                      hintText: 'Select outlet',
-                      hintStyle: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.grey),
-                      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 28,),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(28)),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.grey),
+                  Obx(
+                    () => DropdownButtonFormField<OutletModel?>(
+                      isExpanded: true,
+                      key: ValueKey(controller.allOutlets.length),
+                      value: controller.selectedOutlet.value,
+                      icon: Icon(Icons.keyboard_arrow_down_outlined, color: Colors.grey,),
+                      decoration: InputDecoration(
+                        hintText: 'Select outlet',
+                        hintStyle: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.grey),
+                        contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 28,),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(28)),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                    ),
-                    items: ['Crunchies Fried Chicken 262 Agbani Road, Enugu', 'Lekki', 'Ikeja']
-                        .map((item) => DropdownMenuItem(
-                      value: item,
-                      child: Text(item),
-                    )).toList(),
-                    onChanged: (value) {},
+                      items: controller.allOutlets.isEmpty ? [] : controller.allOutlets.map((outlet) => DropdownMenuItem(
+                        value: outlet,
+                        child: Text(outlet.name),
+                      )).toList(),
+                      onChanged: (OutletModel? value) {
+                        if (value != null) {
+                          controller.selectedOutlet.value = value;
+                        }
+                      },
 
+                    ),
                   ),
                   SizedBox(height: screenHeight * 0.02),
 
@@ -153,7 +174,7 @@ class LocationScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () => Get.to(() => const NavigationMenu()),
+                      onPressed: () => controller.setLocation(),
                       child: Text(
                         'Set location',
                         style: Theme.of(context).textTheme.bodySmall!.apply(color: Colors.white),

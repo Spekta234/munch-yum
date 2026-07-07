@@ -107,6 +107,7 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
+  /// Email verification link
   Future<void> sendMailVerification() async {
     try{
       await _auth.currentUser?.sendEmailVerification();
@@ -124,6 +125,25 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
+  /// Reset password link
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e){
+      throw MFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const MFormatException().message;
+    } on PlatformException catch (e) {
+      throw MPlatformException(e.code).message;
+    }
+    catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
+
+  /// Logout
   Future<void> logout() async {
     try{
       await _auth.signOut();

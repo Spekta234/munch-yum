@@ -8,6 +8,8 @@ import 'package:munch_yum/data/repositories/authentication_repository.dart';
 import 'package:munch_yum/firebase_options.dart';
 import 'package:munch_yum/utils/local_storage/storage_utility.dart';
 
+import 'data/repositories/user_repository.dart';
+
 
 /// Entry point of flutter app
 Future<void> main() async {
@@ -26,6 +28,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform).then(
       (FirebaseApp value) => Get.put(AuthenticationRepository()),
   );
+
+   Get.put(UserRepository());
 
   // Load all the Material Design / Themes / Localization / Bindings
   runApp(const App());

@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:munch_yum/common/styles/spacing_styles.dart';
+import 'package:munch_yum/features/authentication/controllers/location/location_controller.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
 
 import '../../../../utils/constants/colors.dart';
@@ -13,7 +15,7 @@ class LocationLoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locationState = LocationSearchState.notFound;
+    final controller = LocationController.instance;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
@@ -31,46 +33,20 @@ class LocationLoadingScreen extends StatelessWidget {
             SizedBox(height: screenHeight * 0.10),
 
             /// loading logo
-            const MLogoAvatar(image: MImages.outlet, showBorder: true, showLoader: true, ),
+            Obx(
+                  () => MLogoAvatar(
+                    image: MImages.outlet,
+                    showBorder: !controller.isLoading.value,
+                    showLoader: controller.isLoading.value,
+                  ),
+            ),
             SizedBox(height: screenHeight * 0.16),
 
             /// Bottom text
-            if (locationState == LocationSearchState.loading)
-              Text('...')
-            else if (locationState == LocationSearchState.notFound)
-              Center(
-                child: Column(
-                  children: [
-                    Text('Closest outlet to you'),
-                    const SizedBox(height: 2),
-                    Text('No Outlet In your Location', style: Theme.of(context).textTheme.bodySmall!.apply(color: MColors.primary)),
-                  ],
-                ),
-              ),
-
-
-
-            SizedBox(height: screenHeight * 0.06),
-            if (locationState == LocationSearchState.notFound)
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(onPressed: () {}, child: Text('Reset address')),
-              ),
-
-            // Obx(() {
-            //   if (controller.locationState.value == LocationSearchState.loading) {
-            //     return Text('...'); // loading
-            //   } else if (controller.locationState.value == LocationSearchState.notFound) {
-            //     return Column(
-            //       children: [
-            //         Text('No Outlet In your Location'),
-            //         ElevatedButton(onPressed: () {}, child: Text('Reset address')),
-            //       ],
-            //     );
-            //   } else {
-            //     return SizedBox(); // found — navigate to home
-            //   }
-            // })
+            Obx(() => LocationController.instance.isLoading.value
+                ? Text('...')
+                : const SizedBox()
+            ),
 
             SizedBox(height: screenHeight * 0.27),
 

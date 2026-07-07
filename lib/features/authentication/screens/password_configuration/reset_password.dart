@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:munch_yum/features/authentication/controllers/login/forgot_password_controller.dart';
 import 'package:munch_yum/features/authentication/screens/login/login.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/logo_avatar.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
@@ -8,7 +9,9 @@ import 'package:munch_yum/utils/constants/sizes.dart';
 import '../../../../common/styles/spacing_styles.dart';
 
 class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key});
+  const ResetPassword({super.key, this.email});
+
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class ResetPassword extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'spekta205@gmail.com', // ← replace with email later
+                    email ?? '', // ← replace with email later
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
@@ -62,14 +65,14 @@ class ResetPassword extends StatelessWidget {
             const SizedBox(height: MSizes.spaceBtwSections),
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(onPressed: () => Get.offAll(() => LoginScreen()), child: Text('Done')),
+              child: ElevatedButton(onPressed: () => Get.offAll(() => const LoginScreen()), child: Text('Done')),
             ),
 
             const SizedBox(height: MSizes.spaceBtwItems),
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () => ForgotPasswordController.instance.resendPasswordResetEmail(email ?? ''),
                 style: OutlinedButton.styleFrom(
                   side: BorderSide.none
                 ),

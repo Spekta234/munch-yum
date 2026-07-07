@@ -11,6 +11,7 @@ import 'package:munch_yum/features/authentication/screens/signup/sign_up.dart';
 import 'package:munch_yum/features/shop/screens/home/home_screen.dart';
 import 'package:munch_yum/navigation_menu.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
+import 'package:munch_yum/utils/validators/validation.dart';
 
 import '../../../../../utils/constants/image_strings.dart';
 
@@ -25,6 +26,7 @@ class LoginForm extends StatelessWidget {
     final controller = Get.put(LoginController());
     final screenHeight = MediaQuery.of(context).size.height;
     return Form(
+      key: controller.loginFormKey,
       child:
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,6 +34,8 @@ class LoginForm extends StatelessWidget {
           Text('Email Address'),
           const SizedBox(height: 6),
           TextFormField(
+            controller: controller.email,
+            validator: (value) => MValidator.validateEmail(value),
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.mail_outlined),
               hintText: 'Enter your email',
@@ -58,6 +62,8 @@ class LoginForm extends StatelessWidget {
           const SizedBox(height: 6),
           Obx(
             () => TextFormField(
+              controller: controller.password,
+              validator: (value) => MValidator.validateEmptyText('Password',value),
               obscureText: controller.hidePassword.value,
               decoration: InputDecoration(
                 hintText: 'Enter your password',
@@ -146,11 +152,15 @@ class LoginForm extends StatelessWidget {
 
           /// Continue bottom
           SizedBox(height: screenHeight * 0.07),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => Get.to(() => const NavigationMenu()),
-              child: Text('Sign in'),
+          Obx(
+            () => SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: controller.isLoading.value ? null : () => controller.emailAndPasswordSignIn(),
+                child: controller.isLoading.value
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : Text('Sign in'),
+              ),
             ),
           ),
           const SizedBox(height: 10),

@@ -9,10 +9,9 @@ import '../../../../../utils/constants/image_strings.dart';
 
 class MHomeHeader extends StatelessWidget {
   const MHomeHeader({
-    super.key, required this.name,
+    super.key,
   });
 
-  final String name;
 
 
   @override
@@ -53,7 +52,9 @@ class MHomeHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('$greeting, $name.', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w300),
+                Obx(
+                  () => Text('$greeting, ${controller.user.value.firstName}.', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w300),
+                  ),
                 ),
                 const SizedBox(height: 2,),
                 Text('$mealTime - Taste the difference!', style: Theme.of(context).textTheme.labelSmall!.copyWith(color: MColors.darkerGrey),)

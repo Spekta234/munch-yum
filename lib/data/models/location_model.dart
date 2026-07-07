@@ -6,6 +6,9 @@ class StateModel {
 
   StateModel({required this.id, required this.name});
 
+  /// Empty model for clean code
+  static StateModel empty() => StateModel(id: '', name: '');
+
   factory StateModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> doc) {
     return StateModel(
       id: doc.id,
@@ -21,6 +24,9 @@ class CityModel{
 
   CityModel({required this.id, required this.name});
 
+  /// Empty model for clean code
+  static CityModel empty() => CityModel(id: '', name: '');
+
   factory CityModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> doc) {
     return CityModel(
       id: doc.id,
@@ -34,6 +40,9 @@ class OutletModel{
   final String name;
 
   OutletModel({required this.id, required this.name});
+
+  /// Empty model for clean code
+  static OutletModel empty() => OutletModel(id: '', name: '');
 
   factory OutletModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> doc) {
     return OutletModel(

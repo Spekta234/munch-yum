@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:munch_yum/data/repositories/user_repository.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/local_storage/storage_utility.dart';
+import 'package:munch_yum/utils/snackbar/snack_bar.dart';
+
+import '../../../data/models/user_model.dart';
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
@@ -34,12 +38,14 @@ class HomeController extends GetxController {
     MImages.banner6,
     MImages.banner7,
   ];
+  final Rx<UserModel> user = UserModel.empty().obs;
 
   @override
   void onInit() {
     // load saved avatar when controller starts
     selectedAvatar.value = _storage.readData('selectedAvatar') ?? '';
     startBannerAutoScroll();
+    fetchUserData();
     super.onInit();
   }
 
@@ -81,5 +87,13 @@ class HomeController extends GetxController {
 
 
 
+  Future<void> fetchUserData() async {
+    try {
+      final userData = await UserRepository.instance.fetchUserRecord();
+      user.value = userData;
+    } catch (e) {
+      MSnackBar.errorSnackBar(title: 'Oh Snap', message: e.toString());
+    }
+  }
 
 }

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/common/styles/spacing_styles.dart';
+import 'package:munch_yum/features/authentication/controllers/login/forgot_password_controller.dart';
 import 'package:munch_yum/features/authentication/screens/password_configuration/reset_password.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
+
+import '../../../../utils/validators/validation.dart';
 
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ForgotPasswordController());
     return Scaffold(
       body: Padding(
         padding: MSpacingStyles.paddingWithAppBarHeight,
@@ -25,7 +29,10 @@ class ForgotPassword extends StatelessWidget {
             Text('Enter your email below and we will send you a password reset link'),
             const SizedBox(height: MSizes.spaceBtwSections),
             Form(
+              key: controller.forgotPasswordFormKey,
               child: TextFormField(
+                controller: controller.email,
+                validator: (value) => MValidator.validateEmail(value),
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.mail_outlined),
                   hintText: 'Enter your email',
@@ -48,9 +55,16 @@ class ForgotPassword extends StatelessWidget {
             ),
 
             SizedBox(height: MSizes.spaceBtwItems),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(onPressed: () => Get.to(() => ResetPassword()), child: Text('Submit')),
+            Obx(
+              () => SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: controller.isLoading.value ? null : () => controller.sendPasswordResetEmail(),
+                    child: controller.isLoading.value
+                        ? const CircularProgressIndicator(color: Colors.white,)
+                        : Text('Submit')
+                ),
+              ),
             ),
           ],
         ),
