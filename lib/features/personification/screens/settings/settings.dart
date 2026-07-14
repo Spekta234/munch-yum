@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:munch_yum/data/repositories/authentication_repository.dart';
 import 'package:munch_yum/features/personification/screens/address/address.dart';
 import 'package:munch_yum/features/personification/screens/address/enter_address.dart';
 import 'package:munch_yum/features/personification/screens/loyalty/loyalty_program_screen.dart';
@@ -48,7 +49,7 @@ class Settings extends StatelessWidget {
               const SizedBox(height: MSizes.lg),
               MSettingsSections(icon: Iconsax.document_text5, title: 'Terms & Conditions', onTap: () {}),
               const SizedBox(height: MSizes.lg),
-              MSettingsSections(icon: Iconsax.logout5, title: 'Logout', onTap: () {}, showArrow: false),
+              MSettingsSections(icon: Iconsax.logout5, title: 'Logout', onTap: () => AuthenticationRepository.instance.logout(), showArrow: false),
               const SizedBox(height: MSizes.spaceBtwSections),
               MSettingsSections(icon: Iconsax.close_circle5, title: 'Delete Account', onTap: () {}, showArrow: true, titleColor: MColors.primary,),
             ],

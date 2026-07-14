@@ -13,6 +13,7 @@ class UserModel {
   final int loyaltyPoints;
   final String loyaltyTier;
   final bool hasSelectedLocation;
+  final bool hasActivatedLoyalty;
 
   /// Constructor to initialize the user model
   UserModel({
@@ -27,6 +28,7 @@ class UserModel {
     required this.loyaltyPoints,
     required this.loyaltyTier,
     required this.hasSelectedLocation,
+    required this.hasActivatedLoyalty,
   });
 
 
@@ -54,6 +56,7 @@ class UserModel {
     loyaltyPoints: 0,
     loyaltyTier: '',
     hasSelectedLocation: false,
+    hasActivatedLoyalty: false,
   );
 
   /// Convert model to JSON structure for storing data in Firebase.
@@ -69,6 +72,7 @@ class UserModel {
       'LoyaltyPoints': loyaltyPoints,
       'LoyaltyTier': loyaltyTier,
       'HasSelectedLocation': hasSelectedLocation,
+      'HasActivatedLoyalty': hasActivatedLoyalty,
     };
   }
 
@@ -89,6 +93,7 @@ class UserModel {
         loyaltyPoints: data['LoyaltyPoints'] ?? 0,
         loyaltyTier: data['LoyaltyTier'] ?? "",
         hasSelectedLocation: data['HasSelectedLocation'] ?? false,
+        hasActivatedLoyalty: data['HasActivatedLoyalty'] ?? false,
       );
     } else {
       return UserModel.empty();

@@ -77,4 +77,16 @@ class UserRepository extends GetxController {
     }
   }
 
+  Future<void> activateLoyalty(String userId) async {
+    try{
+      await _db.collection("Users").doc(userId).update({'HasActivatedLoyalty': true});
+    } on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
+
+
+
 }

@@ -6,6 +6,7 @@ import 'package:munch_yum/utils/constants/sizes.dart';
 import '../../../../../common/custom_shapes/bottom_sheets/dob_bottomsheet.dart';
 import '../../../../../common/custom_shapes/checkbox/custom_checkbox.dart';
 import '../../../../../utils/constants/colors.dart';
+import '../../../../../utils/validators/validation.dart';
 
 class LoyaltyRegistrationForm extends StatelessWidget {
   const LoyaltyRegistrationForm({super.key});
@@ -14,12 +15,15 @@ class LoyaltyRegistrationForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = LoyaltyController.instance;
     return Form(
+      key: controller.loyaltyFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('First Name'),
           const SizedBox(height: 6),
           TextFormField(
+            controller: controller.firstName,
+            validator: (value) => MValidator.validateEmptyText('First name', value),
             decoration: InputDecoration(
               hintText: 'Enter your first name',
               hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
@@ -42,6 +46,8 @@ class LoyaltyRegistrationForm extends StatelessWidget {
           Text('Last name'),
           const SizedBox(height: 6),
           TextFormField(
+            controller: controller.lastName,
+            validator: (value) => MValidator.validateEmptyText('Last name', value),
             decoration: InputDecoration(
               hintText: 'Enter your last name',
               hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
@@ -85,7 +91,7 @@ class LoyaltyRegistrationForm extends StatelessWidget {
               value: gender,
               child: Text(gender),
             )).toList(),
-            onChanged: (value) {},
+            onChanged: (value) => controller.selectedGender.value = value ?? '',
 
           ),
           SizedBox(height: MSizes.spaceBtwItems),
@@ -127,6 +133,7 @@ class LoyaltyRegistrationForm extends StatelessWidget {
           Text('Email (Optional)'),
           const SizedBox(height: 6),
           TextFormField(
+            controller: controller.email,
             decoration: InputDecoration(
               hintText: 'Enter your email',
               hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
@@ -149,6 +156,7 @@ class LoyaltyRegistrationForm extends StatelessWidget {
           Text('Outlet code (Optional)'),
           const SizedBox(height: 6),
           TextFormField(
+            controller: controller.outletCode,
             decoration: InputDecoration(
               hintText: 'Enter outlet code',
               hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
@@ -201,10 +209,27 @@ class LoyaltyRegistrationForm extends StatelessWidget {
             ],
           )),
           SizedBox(height: MSizes.spaceBtwSections),
+          // Obx(() => SizedBox(
+          //   width: double.infinity,
+          //   child: ElevatedButton(
+          //     onPressed: controller.hasAgreed.value ? () {} : null,
+          //     style: ElevatedButton.styleFrom(
+          //       backgroundColor: controller.hasAgreed.value
+          //           ? MColors.primary
+          //           : Colors.grey.shade300,
+          //       disabledBackgroundColor: Colors.grey.shade300,
+          //       disabledForegroundColor: Colors.grey,
+          //       side: BorderSide.none,
+          //     ),
+          //     child: Text('Activate program'),
+          //   ),
+          // )),
           Obx(() => SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: controller.hasAgreed.value ? () {} : null,
+              onPressed: controller.hasAgreed.value && !controller.isLoading.value
+                  ? () => controller.activateLoyalty()
+                  : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: controller.hasAgreed.value
                     ? MColors.primary
@@ -213,7 +238,9 @@ class LoyaltyRegistrationForm extends StatelessWidget {
                 disabledForegroundColor: Colors.grey,
                 side: BorderSide.none,
               ),
-              child: Text('Activate program'),
+              child: controller.isLoading.value
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : Text('Activate program'),
             ),
           )),
 

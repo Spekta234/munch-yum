@@ -72,7 +72,7 @@ class ResetPassword extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
-                onPressed: () => ForgotPasswordController.instance.resendPasswordResetEmail(email ?? ''),
+                onPressed: () => ForgotPasswordController.instance.resendPasswordResetEmail(email ?? '3'),
                 style: OutlinedButton.styleFrom(
                   side: BorderSide.none
                 ),

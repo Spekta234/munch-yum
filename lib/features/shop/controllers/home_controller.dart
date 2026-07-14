@@ -68,6 +68,7 @@ class HomeController extends GetxController {
   // auto scroll
   void startBannerAutoScroll() {
     _bannerTimer = Timer.periodic(const Duration(seconds: 3), (_) {
+      if (!bannerController.hasClients) return;
       if (currentBannerIndex.value < banners.length - 1) {
         currentBannerIndex.value++;
       } else {

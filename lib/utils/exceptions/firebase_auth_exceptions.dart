@@ -32,7 +32,7 @@ class MFirebaseAuthException implements Exception {
       case 'operation-not-allowed':
         return 'The operation is not allowed. Contact support for assistance.';
       case 'invalid-credential':
-        return 'The supplied credential is  malformed or has expired.';
+        return 'The supplied credential is incorrect. Please check your credentials.';
       case 'invalid-verification-code':
         return 'invalid verification code. Please enter a valid code.';
       case 'invalid-verification-id':

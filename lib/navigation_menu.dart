@@ -2,6 +2,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:munch_yum/data/repositories/user_repository.dart';
 import 'package:munch_yum/features/personification/screens/loyalty/loyalty_intro.dart';
 import 'package:munch_yum/features/personification/screens/loyalty/loyalty_program_screen.dart';
 import 'package:munch_yum/features/shop/screens/cart/cart_screen.dart';
@@ -145,11 +146,11 @@ class NavigationMenu extends StatelessWidget {
             height: 80,
             elevation: 0,
             selectedIndex: controller.selectedIndex.value,
-            onDestinationSelected: (index) {
+            onDestinationSelected: (index) async {
               if (index == 3) {
-                // check if user has activated loyalty — backend later
-                final bool hasActivated = true; // hardcode for now
-                if (!hasActivated) {
+                // check if user has activated loyalty
+                final user = await UserRepository.instance.fetchUserRecord();
+                if (!user.hasActivatedLoyalty) {
                   Get.to(() => const LoyaltyIntro());
                 } else {
                   controller.selectedIndex.value = index; // ← show loyalty screen
