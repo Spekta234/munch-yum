@@ -3,6 +3,7 @@ import 'package:munch_yum/common/layout/grid_layout.dart';
 import 'package:munch_yum/common/menu/menu_card.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
+import 'package:munch_yum/features/shop/models/menu_item_model.dart';
 import 'package:munch_yum/features/shop/screens/offers/widgets/menu_card_offers.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
@@ -110,7 +111,7 @@ class OffersScreen extends StatelessWidget {
                   const SizedBox(height: MSizes.spaceBtwItems),
                   MGridLayout(
                     itemCount: 7,
-                    itemBuilder: (_, index) => MMenuCardVertical(isOutOfStock: true, hasDiscount: true,),
+                    itemBuilder: (_, index) => MMenuCardVertical(menuItem: MenuItemModel.empty(),),
                   ),
 
                 ],

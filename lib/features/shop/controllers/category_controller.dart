@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/data/repositories/category_repository.dart';
+import 'package:munch_yum/features/shop/controllers/menu_item_controller.dart';
 import 'package:munch_yum/features/shop/models/category_model.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
@@ -11,7 +12,7 @@ class CategoryController extends GetxController {
 
   final RxInt selectedCategoryIndex = 0.obs;
   final RxList<CategoryModel> categories = <CategoryModel>[].obs;
-  final categoryRepo = Get.put(CategoryRepository());
+  final categoryRepo = CategoryRepository.instance;
 
 
   // final categories = [
@@ -47,5 +48,17 @@ class CategoryController extends GetxController {
   // fetch products by categories
   void onCategorySelected(int index) {
     selectedCategoryIndex.value = index;
+
+    final categoryName = categories[index].name;
+
+    if (categoryName == 'All') {
+      // fetch all items
+      MenuItemController.instance.fetchMenuItems();
+    } else {
+      // fetch by category name selected
+      MenuItemController.instance.fetchMenuItemsByCategory(categoryName);
+    }
   }
+
+
 }

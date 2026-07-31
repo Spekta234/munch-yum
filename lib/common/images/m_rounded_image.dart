@@ -56,13 +56,30 @@ class MRoundedImage extends StatelessWidget {
               : BorderRadius.only(bottomLeft: Radius.circular(borderRadius), topLeft: Radius.circular(borderRadius)),
           child: Image(
             fit: fit,
-            image:
-            isNetworkImage
+            image: isNetworkImage
                 ? NetworkImage(imageUrl)
                 : AssetImage(imageUrl) as ImageProvider,
+            errorBuilder: (context, error, stackTrace) {
+              print('Image Error: $error'); // ← print the error
+              return Container(
+                color: Colors.grey.shade200,
+                child: const Icon(Icons.image_not_supported, color: Colors.grey),
+              );
+            },
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Container(
+                color: Colors.grey.shade200,
+                child: const Center(
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              );
+            },
           ),
         ),
+
       ),
     );
   }
+
 }

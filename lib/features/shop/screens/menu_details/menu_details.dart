@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/texts/menu_price_text.dart';
 import 'package:munch_yum/common/texts/menu_title_text.dart';
+import 'package:munch_yum/features/shop/models/menu_item_model.dart';
 import 'package:munch_yum/features/shop/screens/menu_details/widgets/menu_details_image.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
@@ -99,7 +100,7 @@ class MenuDetails extends StatelessWidget {
                     const SizedBox(height: MSizes.spaceBtwItems),
                     MGridLayout(
                       itemCount: 8,
-                      itemBuilder: (_, index) => MMenuCardVertical(hasDiscount: true,),
+                      itemBuilder: (_, index) => MMenuCardVertical(menuItem: MenuItemModel.empty()),
                     ),
                   ],
                 ),

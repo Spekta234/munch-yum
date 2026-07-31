@@ -7,6 +7,7 @@ import 'package:munch_yum/common/styles/spacing_styles.dart';
 import 'package:munch_yum/features/authentication/screens/location/location.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/logo_avatar.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
+import 'package:munch_yum/features/shop/controllers/menu_item_controller.dart';
 import 'package:munch_yum/features/shop/screens/home/widgets/home_category.dart';
 import 'package:munch_yum/features/shop/screens/home/widgets/home_header.dart';
 import 'package:munch_yum/features/shop/screens/search/search_screen.dart';
@@ -15,7 +16,9 @@ import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../utils/shimmers/menu_item_shimmer.dart';
 import '../../../personification/screens/support/support.dart';
+import '../../controllers/category_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,6 +26,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(HomeController());
+    final menuController = MenuItemController.instance;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -166,33 +170,60 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Align(alignment: Alignment.centerLeft, child: Text('Food', style: Theme.of(context).textTheme.bodyLarge,)),
-                        const SizedBox(height: MSizes.spaceBtwItems),
-                        MGridLayout(
-                          itemCount: 8,
-                          itemBuilder: (_, index) => MMenuCardVertical(),
+                  Obx(() {
+                    if (menuController.isLoading.value) {
+                      return const MMenuItemShimmer();
+                    }
+
+                    final categoryController = CategoryController.instance;
+                    final selectedCategory = categoryController.categories.isNotEmpty
+                        ? categoryController.categories[categoryController.selectedCategoryIndex.value].name
+                        : 'All';
+
+                    if (selectedCategory == 'All') {
+                      final categories = ['Food', 'Protein', 'Pastry', 'Cake', 'Shawarma', 'Bread', 'Drinks', 'Ice cream'];
+                      return Column(
+                        children: categories.map((category) {
+                          final items = menuController.getItemsByCategory(category);
+                          if (items.isEmpty) return const SizedBox();
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(category, style: Theme.of(context).textTheme.bodyLarge),
+                                const SizedBox(height: MSizes.spaceBtwItems),
+                                MGridLayout(
+                                  itemCount: items.length,
+                                  itemBuilder: (_, index) => MMenuCardVertical(menuItem: items[index]),
+                                ),
+                                const SizedBox(height: MSizes.spaceBtwItems),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    } else {
+                      final items = menuController.getItemsByCategory(selectedCategory);
+                      if (items.isEmpty) {
+                        return Center(child: Text('No items available'));
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(selectedCategory, style: Theme.of(context).textTheme.bodyLarge),
+                            const SizedBox(height: MSizes.spaceBtwItems),
+                            MGridLayout(
+                              itemCount: items.length,
+                              itemBuilder: (_, index) => MMenuCardVertical(menuItem: items[index]),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: MSizes.spaceBtwItems),
-                        Align(alignment: Alignment.centerLeft, child: Text('Protein', style: Theme.of(context).textTheme.bodyLarge,)),
-                        const SizedBox(height: MSizes.spaceBtwItems),
-                        MGridLayout(
-                          itemCount: 8,
-                          itemBuilder: (_, index) => MMenuCardVertical(),
-                        ),
-                        const SizedBox(height: MSizes.spaceBtwItems),
-                        Align(alignment: Alignment.centerLeft, child: Text('Pastry', style: Theme.of(context).textTheme.bodyLarge,)),
-                        const SizedBox(height: MSizes.spaceBtwItems),
-                        MGridLayout(
-                          itemCount: 8,
-                          itemBuilder: (_, index) => MMenuCardVertical(),
-                        ),
-                      ],
-                    ),
-                  ),
+                      );
+                    }
+                  }),
                   
                 ],
               ),

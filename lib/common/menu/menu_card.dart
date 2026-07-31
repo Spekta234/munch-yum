@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/custom_shapes/containers/rounded_container.dart';
 import 'package:munch_yum/common/images/m_rounded_image.dart';
 import 'package:munch_yum/common/texts/m_ctgy_title_text_with_icon.dart';
 import 'package:munch_yum/common/texts/menu_price_text.dart';
 import 'package:munch_yum/common/texts/menu_title_text.dart';
+import 'package:munch_yum/features/shop/models/menu_item_model.dart';
 import 'package:munch_yum/features/shop/screens/menu_details/menu_details.dart' hide AddToCartButton;
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
@@ -187,17 +189,15 @@ import '../custom_shapes/buttons/add_to_cart_button.dart';
 class MMenuCardVertical extends StatelessWidget {
   const MMenuCardVertical({
     super.key,
-    this.isOutOfStock = false,
-    this.hasDiscount = false,
+    required this.menuItem,
   });
 
-  final bool isOutOfStock;
-  final bool hasDiscount;
+  final MenuItemModel menuItem;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>isOutOfStock ? null : Get.to(() => MenuDetails()),
+      onTap: () => menuItem.isOutOfStock ? null : Get.to(() => MenuDetails()),
       child: Container(
         width: 155,
         decoration: BoxDecoration(
@@ -217,28 +217,31 @@ class MMenuCardVertical extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // ── Image ──
+                          // Image
                           SizedBox(
                             height: 90,
                             width: 200,
                             child: MRoundedImage(
+                              isNetworkImage: true,
                               margin: EdgeInsets.only(bottom: 2),
-                              imageUrl: MImages.ofadaRice2,
+                              imageUrl: menuItem.image,
                               fit: BoxFit.fill,
                             ),
                           ),
                           MCtgyTitleTextWithIcon(
-                            title: 'Ofada Rice (wrapped)',
+                            title: menuItem.category,
                             textColor: MColors.darkerGrey,
                           ),
                           const SizedBox(height: MSizes.spaceBtwItems / 2),
-                          MMenuTitleText(title: 'Ofada Rice', smallSize: true),
+                          MMenuTitleText(title: menuItem.title, smallSize: true),
                           const SizedBox(height: MSizes.spaceBtwItems / 2),
-                          MMenuPriceText(price: '2,500'),
-                          SizedBox(height: isOutOfStock ? MSizes.spaceBtwSections / 2 : MSizes.spaceBtwSections),
+                          MMenuPriceText(
+                              price: menuItem.hasDiscount == true && menuItem.isOutOfStock == false ? menuItem.discountPrice!.toStringAsFixed(0) : menuItem.price.toStringAsFixed(0)
+                          ),
+                          SizedBox(height: menuItem.isOutOfStock ? MSizes.spaceBtwSections / 2 : MSizes.spaceBtwSections),
 
                           // ── Button changes when out of stock ──
-                          isOutOfStock
+                          menuItem.isOutOfStock == true
                               ? SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
@@ -269,7 +272,7 @@ class MMenuCardVertical extends StatelessWidget {
                 ),
 
                 // ── Discount badge ──
-                if (hasDiscount)
+                if (menuItem.hasDiscount == true)
                   Positioned(
                     top: 8,
                     left: 8,
@@ -291,7 +294,7 @@ class MMenuCardVertical extends StatelessWidget {
                   ),
 
                 // ── Out of stock overlay covers whole card ──
-                if (isOutOfStock)
+                if (menuItem.isOutOfStock == true)
                   Positioned.fill(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),

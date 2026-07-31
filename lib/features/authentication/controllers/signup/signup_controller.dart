@@ -20,7 +20,7 @@ class SignupController extends GetxController {
  final email = TextEditingController();
  final phone = TextEditingController();
  final password = TextEditingController();
- final userRepository = Get.put(UserRepository());
+ final userRepository =  UserRepository.instance;
 
 
  void signup() async {

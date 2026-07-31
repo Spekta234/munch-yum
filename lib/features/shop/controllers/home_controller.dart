@@ -67,18 +67,20 @@ class HomeController extends GetxController {
 
   // auto scroll
   void startBannerAutoScroll() {
-    _bannerTimer = Timer.periodic(const Duration(seconds: 3), (_) {
-      if (!bannerController.hasClients) return;
-      if (currentBannerIndex.value < banners.length - 1) {
-        currentBannerIndex.value++;
-      } else {
-        currentBannerIndex.value = 0; // ← loop back
-      }
-      bannerController.animateToPage(
-        currentBannerIndex.value,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
+    Future.delayed(const Duration(seconds: 1), () {
+      _bannerTimer = Timer.periodic(const Duration(seconds: 3), (_) {
+        if (!bannerController.hasClients) return;
+        if (currentBannerIndex.value < banners.length - 1) {
+          currentBannerIndex.value++;
+        } else {
+          currentBannerIndex.value = 0;
+        }
+        bannerController.animateToPage(
+          currentBannerIndex.value,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      });
     });
   }
 

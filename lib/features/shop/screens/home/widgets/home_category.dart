@@ -87,7 +87,7 @@ class HomeCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CategoryController());
+    final controller = CategoryController.instance;
     // ── CHANGED: Wrapped SizedBox with Obx() to react to fetched categories ──
     return Obx(() => SizedBox(
       height: 90,
