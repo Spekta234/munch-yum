@@ -197,7 +197,7 @@ class MMenuCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => menuItem.isOutOfStock ? null : Get.to(() => MenuDetails()),
+      onTap: () => menuItem.isOutOfStock ? null : Get.to(() => MenuDetails(menuItem: menuItem,)),
       child: Container(
         width: 155,
         decoration: BoxDecoration(

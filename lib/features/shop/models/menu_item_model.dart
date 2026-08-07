@@ -9,6 +9,7 @@ class MenuItemModel {
   bool isOutOfStock;
   bool hasDiscount;
   double? discountPrice;
+  String description;
 
   MenuItemModel({
    required this.id,
@@ -19,9 +20,10 @@ class MenuItemModel {
    required this.isOutOfStock,
    required this.hasDiscount,
     this.discountPrice,
+   required this.description,
   });
 
-  static MenuItemModel empty () => MenuItemModel(id: '', title: '', price: 0, image: '', category: '', isOutOfStock: false, hasDiscount: false);
+  static MenuItemModel empty () => MenuItemModel(id: '', title: '', price: 0, image: '', category: '', isOutOfStock: false, hasDiscount: false, description: '');
 
   Map<String, dynamic> toJson() {
     return {
@@ -32,6 +34,7 @@ class MenuItemModel {
       'IsOutOfStock' : isOutOfStock,
       'HasDiscount' : hasDiscount,
       'DiscountPrice' : discountPrice,
+      'Description' : description,
     };
   }
 
@@ -48,6 +51,7 @@ class MenuItemModel {
         isOutOfStock: data ['IsOutOfStock'] ?? false,
         hasDiscount: data ['HasDiscount'] ?? false,
         discountPrice: double.parse((data ['DiscountPrice'] ?? 0.0).toString()),
+        description: data ['Description'] ?? "",
       );
     } else {
       return MenuItemModel.empty();

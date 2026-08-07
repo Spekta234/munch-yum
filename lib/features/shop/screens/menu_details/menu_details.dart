@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/texts/menu_price_text.dart';
 import 'package:munch_yum/common/texts/menu_title_text.dart';
+import 'package:munch_yum/features/shop/controllers/menu_details_controller.dart';
+import 'package:munch_yum/features/shop/controllers/menu_item_controller.dart';
 import 'package:munch_yum/features/shop/models/menu_item_model.dart';
 import 'package:munch_yum/features/shop/screens/menu_details/widgets/menu_details_image.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
+import 'package:munch_yum/utils/shimmers/menu_item_shimmer.dart';
 
 import '../../../../common/custom_shapes/buttons/add_to_cart_button.dart';
 import '../../../../common/layout/grid_layout.dart';
@@ -17,10 +20,14 @@ import '../../../authentication/screens/login/widgets/logo_avatar.dart';
 import '../search/search_screen.dart';
 
 class MenuDetails extends StatelessWidget {
-  const MenuDetails({super.key});
+  const MenuDetails({super.key, required this.menuItem});
 
+  final MenuItemModel menuItem;
+  
   @override
   Widget build(BuildContext context) {
+    final controller = MenuItemController.instance;
+    final menuDetailsController = MenuDetailsController.instance;
     return Scaffold(
       body: Stack(
         children: [
@@ -43,7 +50,7 @@ class MenuDetails extends StatelessWidget {
                     const SizedBox(height: MSizes.spaceBtwItems),
 
                     /// Image
-                    MenuDetailsImage(imageUrl: MImages.ofada, fit: BoxFit.cover,),
+                    MenuDetailsImage(imageUrl: menuItem.image, fit: BoxFit.cover, isNetworkImage: true,),
                     const SizedBox(height: MSizes.spaceBtwItems),
 
                     Padding(
@@ -52,11 +59,11 @@ class MenuDetails extends StatelessWidget {
 
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          MMenuTitleText(title: 'Ofada Rice (wrapped)'),
+                          MMenuTitleText(title: menuItem.title),
                           const SizedBox(height: MSizes.sm),
-                          MMenuPriceText(price: '2,500',),
+                          MMenuPriceText(price: menuItem.hasDiscount == true && menuItem.isOutOfStock == false ? menuItem.discountPrice!.toStringAsFixed(0) : menuItem.price.toStringAsFixed(0),),
                           const SizedBox(height: MSizes.spaceBtwItems),
-                          Text('Ofada Rice'),
+                          Text(menuItem.description),
                         ],
                       ),
                     ),
@@ -68,8 +75,33 @@ class MenuDetails extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          MMenuPriceText(price: '2,500', isLarge: true,),
-                          AddToCartButton(isSmall: true,)
+                          Obx(() => MMenuPriceText(price: (menuItem.price * menuDetailsController.quantity.value).toStringAsFixed(0), isLarge: true,)),
+                          Obx(() => Row(
+                            children: [
+                              GestureDetector(
+                                onTap: menuDetailsController.decrease,
+                                child: CircleAvatar(
+                                  radius: 12,
+                                  backgroundColor: Colors.grey.shade200,
+                                  child: Icon(Icons.remove, color: Colors.black, size: 20),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                '${menuDetailsController.quantity.value}',
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              const SizedBox(width: 10),
+                              GestureDetector(
+                                onTap: menuDetailsController.increase,
+                                child: CircleAvatar(
+                                  radius: 12,
+                                  backgroundColor: MColors.primary,
+                                  child: Icon(Icons.add, color: Colors.white, size: 20),
+                                ),
+                              ),
+                            ],
+                          )),
                         ],
                       ),
                     ),
@@ -98,9 +130,24 @@ class MenuDetails extends StatelessWidget {
                     ),
 
                     const SizedBox(height: MSizes.spaceBtwItems),
-                    MGridLayout(
-                      itemCount: 8,
-                      itemBuilder: (_, index) => MMenuCardVertical(menuItem: MenuItemModel.empty()),
+                    Obx(
+                        () {
+                          if (controller.isLoading.value) {
+                            return const MMenuItemShimmer();
+                          }
+                          final items = controller.getItemsByCategory(menuItem.category)
+                              .where((item) => item.id != menuItem.id)
+                              .toList();
+
+                          if (items.isEmpty) {
+                            return const Center(child: Text('No items available'));
+                          }
+                          return MGridLayout(
+
+                            itemCount: items.length,
+                            itemBuilder: (_, index) => MMenuCardVertical(menuItem: items[index]),
+                          );
+                        }
                     ),
                   ],
                 ),

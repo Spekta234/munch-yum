@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:munch_yum/features/shop/models/menu_item_model.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
@@ -29,7 +30,7 @@ class MenuCardOffers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => isOutOfStock? null :  Get.to(() => MenuDetails()),
+      onTap: () => isOutOfStock? null :  Get.to(() => MenuDetails(menuItem: MenuItemModel.empty(),)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
