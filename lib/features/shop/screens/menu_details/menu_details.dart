@@ -145,7 +145,7 @@ class MenuDetails extends StatelessWidget {
                           return MGridLayout(
 
                             itemCount: items.length,
-                            itemBuilder: (_, index) => MMenuCardVertical(menuItem: items[index]),
+                            itemBuilder: (_, index) => MMenuCardVertical(menuItem: items[index], onTap: () => Get.to(() => MenuDetails(menuItem: items[index])),),
                           );
                         }
                     ),

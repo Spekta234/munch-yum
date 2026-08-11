@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:munch_yum/utils/shimmers/shimmer.dart';
 
 import '../../../utils/constants/sizes.dart';
 
@@ -68,12 +69,7 @@ class MRoundedImage extends StatelessWidget {
             },
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
-              return Container(
-                color: Colors.grey.shade200,
-                child: const Center(
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-              );
+              return MShimmerEffects(width: 200, height: 90);
             },
           ),
         ),

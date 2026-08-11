@@ -189,15 +189,18 @@ import '../custom_shapes/buttons/add_to_cart_button.dart';
 class MMenuCardVertical extends StatelessWidget {
   const MMenuCardVertical({
     super.key,
-    required this.menuItem,
+    required this.menuItem, this.onTap,
   });
 
   final MenuItemModel menuItem;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => menuItem.isOutOfStock ? null : Get.to(() => MenuDetails(menuItem: menuItem,)),
+      onTap: () => menuItem.isOutOfStock
+          ? null
+          : onTap != null ? onTap!() : Get.to(() => MenuDetails(menuItem: menuItem)),
       child: Container(
         width: 155,
         decoration: BoxDecoration(

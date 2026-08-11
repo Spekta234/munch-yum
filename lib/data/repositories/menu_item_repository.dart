@@ -42,4 +42,37 @@ class MenuItemRepository extends GetxController {
       throw 'Something went wrong, Try again';
     }
   }
+  
+  /// Update search count
+  Future<void> updateSearchCount(String menuItemId) async {
+    try{
+      await _db.collection('MenuItems').doc(menuItemId).update({
+        'SearchCount': FieldValue.increment(1),
+      });
+    } on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw MPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
+
+  /// Fetch popular items from Firestore
+  Future<List<MenuItemModel>> fetchPopularItems({int limit = 5}) async {
+    try {
+      final snapshot = await _db
+          .collection('MenuItems')
+          .orderBy('SearchCount', descending: true)
+          .limit(limit)
+          .get();
+      return snapshot.docs.map((doc) => MenuItemModel.fromSnapshot(doc)).toList();
+    } on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw MPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
 }
