@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:munch_yum/data/repositories/menu_item_repository.dart';
@@ -6,8 +7,8 @@ import 'package:munch_yum/features/shop/models/menu_item_model.dart';
 import '../screens/menu_details/menu_details.dart';
 import 'menu_item_controller.dart';
 
-class SearchController extends GetxController {
-  static SearchController get instance => Get.find();
+class SearchController1 extends GetxController {
+  static SearchController1 get instance => Get.find();
 
   final menuRepo = MenuItemRepository.instance;
   RxList <MenuItemModel> popularItems = <MenuItemModel>[].obs;
@@ -16,11 +17,33 @@ class SearchController extends GetxController {
   static const String recentSearchKey = 'recentSearches';
   final menuItemController = MenuItemController.instance;
 
+  final searchTextController = TextEditingController();
+  RxList<MenuItemModel> searchResults = <MenuItemModel>[].obs;
+  RxBool isSearching = false.obs;
+
+
 
   @override
   void onInit() {
     super.onInit();
     fetchPopularItems();
+    loadRecentSearches();
+  }
+
+
+
+  void searchQuery(String query) {
+    if (query.isEmpty) {
+      isSearching.value = false;
+      searchResults.clear();
+      return;
+    }
+    isSearching.value = true;
+    final lowerQuery = query.toLowerCase();
+    searchResults.value = menuItemController.menuItems.where((item) {
+      return item.title.toLowerCase().contains(lowerQuery) ||
+          item.description.toLowerCase().contains(lowerQuery);
+    }).toList();
   }
 
   void fetchPopularItems() async {
