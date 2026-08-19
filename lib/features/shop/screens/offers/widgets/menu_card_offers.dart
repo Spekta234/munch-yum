@@ -17,6 +17,7 @@ class MenuCardOffers extends StatelessWidget {
     required this.title,
     required this.image,
     required this.price, required this.isCurved,
+    this.onTap,
   });
 
   final bool isOutOfStock;
@@ -25,12 +26,13 @@ class MenuCardOffers extends StatelessWidget {
   final String image;
   final String price;
   final bool isCurved;
+  final VoidCallback? onTap;
 
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => isOutOfStock? null :  Get.to(() => MenuDetails(menuItem: MenuItemModel.empty(),)),
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -41,7 +43,7 @@ class MenuCardOffers extends StatelessWidget {
                 child: SizedBox(
                   height: MSizes.imageCarouselHeight,
                   width: double.infinity,
-                  child: Image.asset(image, fit: BoxFit.cover),
+                  child: Image.network(image, fit: BoxFit.cover),
                 ),
               ),
               if (hasDiscount)

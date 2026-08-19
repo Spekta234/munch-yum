@@ -9,6 +9,8 @@ class OffersController extends GetxController {
   RxBool isLoading = true.obs;
   final menuItemController = MenuItemController.instance;
   RxList<MenuItemModel> offerItems = <MenuItemModel>[].obs;
+  List<MenuItemModel> get featuredItems => offerItems.where((item) => item.isFeatured).toList();
+  List<MenuItemModel> get moreOffers => offerItems.where((item) => !item.isFeatured).toList();
 
   @override
   void onInit() {
@@ -20,7 +22,7 @@ class OffersController extends GetxController {
   void fetchOffers() async {
     try{
       isLoading.value = true;
-      final result = await menuItemController.menuItemRepo.fetchMenuItemsByCategory('Promo');
+      final result = await menuItemController.menuItemRepo.fetchMenuItemsByCategory('Offers 🔥');
       offerItems.value = result;
     } catch (e) {
       MSnackBar.errorSnackBar(title: 'Oh snap', message: e.toString());

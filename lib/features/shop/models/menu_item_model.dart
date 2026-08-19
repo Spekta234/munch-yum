@@ -11,6 +11,7 @@ class MenuItemModel {
   double? discountPrice;
   String description;
   int searchCount;
+  bool isFeatured;
 
   MenuItemModel({
    required this.id,
@@ -23,9 +24,10 @@ class MenuItemModel {
     this.discountPrice,
    required this.description,
     this.searchCount = 0,
+    this.isFeatured = false,
   });
 
-  static MenuItemModel empty () => MenuItemModel(id: '', title: '', price: 0, image: '', category: '', isOutOfStock: false, hasDiscount: false, description: '', searchCount: 0);
+  static MenuItemModel empty () => MenuItemModel(id: '', title: '', price: 0, image: '', category: '', isOutOfStock: false, hasDiscount: false, description: '', searchCount: 0,);
 
   Map<String, dynamic> toJson() {
     return {
@@ -38,6 +40,7 @@ class MenuItemModel {
       'DiscountPrice' : discountPrice,
       'Description' : description,
       'SearchCount' : searchCount,
+      'IsFeatured' : isFeatured,
     };
   }
 
@@ -56,6 +59,7 @@ class MenuItemModel {
         discountPrice: double.parse((data ['DiscountPrice'] ?? 0.0).toString()),
         description: data ['Description'] ?? "",
         searchCount: data ['SearchCount'] ?? 0,
+        isFeatured: data ['IsFeatured'] ?? false,
       );
     } else {
       return MenuItemModel.empty();
