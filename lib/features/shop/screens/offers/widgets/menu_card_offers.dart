@@ -89,7 +89,7 @@ class MenuCardOffers extends StatelessWidget {
                 Positioned(
                   bottom: 10,
                   right: 10,
-                  child: AddToCartButton(isCircle: true),
+                  child: AddToCartButton(isCircle: true, menuItem: MenuItemModel.empty(),),
                 ),
             ],
           ),

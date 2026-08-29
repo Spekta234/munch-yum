@@ -1,6 +1,7 @@
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/controllers/category_controller.dart';
 import 'package:munch_yum/features/shop/controllers/menu_details_controller.dart';
 import 'package:munch_yum/features/shop/controllers/offers_controller.dart';
@@ -20,5 +21,6 @@ class GeneralBindings extends Bindings {
     Get.put(CategoryController());
     Get.put(MenuDetailsController());
     Get.put(OffersController());
+    Get.put(CartController());
   }
 }

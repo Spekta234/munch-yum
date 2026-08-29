@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/texts/m_ctgy_title_text_with_icon.dart';
 import 'package:munch_yum/common/texts/menu_price_text.dart';
 import 'package:munch_yum/common/texts/menu_title_text.dart';
 import 'package:munch_yum/common/widgets/bottomsheets/bottomsheets.dart';
+import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../utils/constants/colors.dart';
@@ -87,6 +89,7 @@ class MCartItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = CartController.instance;
     return Container(
       height: 90,
       decoration: BoxDecoration(
@@ -172,21 +175,29 @@ class MCartItemCard extends StatelessWidget {
                       MMenuPriceText(price: '4,000'),
                       Row(
                         children: [
-                          CircleAvatar(
-                            radius: 9,
-                            backgroundColor: Colors.grey.shade200,
-                            child: Icon(Icons.remove, color: Colors.black, size: 15),
+                          GestureDetector(
+                            onTap: controller.decreaseQuality,
+                            child: CircleAvatar(
+                              radius: 9,
+                              backgroundColor: Colors.grey.shade200,
+                              child: Icon(Icons.remove, color: Colors.black, size: 15),
+                            ),
                           ),
                           SizedBox(width: 10),
-                          Text(
-                            '1',
-                            style: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.black),
+                          Obx(
+                            () => Text(
+                              '${controller.quantity.value}',
+                              style: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.black),
+                            ),
                           ),
                           SizedBox(width: 10),
-                          CircleAvatar(
-                            radius: 9,
-                            backgroundColor: MColors.primary,
-                            child: Icon(Icons.add, color: Colors.white, size: 15),
+                          GestureDetector(
+                            onTap: controller.increaseQuality,
+                            child: CircleAvatar(
+                              radius: 9,
+                              backgroundColor: MColors.primary,
+                              child: Icon(Icons.add, color: Colors.white, size: 15),
+                            ),
                           ),
                         ],
                       ),

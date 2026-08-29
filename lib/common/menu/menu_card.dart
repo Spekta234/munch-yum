@@ -198,9 +198,12 @@ class MMenuCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => menuItem.isOutOfStock
-          ? null
-          : onTap != null ? onTap!() : Get.to(() => MenuDetails(menuItem: menuItem)),
+      onTap: () {
+        print('CARD TAPPED - isOutOfStock ${menuItem.isOutOfStock}, onTap null?: ${onTap == null}');
+        menuItem.isOutOfStock
+            ? null
+            : onTap != null ? onTap!() : Get.to(() => MenuDetails(menuItem: menuItem));
+      },
       child: Container(
         width: 155,
         decoration: BoxDecoration(
@@ -243,7 +246,7 @@ class MMenuCardVertical extends StatelessWidget {
                           ),
                           SizedBox(height: menuItem.isOutOfStock ? MSizes.spaceBtwSections / 2 : MSizes.spaceBtwSections),
 
-                          // ── Button changes when out of stock ──
+                          // Button changes when out of stock
                           menuItem.isOutOfStock == true
                               ? SizedBox(
                             width: double.infinity,
@@ -267,14 +270,14 @@ class MMenuCardVertical extends StatelessWidget {
                               ),
                             ),
                           )
-                              : AddToCartButton(),
+                              : AddToCartButton(menuItem: MenuItemModel.empty(),),
                         ],
                       ),
                     ),
                   ),
                 ),
 
-                // ── Discount badge ──
+                // Discount badge
                 if (menuItem.hasDiscount == true)
                   Positioned(
                     top: 8,
@@ -296,7 +299,7 @@ class MMenuCardVertical extends StatelessWidget {
                     ),
                   ),
 
-                // ── Out of stock overlay covers whole card ──
+                // Out of stock overlay covers whole card
                 if (menuItem.isOutOfStock == true)
                   Positioned.fill(
                     child: ClipRRect(

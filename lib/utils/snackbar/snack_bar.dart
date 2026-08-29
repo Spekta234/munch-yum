@@ -72,4 +72,5 @@ class MSnackBar {
       icon: const Icon(Iconsax.warning_2, color: MColors.white),
     );
   }
+
 }

@@ -26,6 +26,7 @@ class MenuDetails extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    print('MENU DETAILS BUILD CALLED for ${menuItem.title}');
     final controller = MenuItemController.instance;
     final menuDetailsController = MenuDetailsController.instance;
     return Scaffold(
@@ -75,7 +76,7 @@ class MenuDetails extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Obx(() => MMenuPriceText(price: (menuItem.price * menuDetailsController.quantity.value).toStringAsFixed(0), isLarge: true,)),
+                          Obx(() => MMenuPriceText(price: menuItem.hasDiscount? (menuItem.discountPrice! * menuDetailsController.quantity.value).toStringAsFixed(0) : (menuItem.price * menuDetailsController.quantity.value).toStringAsFixed(0), isLarge: true,)),
                           Obx(() => Row(
                             children: [
                               GestureDetector(
@@ -145,7 +146,31 @@ class MenuDetails extends StatelessWidget {
                           return MGridLayout(
 
                             itemCount: items.length,
-                            itemBuilder: (_, index) => MMenuCardVertical(menuItem: items[index], onTap: () => Get.to(() => MenuDetails(menuItem: items[index])),),
+                            itemBuilder: (_, index) => MMenuCardVertical(
+                              menuItem: items[index],
+
+                              // BUG (found + fixed 24 Aug 2026): tapping items in "Put an extra" did nothing —
+                              // no error, no crash, Get.to() ran but MenuDetails.build() never fired.
+                              //
+                              // Root cause: GetX's Get.to() has `preventDuplicates: true` by default.
+                              // Since we were already ON a MenuDetails screen and navigating to ANOTHER
+                              // MenuDetails (same widget TYPE, no named routes), GetX silently treated it
+                              // as "already on this route" and skipped the push entirely — no error thrown.
+                              //
+                              // Confirmed via: Navigator.push() (plain Flutter, bypassing GetX) worked fine
+                              // from this same tap, proving the bug was GetX-specific, not a widget/gesture
+                              // issue. Also confirmed Home -> MenuDetails (different screen types) worked
+                              // fine with Get.to() — only broke on MenuDetails -> MenuDetails (recursive,
+                              // same type).
+                              //
+                              // Fix: pass preventDuplicates: false explicitly for this call, since we WANT
+                              // to allow pushing a new MenuDetails on top of an existing one.
+
+                              onTap: () => Get.to(
+                                    () => MenuDetails(menuItem: items[index]),
+                                preventDuplicates: false,
+                              ),
+                            ),
                           );
                         }
                     ),

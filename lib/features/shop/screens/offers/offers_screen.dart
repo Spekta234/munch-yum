@@ -64,7 +64,7 @@ class OffersScreen extends StatelessWidget {
 
                   const SizedBox(height: 8),
 
-                  // ── Dot indicator ──
+                  // Dot indicator
 
                   SmoothPageIndicator(
                     controller: controller.bannerController,
@@ -99,7 +99,7 @@ class OffersScreen extends StatelessWidget {
                           hasDiscount: item.hasDiscount,
                           title: item.title,
                           image: item.image,
-                          price: item.price.toStringAsFixed(0),
+                          price: item.hasDiscount? item.discountPrice!.toStringAsFixed(0) : item.price.toStringAsFixed(0),
                           isCurved: true,
                           onTap: item.isOutOfStock ? null : () => Get.to(() => MenuDetails(menuItem: item)),
                         );
@@ -116,7 +116,10 @@ class OffersScreen extends StatelessWidget {
                   Obx(
                     () => MGridLayout(
                       itemCount: offersController.moreOffers.length,
-                      itemBuilder: (_, index) => MMenuCardVertical(menuItem: offersController.moreOffers[index]),
+                      itemBuilder: (_, index) => MMenuCardVertical(
+                        menuItem: offersController.moreOffers[index],
+                        onTap: () => Get.to(() => MenuDetails(menuItem:  offersController.moreOffers[index])),
+                      ),
                     ),
                   ),
 

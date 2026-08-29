@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../utils/constants/sizes.dart';
 
 class MGridLayout extends StatelessWidget {
-  const MGridLayout({
+  const
+  MGridLayout({
     super.key,
     required this.itemCount,
     this.mainAxisExtent = 239,
