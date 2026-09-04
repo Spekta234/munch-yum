@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/data/repositories/user_repository.dart';
 import 'package:munch_yum/features/personification/screens/loyalty/loyalty_intro.dart';
 import 'package:munch_yum/features/personification/screens/loyalty/loyalty_program_screen.dart';
+import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/screens/cart/cart_screen.dart';
 import 'package:munch_yum/features/shop/screens/home/home_screen.dart';
 import 'package:munch_yum/features/shop/screens/offers/offers_screen.dart';
@@ -101,12 +102,14 @@ class NavigationMenu extends StatelessWidget {
         padding: EdgeInsets.all(4),
         borderSide: BorderSide(color: Colors.white, width: 1.5),
       ),
-      badgeContent: Text(
-        '2', // ← replace with controller.cartCount later
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 9,
-          fontWeight: FontWeight.bold,
+      badgeContent: Obx(
+        () => Text(
+            '${CartController.instance.noOfCartItems.value}',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 9,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       child: Container(

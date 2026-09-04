@@ -14,9 +14,12 @@ import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../common/menu/cart_item_card.dart';
+import '../../models/cart_item_model.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +61,7 @@ class CheckoutScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: 2,
-                        itemBuilder: (context, index) => const MCartItemCard(),
+                        itemBuilder: (context, index) =>  MCartItemCard(cartItem: CartItemModel.empty()),
                       ),
                       const SizedBox(height: MSizes.spaceBtwItems),
                       Obx(

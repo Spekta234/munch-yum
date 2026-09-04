@@ -124,7 +124,7 @@ class AddToCartButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
-              onTap: () {} // => controller.decreaseQuantity(menuItem.id),
+              onTap: () => controller.decreaseQuantity(menuItem.id),
               child: CircleAvatar(
                 radius: isSmall ? 12 : 14,
                 backgroundColor: isCircle ? Colors.black12 : Colors.grey.shade200,
@@ -138,7 +138,7 @@ class AddToCartButton extends StatelessWidget {
             ),
             SizedBox(width: isSmall ? 10 : isCircle ? 10 : null),
             GestureDetector(
-              onTap: () {}, // => controller.increaseQuantity(menuItem.id),
+              onTap: () => controller.increaseQuantity(menuItem.id),
               child: CircleAvatar(
                 radius: isSmall ? 12 : 14,
                 backgroundColor: MColors.primary,
@@ -150,7 +150,7 @@ class AddToCartButton extends StatelessWidget {
       )
           : isCircle
           ? GestureDetector(
-        onTap: () {}, // => controller.addToCart(menuItem),
+        onTap: ()  => controller.addToCart(menuItem),
         child: Container(
           width: 40,
           height: 40,
@@ -162,7 +162,7 @@ class AddToCartButton extends StatelessWidget {
         height: isSmall ? 35 : null,
         width: isSmall ? 100 : double.infinity,
         child: ElevatedButton.icon(
-          onPressed: () {}, //=> controller.addToCart(menuItem),
+          onPressed: () => controller.addToCart(menuItem),
           icon: Icon(Iconsax.shopping_cart, size: isSmall ? 14 : 18),
           label: Text('Add to cart', style: TextStyle(fontSize: isSmall ? 11 : 14)),
           style: ElevatedButton.styleFrom(

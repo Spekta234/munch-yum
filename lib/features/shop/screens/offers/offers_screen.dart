@@ -101,7 +101,7 @@ class OffersScreen extends StatelessWidget {
                           image: item.image,
                           price: item.hasDiscount? item.discountPrice!.toStringAsFixed(0) : item.price.toStringAsFixed(0),
                           isCurved: true,
-                          onTap: item.isOutOfStock ? null : () => Get.to(() => MenuDetails(menuItem: item)),
+                          onTap: item.isOutOfStock ? null : () => Get.to(() => MenuDetails(menuItem: item)), menuItem: item,
                         );
                       }
                     ),

@@ -8,7 +8,6 @@ class CartController extends GetxController {
   static CartController get instance => Get.find();
 
   final RxBool isAddedToCart = false.obs;
-  final RxInt quantity = 1.obs;
   RxDouble totalCartPrice = 0.0.obs;
   RxInt noOfCartItems = 0.obs;
   RxList<CartItemModel> cartItem = <CartItemModel>[].obs;
@@ -24,7 +23,7 @@ class CartController extends GetxController {
   }
 
 
-  void addToCart(MenuItemModel menuItem) {
+  void addToCart(MenuItemModel menuItem, {int quantity = 1}) {
     if (menuItem.isOutOfStock) {
       MSnackBar.customToast(message: 'This item is out of stock');
       return;
@@ -32,16 +31,16 @@ class CartController extends GetxController {
 
     final existingItem = cartItem.firstWhereOrNull((item) => item.itemId == menuItem.id);
     if (existingItem != null) {
-      existingItem.quantity++;
+      existingItem.quantity += quantity;
       cartItem.refresh();
     } else {
-      cartItem.add(_toCartItems(menuItem, 1));
+      cartItem.add(_toCartItems(menuItem, quantity));
     }
     saveCartItems();
     MSnackBar.customToast(message: 'Added to cart successfully');
   }
 
-  void increaseQuality(String itemId) {
+  void increaseQuantity(String itemId) {
     final item = cartItem.firstWhereOrNull((item) => item.itemId == itemId);
     if (item != null) {
       item.quantity++;
@@ -52,7 +51,7 @@ class CartController extends GetxController {
 
 
 
-  void decreaseQuality(String itemId) {
+  void decreaseQuantity(String itemId) {
    final item = cartItem.firstWhereOrNull((item) => item.itemId == itemId);
    if (item != null && item.quantity > 1) {
      item.quantity--;
@@ -78,14 +77,17 @@ class CartController extends GetxController {
     );
   }
 
-  void saveCartItems() {
+  Future<void> saveCartItems() async  {
     final cartItemStrings = cartItem.map((item) => item.toJson()).toList();
     updateCartTotals();
     MLocalStorage.instance().writeData('cartItems', cartItemStrings);
+    final verify = MLocalStorage.instance().readData<List<dynamic>>('cartItems');
+    print('VERIFY RIGHT AFTER SAVE: $verify');
   }
 
   void loadCartItems() {
     final cartItemStrings = MLocalStorage.instance().readData<List<dynamic>>('cartItems');
+    print('LOADED CART: $cartItemStrings');
     if (cartItemStrings != null) {
       cartItem.assignAll(cartItemStrings.map((item) => CartItemModel.fromJson(item as Map<String, dynamic>)));
       updateCartTotals();
@@ -101,6 +103,12 @@ class CartController extends GetxController {
       total += unitPice * item.quantity;
     }
     totalCartPrice.value = total;
+  }
+
+  void removeCartItem(String itemId) {
+    cartItem.removeWhere((item) => item.itemId == itemId);
+    saveCartItems();
+    updateCartTotals();
   }
 
   void clearCart() {

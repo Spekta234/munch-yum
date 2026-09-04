@@ -6,7 +6,9 @@ import 'package:munch_yum/common/texts/menu_price_text.dart';
 import 'package:munch_yum/common/texts/menu_title_text.dart';
 import 'package:munch_yum/common/widgets/bottomsheets/bottomsheets.dart';
 import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
+import 'package:munch_yum/features/shop/models/cart_item_model.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
+import 'package:munch_yum/utils/snackbar/snack_bar.dart';
 
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
@@ -85,7 +87,9 @@ import '../images/m_rounded_image.dart';
 // }
 
 class MCartItemCard extends StatelessWidget {
-  const MCartItemCard({super.key});
+  const MCartItemCard({super.key, required this.cartItem});
+
+  final CartItemModel cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +107,8 @@ class MCartItemCard extends StatelessWidget {
               height: 90,
               width: 120,
               child: MRoundedImage(
-                imageUrl: MImages.smokedChicken,
+                isNetworkImage: true,
+                imageUrl:cartItem.image ?? '',
                 margin: EdgeInsets.only(right: 2),
                 fit: BoxFit.cover,
                 applyImageRadius: false,
@@ -128,7 +133,7 @@ class MCartItemCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: MMenuTitleText(title: 'Smoked Chicken', smallSize: true),
+                        child: MMenuTitleText(title: cartItem.title, smallSize: true),
                       ),
                       SizedBox(
                         height: 20,
@@ -147,10 +152,14 @@ class MCartItemCard extends StatelessWidget {
                                     title: 'Remove from cart',
                                     icon: Iconsax.shopping_cart5,
                                     subtitle1: 'You are about to remove',
-                                    subtitle2: 'from\n your cart. Are you sure?',
-                                    onCancelTap: () {},
-                                    onRemoveTap: () {},
-                                    child: MMenuTitleText(title: 'Smoked Chicken ', smallSize: true,),),
+                                    subtitle2: ' from\n your cart. Are you sure?',
+                                    onCancelTap: () => Navigator.pop(context),
+                                    onRemoveTap: () {
+                                      controller.removeCartItem(cartItem.itemId);
+                                      Navigator.pop(context);
+                                      MSnackBar.customToast(message: 'Removed from cart');
+                                    },
+                                    child: MMenuTitleText(title: cartItem.title, smallSize: true,),),
                             );
                           },
                           padding: EdgeInsets.zero,
@@ -164,7 +173,7 @@ class MCartItemCard extends StatelessWidget {
                   //Category
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: MCtgyTitleTextWithIcon(title: 'Protein'),
+                    child: MCtgyTitleTextWithIcon(title: cartItem.category ?? ''),
                   ),
 
                   SizedBox(height: 20,),
@@ -172,35 +181,37 @@ class MCartItemCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      MMenuPriceText(price: '4,000'),
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: controller.decreaseQuality,
-                            child: CircleAvatar(
-                              radius: 9,
-                              backgroundColor: Colors.grey.shade200,
-                              child: Icon(Icons.remove, color: Colors.black, size: 15),
+                      MMenuPriceText(price: (cartItem.hasDiscount ? cartItem.discountPrice : cartItem.price).toStringAsFixed(0)),
+                      Obx(() {
+                        final quantity = controller.getQuantity(cartItem.itemId);
+                        return Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () => controller.decreaseQuantity(cartItem.itemId),
+                              child: CircleAvatar(
+                                radius: 9,
+                                backgroundColor: Colors.grey.shade200,
+                                child: Icon(Icons.remove, color: Colors.black, size: 15),
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 10),
-                          Obx(
-                            () => Text(
-                              '${controller.quantity.value}',
-                              style: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.black),
+                            SizedBox(width: 10),
+                            Text(
+                                '$quantity',
+                                style: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.black),
+                              ),
+                           
+                            SizedBox(width: 10),
+                            GestureDetector(
+                              onTap: () => controller.increaseQuantity(cartItem.itemId),
+                              child: CircleAvatar(
+                                radius: 9,
+                                backgroundColor: MColors.primary,
+                                child: Icon(Icons.add, color: Colors.white, size: 15),
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: controller.increaseQuality,
-                            child: CircleAvatar(
-                              radius: 9,
-                              backgroundColor: MColors.primary,
-                              child: Icon(Icons.add, color: Colors.white, size: 15),
-                            ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        );
+                      },)
                     ],
                   ),
                 ],

@@ -17,6 +17,7 @@ class MenuCardOffers extends StatelessWidget {
     required this.title,
     required this.image,
     required this.price, required this.isCurved,
+    required this.menuItem,
     this.onTap,
   });
 
@@ -27,6 +28,7 @@ class MenuCardOffers extends StatelessWidget {
   final String price;
   final bool isCurved;
   final VoidCallback? onTap;
+  final MenuItemModel menuItem;
 
 
   @override
@@ -89,13 +91,13 @@ class MenuCardOffers extends StatelessWidget {
                 Positioned(
                   bottom: 10,
                   right: 10,
-                  child: AddToCartButton(isCircle: true, menuItem: MenuItemModel.empty(),),
+                  child: AddToCartButton(isCircle: true, menuItem: menuItem,),
                 ),
             ],
           ),
           const SizedBox(height: MSizes.sm),
 
-          // ── Title and Price ──
+          // Title and Price
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: Column(

@@ -18,6 +18,12 @@ Future<void> main() async {
 
   /// -- Get X Local Storage
    await MLocalStorage.init('munch_yum');
+   final testStorage = GetStorage('munch_yum');
+   print('TEST READ ON LAUNCH: ${testStorage.read('testCartKey')}');
+   await testStorage.write('testCartKey', [
+     {'itemId': '1', 'title': 'Test Item', 'quantity': 2}
+   ]);
+   print('TEST WRITE DONE');
 
   /// -- Await Splash until other items load
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

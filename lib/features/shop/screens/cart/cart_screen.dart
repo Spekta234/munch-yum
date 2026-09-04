@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/common/menu/cart_item_card.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/heading_text.dart';
+import 'package:munch_yum/features/shop/controllers/menu_item_controller.dart';
 import 'package:munch_yum/features/shop/screens/cart/widgets/cart_item_with_image.dart';
 import 'package:munch_yum/features/shop/screens/checkout/checkout_screen.dart';
 import 'package:munch_yum/features/shop/screens/orders/orders_screen.dart';
@@ -9,12 +10,16 @@ import 'package:munch_yum/utils/constants/image_strings.dart';
 
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../controllers/cart_controller.dart';
+import '../../models/cart_item_model.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
+  const CartScreen({super.key,});
+
 
   @override
   Widget build(BuildContext context) {
+    final controller = CartController.instance;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -22,7 +27,6 @@ class CartScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            /// header
             Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -47,12 +51,14 @@ class CartScreen extends StatelessWidget {
                     children: [
                       Text('Meal in your cart are here. Check out to have them delivered to you'),
                       SizedBox(height: MSizes.sm),
-                      ListView.separated(
-                        separatorBuilder: (context, index) => const SizedBox(height: MSizes.md),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 2,
-                        itemBuilder: (context, index) => const MCartItemCard(),
+                      Obx(
+                        () => ListView.separated(
+                          separatorBuilder: (context, index) => const SizedBox(height: MSizes.md),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.cartItem.length,
+                          itemBuilder: (context, index) =>  MCartItemCard(cartItem: controller.cartItem[index],),
+                        ),
                       ),
                       const SizedBox(height: MSizes.md),
                       Divider(),
@@ -62,7 +68,7 @@ class CartScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Total Amount', style: Theme.of(context).textTheme.bodySmall,),
-                            Text('₦8,000.00', style: Theme.of(context).textTheme.headlineSmall,)
+                            Obx(() => Text('₦${controller.totalCartPrice.value.toStringAsFixed(2)}', style: Theme.of(context).textTheme.headlineSmall,))
                           ],
                         ),
                       ),
@@ -73,13 +79,19 @@ class CartScreen extends StatelessWidget {
                         children: [
                           Text('Add more to the crunch...'),
                           SizedBox(height: MSizes.spaceBtwSections),
-                          ListView.separated(
-                            separatorBuilder: (context, index) => const SizedBox(height: MSizes.md),
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 4,
-                            itemBuilder: (context, index) => const CartItemWithImage(),
-                          ),
+                          Obx(() {
+                            final suggestedItems = MenuItemController.instance.menuItems
+                                .where((item) => controller.cartItem.every((cartItem) => cartItem.itemId != item.id))
+                                .toList();
+                            return  ListView.separated(
+                              separatorBuilder: (context, index) => const SizedBox(height: MSizes.md),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: suggestedItems.length,
+                              itemBuilder: (context, index) => CartItemWithImage(menuItem: suggestedItems[index]),
+                            );
+
+                          })
 
                         ],
                       )

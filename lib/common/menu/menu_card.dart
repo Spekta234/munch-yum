@@ -270,7 +270,7 @@ class MMenuCardVertical extends StatelessWidget {
                               ),
                             ),
                           )
-                              : AddToCartButton(menuItem: MenuItemModel.empty(),),
+                              : AddToCartButton(menuItem: menuItem),
                         ],
                       ),
                     ),
