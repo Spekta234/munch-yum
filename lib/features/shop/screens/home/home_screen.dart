@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeController());
+    final controller = HomeController.instance;
     final menuController = MenuItemController.instance;
     return Scaffold(
       body: SafeArea(

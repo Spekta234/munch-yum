@@ -104,7 +104,7 @@ class NavigationMenu extends StatelessWidget {
       ),
       badgeContent: Obx(
         () => Text(
-            '${CartController.instance.noOfCartItems.value}',
+            '${CartController.instance.noOfCartItems.value}', // ← replace with controller.cartCount later
           style: TextStyle(
             color: Colors.white,
             fontSize: 9,

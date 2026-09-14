@@ -159,6 +159,7 @@ class MCartItemCard extends StatelessWidget {
                                       Navigator.pop(context);
                                       MSnackBar.customToast(message: 'Removed from cart');
                                     },
+                                     removeText: 'Remove from cart',
                                     child: MMenuTitleText(title: cartItem.title, smallSize: true,),),
                             );
                           },

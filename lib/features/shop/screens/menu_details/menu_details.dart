@@ -221,8 +221,6 @@ class MenuDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = MenuItemController.instance;
-    // CHANGED: removed `final menuDetailsController = MenuDetailsController.instance;`
-    // — no longer needed, CartController now drives quantity/price on this screen.
     return Scaffold(
       body: Stack(
         children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:munch_yum/features/personification/controllers/address_controller.dart';
 
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
@@ -10,40 +11,47 @@ class EnterAddressTextformField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = AddressController.instance;
     final screenHeight = MediaQuery.of(context).size.height;
-    return Column(
-      children: [
-        TextFormField(
-          maxLines: 3,
-          decoration: InputDecoration(
-              hintText: 'Enter your address, city or landmark',
-              hintStyle: Theme
-                  .of(context)
-                  .textTheme
-                  .labelLarge!
-                  .apply(color: Colors.grey),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              contentPadding: EdgeInsets.all(MSizes.md),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: MColors.darkerGrey),
-              )
+    return Form(
+      key: controller.addressFormKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: controller.deliveryLocation,
+            maxLines: 3,
+            decoration: InputDecoration(
+                hintText: 'Enter your address, city or landmark',
+                hintStyle: Theme
+                    .of(context)
+                    .textTheme
+                    .labelLarge!
+                    .apply(color: Colors.grey),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                contentPadding: EdgeInsets.all(MSizes.md),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: MColors.darkerGrey),
+                )
+            ),
           ),
-        ),
-        SizedBox(height: screenHeight * 0.27),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: Text('Set address'),
+          SizedBox(height: screenHeight * 0.27),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => controller.isLoading.value? null : controller.addNewAddress(controller.deliveryLocation.text),
+              child: controller.isLoading.value
+                  ? const CircularProgressIndicator(color: Colors.white,)
+                  : Text('Set address'),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

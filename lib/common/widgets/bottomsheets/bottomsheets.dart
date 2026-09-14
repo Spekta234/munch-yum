@@ -15,7 +15,7 @@ class MBottomSheet extends StatelessWidget {
     required this.subtitle2,
     required this.child,
     required this.onCancelTap,
-    required this.onRemoveTap,
+    required this.onRemoveTap, required this.removeText,
   });
 
   final String title;
@@ -25,6 +25,7 @@ class MBottomSheet extends StatelessWidget {
   final Widget child;
   final VoidCallback onCancelTap;
   final VoidCallback onRemoveTap;
+  final String removeText;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +98,7 @@ class MBottomSheet extends StatelessWidget {
             child: OutlinedButton(
               onPressed: onRemoveTap,
               style: OutlinedButton.styleFrom(side: BorderSide.none, backgroundColor: MColors.grey),
-              child: Text('Remove from cart'),
+              child: Text(removeText),
             ),
           ),
         ],

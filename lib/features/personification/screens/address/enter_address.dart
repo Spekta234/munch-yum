@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/features/authentication/screens/login/widgets/logo_avatar.dart';
+import 'package:munch_yum/features/personification/controllers/address_controller.dart';
 import 'package:munch_yum/features/personification/screens/address/widgets/enter_address_textform_field.dart';
+import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
@@ -21,7 +23,9 @@ class EnterAddress extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
-                  onPressed: () => Get.back(),
+                  onPressed: ()  {
+                    Navigator.of(context).pop();
+                  },
                   icon: Icon(Icons.arrow_back_ios_new),
                 ),
                 Padding(
@@ -47,7 +51,7 @@ class EnterAddress extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodySmall,
                             children: [
                               TextSpan(
-                                text: 'Munch Yum Restaurant, Charles Street GRA, \nEnugu. ',
+                                text: '${HomeController.instance.user.value.selectedOutlet} ',
                                 style: Theme.of(context).textTheme.bodyMedium!.apply(
                                   color: Colors.black
                                 ),

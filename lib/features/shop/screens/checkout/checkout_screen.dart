@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/controllers/checkout_controller.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/checkbox_row.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/coupon_code.dart';
@@ -18,8 +19,6 @@ import '../../models/cart_item_model.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +55,14 @@ class CheckoutScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ListView.separated(
-                        separatorBuilder: (context, index) => const SizedBox(height: MSizes.md),
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 2,
-                        itemBuilder: (context, index) =>  MCartItemCard(cartItem: CartItemModel.empty()),
+                      Obx(
+                      () => ListView.separated(
+                          separatorBuilder: (context, index) => const SizedBox(height: MSizes.md),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: CartController.instance.cartItem.length,
+                          itemBuilder: (context, index) =>  MCartItemCard(cartItem: CartController.instance.cartItem[index]),
+                        ),
                       ),
                       const SizedBox(height: MSizes.spaceBtwItems),
                       Obx(

@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProfileController());
+    final controller = ProfileController.instance;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
