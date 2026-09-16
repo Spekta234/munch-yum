@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:munch_yum/data/repositories/address_repository.dart';
 import 'package:munch_yum/utils/snackbar/snack_bar.dart';
 
+import '../../../data/repositories/authentication_repository.dart';
+import '../../../utils/helpers/navigation_helpers.dart';
 import '../models/address_model.dart';
 
 class AddressController extends GetxController {
@@ -10,25 +12,24 @@ class AddressController extends GetxController {
 
   /// variables
   RxBool isLoading = false.obs;
+  RxBool isFetching = false.obs;
   RxList<AddressModel> addresses = <AddressModel>[].obs;
   Rx<AddressModel?> selectedAddress = Rx<AddressModel?>(null);
   final deliveryLocation = TextEditingController();
   GlobalKey<FormState> addressFormKey = GlobalKey<FormState>();
 
-  @override
-  void onInit() {
-    fetchAddresses();
-    super.onInit();
-  }
 
 
   Future<void> fetchAddresses() async {
     try {
+      isFetching.value = true;
       final address = await AddressRepository.instance.fetchUserAddress();
-      addresses.assignAll(address); // ← missing line
+      addresses.assignAll(address);
       selectedAddress.value = address.firstWhereOrNull((element) => element.isDefault);
     } catch (e) {
       MSnackBar.errorSnackBar(title: 'Address not found', message: e.toString());
+    } finally {
+      isFetching.value = false;
     }
   }
 
@@ -54,12 +55,18 @@ class AddressController extends GetxController {
 
       // stop loading
       isLoading.value = false;
-
-      // show success message
-      MSnackBar.successSnackBar(title: 'Address added successfully', message: 'Your new address has been added successfully');
+      deliveryLocation.clear();
 
       // fetch addresses
-      await fetchAddresses();
+      final newAddress = AddressModel(id: addressId, address: addressText, isDefault: true);
+      await selectAddress(newAddress);
+
+
+      // show success message and go back
+      MSnackBar.customToast(message: 'Address successfully added');
+      mBack();
+
+
 
     } catch (e) {
       // stop loading
@@ -71,7 +78,7 @@ class AddressController extends GetxController {
   Future deleteAddress(String addressId) async {
     try {
       await AddressRepository.instance.deleteUserAddress(addressId);
-      MSnackBar.successSnackBar(title: 'Address deleted successfully', message: 'Your address has been deleted successfully');
+      MSnackBar.customToast(message: 'Address deleted successfully');
       await fetchAddresses();
     } catch (e) {
       MSnackBar.errorSnackBar(title: 'Error deleting address', message: e.toString());

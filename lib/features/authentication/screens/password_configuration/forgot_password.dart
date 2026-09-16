@@ -5,6 +5,7 @@ import 'package:munch_yum/features/authentication/controllers/login/forgot_passw
 import 'package:munch_yum/features/authentication/screens/password_configuration/reset_password.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
+import '../../../../utils/helpers/navigation_helpers.dart';
 import '../../../../utils/validators/validation.dart';
 
 class ForgotPassword extends StatelessWidget {
@@ -21,7 +22,7 @@ class ForgotPassword extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.close)),
+              child: IconButton(onPressed: () => mBack(), icon: Icon(Icons.close)),
             ),
             const SizedBox(height: MSizes.spaceBtwSections),
             Text('Forgot password', style: Theme.of(context).textTheme.headlineMedium),

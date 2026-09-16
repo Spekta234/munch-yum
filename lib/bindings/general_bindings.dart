@@ -1,6 +1,7 @@
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:munch_yum/data/repositories/address_repository.dart';
 import 'package:munch_yum/features/personification/controllers/address_controller.dart';
 import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
 import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
@@ -28,5 +29,6 @@ class GeneralBindings extends Bindings {
     Get.put(ProfileController());
     Get.lazyPut (() => HomeController(), fenix: true );
     Get.put(AddressController());
+    Get.put(AddressRepository());
   }
 }

@@ -16,6 +16,7 @@ import 'package:munch_yum/utils/shimmers/menu_item_shimmer.dart';
 import '../../../../common/custom_shapes/buttons/add_to_cart_button.dart';
 import '../../../../common/layout/grid_layout.dart';
 import '../../../../common/menu/menu_card.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 import '../../../authentication/screens/login/widgets/logo_avatar.dart';
 import '../../controllers/cart_controller.dart';
 import '../cart/cart_screen.dart';
@@ -44,7 +45,7 @@ import '../search/search_screen.dart';
 //                     Align(
 //                       alignment: AlignmentGeometry.centerLeft,
 //                       child: IconButton(
-//                         onPressed: () => Get.back(),
+//                         onPressed: () => mBack(),
 //                         icon: Icon(Icons.arrow_back_ios_new),
 //                         iconSize: 15,
 //                       ),
@@ -235,7 +236,7 @@ class MenuDetails extends StatelessWidget {
                     Align(
                       alignment: AlignmentGeometry.centerLeft,
                       child: IconButton(
-                        onPressed: () => Get.back(),
+                        onPressed: () => mBack(),
                         icon: Icon(Icons.arrow_back_ios_new),
                         iconSize: 15,
                       ),

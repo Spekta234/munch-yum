@@ -9,6 +9,7 @@ import '../../../../data/repositories/authentication_repository.dart';
 import '../../../../navigation_menu.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 import '../../screens/location/location_loader.dart';
 import '../../screens/login/widgets/logo_avatar.dart';
 
@@ -78,7 +79,7 @@ class LocationController extends GetxController {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => Get.back(),
+                    onPressed: () => mBack(),
                     child: Text('Reset location'),
                   ),
                 ),

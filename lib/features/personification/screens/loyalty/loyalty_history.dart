@@ -5,6 +5,7 @@ import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 class LoyaltyHistory extends StatelessWidget {
   const LoyaltyHistory({super.key});
@@ -19,7 +20,7 @@ class LoyaltyHistory extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios_new), iconSize: 24,
+                  IconButton(onPressed: () => mBack(), icon: Icon(Icons.arrow_back_ios_new), iconSize: 24,
                   ),
                   Text('History', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500)),
                 ],

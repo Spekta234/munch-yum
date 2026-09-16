@@ -11,6 +11,7 @@ import 'package:munch_yum/features/personification/screens/support/widgets/conta
 import 'package:munch_yum/utils/constants/colors.dart';
 
 import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key, this.showBackButton = false});
@@ -32,7 +33,7 @@ class SupportScreen extends StatelessWidget {
                 height: 20,
                 width: 20,
                 child: IconButton(
-                  onPressed: ()  => Get.back(),
+                  onPressed: ()  => mBack(),
                   padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),
                   icon: Icon(Icons.arrow_back_ios_new, size: 24, color: Colors.black),

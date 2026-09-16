@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:munch_yum/features/personification/controllers/address_controller.dart';
 
 import '../../../../../utils/constants/colors.dart';
@@ -19,6 +20,12 @@ class EnterAddressTextformField extends StatelessWidget {
         children: [
           TextFormField(
             controller: controller.deliveryLocation,
+            validator:  (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Please enter an address';
+              }
+              return null;
+            },
             maxLines: 3,
             decoration: InputDecoration(
                 hintText: 'Enter your address, city or landmark',
@@ -41,13 +48,25 @@ class EnterAddressTextformField extends StatelessWidget {
             ),
           ),
           SizedBox(height: screenHeight * 0.27),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => controller.isLoading.value? null : controller.addNewAddress(controller.deliveryLocation.text),
-              child: controller.isLoading.value
-                  ? const CircularProgressIndicator(color: Colors.white,)
-                  : Text('Set address'),
+          Obx(
+            () => SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(disabledBackgroundColor: MColors.primary),
+                onPressed:controller.isLoading.value
+                    ? null
+                    : () {
+                  if (controller.addressFormKey.currentState!.validate()) {
+                    controller.addNewAddress(controller.deliveryLocation.text.trim());
+                  }
+                },
+                child: controller.isLoading.value
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),)
+                    : Text('Set address'),
+              ),
             ),
           ),
         ],

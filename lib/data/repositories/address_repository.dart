@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/data/repositories/authentication_repository.dart';
 import 'package:munch_yum/features/personification/models/address_model.dart';
@@ -24,7 +25,9 @@ class AddressRepository extends GetxController {
   Future<List<AddressModel>> fetchUserAddress() async {
     try{
       final userId = AuthenticationRepository.instance.authUser?.uid;
-      if (userId!.isEmpty) throw 'Unable to find user information. Try again in few minutes';
+      if (userId == null || userId.isEmpty) {
+        throw 'Unable to find user information. Try again in few minutes';
+      }
       final result = await _db.collection('Users').doc(userId).collection('Addresses').get();
       return result.docs.map((documentSnapshot) => AddressModel.fromSnapshot(documentSnapshot)).toList();
 

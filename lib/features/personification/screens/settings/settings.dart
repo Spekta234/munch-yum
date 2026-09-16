@@ -15,6 +15,7 @@ import 'package:munch_yum/features/shop/screens/orders/orders_screen.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 
 import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -28,7 +29,7 @@ class Settings extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios_new), iconSize: 24,),
+              IconButton(onPressed: () => mBack(), icon: Icon(Icons.arrow_back_ios_new), iconSize: 24,),
               MSettingsHeader(name: 'Okey', phoneNumber: '+234092038482943'),
               const SizedBox(height: MSizes.spaceBtwItems),
               Text('My Account', style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w500)),

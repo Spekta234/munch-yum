@@ -7,6 +7,7 @@ import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../common/styles/spacing_styles.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key, this.email});
@@ -24,7 +25,7 @@ class ResetPassword extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios_new)),
+                IconButton(onPressed: () => mBack(), icon: Icon(Icons.arrow_back_ios_new)),
                 IconButton(onPressed: () => Get.offAll(() => LoginScreen()), icon: Icon(Icons.close)),
               ],
             ),

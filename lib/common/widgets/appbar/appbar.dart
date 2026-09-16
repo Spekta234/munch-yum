@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/device/device_utility.dart';
+import '../../../utils/helpers/navigation_helpers.dart';
 
 
 class MAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -32,7 +33,7 @@ class MAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         automaticallyImplyLeading: false,
         leading: showBackArrow
-            ? IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios_new, color: MColors.dark,))
+            ? IconButton(onPressed: () => mBack(), icon: Icon(Icons.arrow_back_ios_new, color: MColors.dark,))
             : leadingIcon != null ? IconButton(onPressed: leadingOnPressed, icon: Icon(leadingIcon)) : null,
         title: title,
         actions: actions,

@@ -8,16 +8,30 @@ import 'package:munch_yum/features/personification/screens/address/widgets/singl
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../utils/constants/colors.dart';
-
-class Address extends StatelessWidget {
+class Address extends StatefulWidget {
   const Address({super.key});
+
+  @override
+  State<Address> createState() => _AddressState();
+}
+
+class _AddressState extends State<Address> {
+  final controller = AddressController.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.fetchAddresses();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     final controller = AddressController.instance;
     return Scaffold(
       body: SafeArea(
-        child: Padding(padding: EdgeInsets.only(top: MSizes.sm, right: MSizes.md, left: MSizes.md, bottom: MSizes.md),
+        child: Padding(
+          padding: EdgeInsets.only(top: MSizes.sm, right: MSizes.md, left: MSizes.md, bottom: MSizes.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,76 +56,83 @@ class Address extends StatelessWidget {
               const SizedBox(height: MSizes.md),
               Text('We use your location to find the closest outlet to serve you.', style: Theme.of(context).textTheme.bodySmall,),
               const SizedBox(height: MSizes.spaceBtwItems),
-             Expanded(child: SingleChildScrollView(
-               child: Column(
-                 children: [
-                   FutureBuilder(
-                     future: controller.fetchAddresses(),
-                     builder:  (context, snapshot) {
-                       if (snapshot.connectionState == ConnectionState.waiting) {
-                         return const Center(
-                           child:  CircularProgressIndicator(color: MColors.primary,),
-                         );
-                       }
-                       if (snapshot.hasError) {
-                         return const Center(
-                           child:  Text('Something went wrong'),
-                         );
-                       }
 
-                       if (controller.addresses.isEmpty) {
-                         return Center(
-                           child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.center,
-                             children: [
-                               MLogoAvatar(child: Icon(Iconsax.location5, color: MColors.primary, size: 38,), ),
-                               const SizedBox(height: 5),
-                               Text('No address', style: Theme.of(context).textTheme.bodyLarge!.apply(color: MColors.primary)),
-                               const SizedBox(height: 5),
-                               Text('You have not added a location yet', style: Theme.of(context).textTheme.bodySmall,),
-                               const SizedBox(height: 5),
-                               TextButton(
-                                 onPressed: () => Get.to(() => EnterAddress()),
-                                 child: Text(
-                                   'Add new address',
-                                   style: Theme.of(context).textTheme.labelSmall!.apply(
-                                     color: MColors.primary,
-                                     decoration: TextDecoration.underline,
-                                     decorationColor: MColors.primary,
-                                   ),
-                                 ),
-                               ),
-                             ],
-                           ),
-                         );
-                       }
+              Expanded(
+                child: Obx(() {
+                  if (controller.isFetching.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(color: MColors.primary),
+                    );
+                  }
 
-                       return  Obx(
-                         () => ListView.builder(
-                           shrinkWrap: true,
-                           itemCount: controller.addresses.length,
-                           itemBuilder: (_, index) {
-                             final address = controller.addresses[index];
-
-                             return SingleAddress(
-                               address: address,
-                               onTap: () => controller.selectedAddress(address),
-                             );
-                           }
-                         ),
-                       );
-                     },
-                   ),
-
-
-                 ],
-               ),
-             ),
-             )
+                  if (controller.addresses.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          MLogoAvatar(showBorder: false, child: Icon(Iconsax.location5, color: MColors.primary, size: 38,), ),
+                          const SizedBox(height: 5),
+                          Text('No address', style: Theme.of(context).textTheme.bodyLarge!.apply(color: MColors.primary)),
+                          const SizedBox(height: 5),
+                          Text('You have not added a location yet', style: Theme.of(context).textTheme.bodySmall,),
+                          const SizedBox(height: 5),
+                          TextButton(
+                            onPressed: () => Get.to(() => EnterAddress()),
+                            child: Text(
+                              'Add new address',
+                              style: Theme.of(context).textTheme.labelSmall!.apply(
+                                color: MColors.primary,
+                                decoration: TextDecoration.underline,
+                                decorationColor: MColors.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.addresses.length,
+                          itemBuilder: (_, index) {
+                            final address = controller.addresses[index];
+                            return SingleAddress(
+                              address: address,
+                              onTap: () => controller.selectAddress(address),
+                            );
+                          },
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () => Get.to(() => EnterAddress()),
+                            child: Text(
+                              'Add new address',
+                              style: Theme.of(context).textTheme.labelSmall!.apply(
+                                color: MColors.primary,
+                                decoration: TextDecoration.underline,
+                                decorationColor: MColors.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
 }
+
+

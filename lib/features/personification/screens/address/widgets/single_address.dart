@@ -8,6 +8,7 @@ import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../../common/widgets/bottomsheets/bottomsheets.dart';
+import '../../../../../utils/snackbar/snack_bar.dart';
 import '../enter_address.dart';
 
 class SingleAddress extends StatelessWidget {
@@ -90,9 +91,12 @@ class SingleAddress extends StatelessWidget {
                                 title: 'Remove Address',
                                 icon: Iconsax.location5,
                                 subtitle1: 'You are about to remove this location',
-                                subtitle2: 'from\n your address. Are you sure you want to remove from\n address?',
+                                subtitle2: ' from\n your address. Are you sure you want to remove from\n address?',
                                 onCancelTap: () => Navigator.pop(context),
-                                onRemoveTap: () => controller.deleteAddress(address.id),
+                                onRemoveTap: () {
+                                   controller.deleteAddress(address.id);
+                                   Navigator.pop(context);
+                                },
                                 removeText: 'Remove Address',
                                 child: Text(address.address),
                               ),
@@ -102,23 +106,6 @@ class SingleAddress extends StatelessWidget {
                     ),
 
                     const SizedBox(height: MSizes.spaceBtwItems),
-                    Transform.translate(
-                      offset: Offset(10, -10),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () => Get.to(() => EnterAddress()),
-                          child: Text(
-                            'Add new address',
-                            style: Theme.of(context).textTheme.labelSmall!.apply(
-                              color: MColors.primary,
-                              decoration: TextDecoration.underline,
-                              decorationColor: MColors.primary,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 )
               ],

@@ -15,6 +15,7 @@ import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../common/menu/cart_item_card.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 import '../../models/cart_item_model.dart';
 
 class CheckoutScreen extends StatelessWidget {
@@ -36,7 +37,7 @@ class CheckoutScreen extends StatelessWidget {
                     height: 30,
                     width: 20,
                     child: IconButton(
-                      onPressed: () => Get.back(),
+                      onPressed: () => mBack(),
                       padding: EdgeInsets.zero,
                       constraints: BoxConstraints(),
                       icon: Icon(Icons.arrow_back_ios_new, size: 24, color: Colors.black),

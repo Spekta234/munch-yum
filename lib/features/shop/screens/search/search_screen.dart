@@ -12,6 +12,7 @@ import 'package:munch_yum/utils/constants/sizes.dart';
 import '../../../../common/menu/horizontal_menu_card.dart';
 import '../../../../common/texts/menu_price_text.dart';
 import '../../../../common/texts/menu_title_text.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 // class SearchScreen extends StatelessWidget {
 //   const SearchScreen({super.key});
@@ -28,7 +29,7 @@ import '../../../../common/texts/menu_title_text.dart';
 //               Row(
 //                 children: [
 //                   IconButton(
-//                     onPressed: () => Get.back(),
+//                     onPressed: () => mBack(),
 //                     icon: Icon(Icons.arrow_back_ios_new),
 //                   ),
 //                   Text(
@@ -130,7 +131,7 @@ class SearchScreen extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () => Get.back(),
+                    onPressed: () => mBack(),
                     icon: Icon(Icons.arrow_back_ios_new),
                   ),
                   Text(

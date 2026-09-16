@@ -9,6 +9,7 @@ import 'package:munch_yum/features/personification/screens/profile/widgets/profi
 import '../../../../common/widgets/avatar_bottomsheet/avatar_bottomsheet.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -28,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back_ios_new), iconSize: 24,
+                        IconButton(onPressed: () => mBack(), icon: Icon(Icons.arrow_back_ios_new), iconSize: 24,
                         ),
                         Text('Profile', style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500)),
                       ],

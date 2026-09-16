@@ -5,6 +5,7 @@ import 'package:munch_yum/features/shop/screens/orders/widgets/order_item_card.d
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -21,7 +22,7 @@ class OrdersScreen extends StatelessWidget {
                Row(
                  children: [
                    IconButton(
-                     onPressed: () => Get.back(),
+                     onPressed: () => mBack(),
                      icon: Icon(Icons.arrow_back_ios_new),
                    ),
                    Text(

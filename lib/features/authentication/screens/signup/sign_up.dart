@@ -6,6 +6,7 @@ import 'package:munch_yum/features/authentication/screens/signup/widgets/signup_
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -25,7 +26,7 @@ class SignUpScreen extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),
-                  onPressed: () => Get.back(),
+                  onPressed: () => mBack(),
                   icon: Icon(Icons.arrow_back_ios_new),
                 ),
               ),

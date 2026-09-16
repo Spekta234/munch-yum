@@ -15,6 +15,7 @@ import 'package:munch_yum/utils/constants/m_nigerian_states.dart';
 
 import '../../../../data/models/location_model.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 
 class LocationScreen extends StatelessWidget {
@@ -39,7 +40,7 @@ class LocationScreen extends StatelessWidget {
                   height: 20,
                   width: 20,
                   child: IconButton(
-                    onPressed: ()  => Get.back(),
+                    onPressed: ()  => mBack(),
                     padding: EdgeInsets.zero,
                     constraints: BoxConstraints(),
                     icon: Icon(Icons.arrow_back_ios_new, size: 24, color: Colors.black),

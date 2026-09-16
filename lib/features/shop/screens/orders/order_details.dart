@@ -9,6 +9,7 @@ import 'package:munch_yum/features/shop/screens/orders/widgets/order_details_scr
 
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/helpers/navigation_helpers.dart';
 
 class OrderDetails extends StatelessWidget {
   const OrderDetails({super.key});
@@ -25,7 +26,7 @@ class OrderDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    onPressed: () => Get.back(),
+                    onPressed: () => mBack(),
                     icon: Icon(Icons.arrow_back_ios_new),
                   ),
                   TextButton(
