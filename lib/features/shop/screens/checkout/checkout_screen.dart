@@ -5,6 +5,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/controllers/checkout_controller.dart';
+import 'package:munch_yum/features/shop/screens/checkout/payment_method.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/checkbox_row.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/coupon_code.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/delivery_bottomsheet.dart';
@@ -13,6 +14,7 @@ import 'package:munch_yum/features/shop/screens/checkout/widgets/special_note_fi
 import 'package:munch_yum/features/shop/screens/checkout/widgets/summary_row.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
+import 'package:munch_yum/utils/validators/validation.dart';
 
 import '../../../../common/menu/cart_item_card.dart';
 import '../../../../utils/helpers/navigation_helpers.dart';
@@ -23,7 +25,7 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CheckoutController());
+    final controller = CheckoutController.instance;
     return Scaffold(
       body: SafeArea(
         child: Padding(padding: EdgeInsets.all(MSizes.md),
@@ -76,7 +78,7 @@ class CheckoutScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Who are you ordering for?', style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500)),
-                                RequiredBadge(),
+                                const RequiredBadge(),
                               ],
                             ),
                             const SizedBox(height: MSizes.xs,),
@@ -101,37 +103,52 @@ class CheckoutScreen extends StatelessWidget {
                                   SizedBox(height: 8),
                                   Text('Recipient Name', style: Theme.of(context).textTheme.bodyLarge!.apply(color: MColors.darkerGrey),),
                                   SizedBox(height: 8),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Enter recipient name',
-                                      hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
-                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.grey),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.black),
+                                  Form(
+                                    key: controller.checkoutFormKey,
+                                    child: TextFormField(
+                                      controller: controller.recipientName,
+                                      validator: (value) {
+                                        if (value == null || value.trim().isEmpty) {
+                                          return 'Please enter a recipient name';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter recipient name',
+                                        hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
+                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                          borderSide: BorderSide(color: Colors.grey),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                          borderSide: BorderSide(color: Colors.black),
+                                        ),
                                       ),
                                     ),
                                   ),
                                   SizedBox(height: 16),
                                   Text('Enter phone number', style: Theme.of(context).textTheme.bodyLarge!.apply(color: MColors.darkerGrey),),
                                   SizedBox(height: 8),
-                                  TextFormField(
-                                    keyboardType: TextInputType.phone,
-                                    decoration: InputDecoration(
-                                      hintText: 'Enter phone number',
-                                      hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
-                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.grey),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                        borderSide: BorderSide(color: Colors.black),
+                                  Form(
+                                    key: controller.checkoutFormKey,
+                                    child: TextFormField(
+                                      controller: controller.recipientPhoneNo,
+                                      validator: (value) => MValidator.validatePhoneNumber(value),
+                                      keyboardType: TextInputType.phone,
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter phone number',
+                                        hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
+                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                          borderSide: BorderSide(color: Colors.grey),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                          borderSide: BorderSide(color: Colors.black),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -226,15 +243,15 @@ class CheckoutScreen extends StatelessWidget {
                             const SizedBox(height: MSizes.spaceBtwItems),
 
                             /// Coupon code
-                            MCouponCode(),
+                            const MCouponCode(),
                             const SizedBox(height: MSizes.spaceBtwItems),
 
                             /// Summary and total
                             Column(
                               children: [
                                 MSummaryRow(title: 'Total item', amount: '₦8000.00'),
-                                MSummaryRow(title: 'Packaging', amount: '₦0.00'),
-                                MSummaryRow(title: 'Delivery', amount: '₦2000.00'),
+                                MSummaryRow(title: 'Packaging', amount: '₦${controller.packagingPrice.toStringAsFixed(2)}'),
+                                MSummaryRow(title: 'Delivery', amount: '₦${controller.orderModelPrice.toStringAsFixed(2)}'),
                                 MSummaryRow(title: 'Service charge', amount: '₦222.00'),
                                 Divider(),
                                 Padding(
@@ -257,7 +274,7 @@ class CheckoutScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Divider(),
+                                const Divider(),
                               ],
                             ),
                           ],
@@ -275,7 +292,7 @@ class CheckoutScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(right: MSizes.md, left: MSizes.md, bottom: MSizes.lg, top: MSizes.xs ),
         child: ElevatedButton(
-          onPressed: () => Get.to(() => CheckoutScreen()),
+          onPressed: () => Get.to(() =>PaymentMethodScreen()),
           child:
           Text('Checkout'),
         ),

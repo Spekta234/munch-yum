@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:munch_yum/features/shop/controllers/checkout_controller.dart';
 
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
@@ -11,6 +12,7 @@ class MSpecialNoteField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: CheckoutController.instance.specialNote,
       maxLines: 5,
       decoration: InputDecoration(
           hintText: 'Special instructions or delivery notes',

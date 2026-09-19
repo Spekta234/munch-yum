@@ -40,7 +40,7 @@ class DeliveryBottomSheet extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CheckoutController());
+    final controller = CheckoutController.instance;
     return Padding(
       padding: EdgeInsets.all(MSizes.md),
       child: Obx(
@@ -144,12 +144,20 @@ class DeliveryBottomSheet extends StatelessWidget {
 
 
                 const SizedBox(height: MSizes.xxl),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text('Done'),
-                  ),
+                Obx(
+                  () {
+                    final isLater = controller.deliveryTime == 'Later';
+                    final missingDateOrTime = controller.selectedDate.value.isEmpty || controller.selectedTime.value.isEmpty;
+                    final canProceed = !isLater || !missingDateOrTime;
+
+                    return SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: canProceed ? () => Navigator.pop(context) : null,
+                        child: Text('Done'),
+                      ),
+                    );
+                  }
                 ),
                 const SizedBox(height: MSizes.md),
               ],

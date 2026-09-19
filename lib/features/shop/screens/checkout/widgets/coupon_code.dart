@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:munch_yum/features/shop/controllers/checkout_controller.dart';
 
 import '../../../../../utils/constants/colors.dart';
 
@@ -29,6 +30,7 @@ class MCouponCode extends StatelessWidget {
           // Text input
           Expanded(
             child: TextField(
+              controller: CheckoutController.instance.couponCode,
               decoration: InputDecoration(
                 hintText: 'Coupon code (optional)',
                 border: InputBorder.none,

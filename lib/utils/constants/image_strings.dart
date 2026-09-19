@@ -37,6 +37,8 @@ class MImages {
 
    // * ------- Icons ------- * //
   static const String search = "assets/icons/icons/search-icon.png";
+  static const String paystack = "assets/icons/icons/paystack_logo.jpg";
+  static const String monnify = "assets/icons/icons/monnify_logo.jpg";
 
    // * ------- Categories ------- * //
    static const String category1 = "assets/images/categories/category-image1.png";

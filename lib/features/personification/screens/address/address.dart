@@ -9,7 +9,9 @@ import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../utils/constants/colors.dart';
 class Address extends StatefulWidget {
-  const Address({super.key});
+  const Address({super.key, this.isCheckout = false});
+
+  final bool isCheckout;
 
   @override
   State<Address> createState() => _AddressState();
@@ -50,11 +52,11 @@ class _AddressState extends State<Address> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Text('Address', style: Theme.of(context).textTheme.titleMedium,)
+                  Text(widget.isCheckout? 'Confirm delivery details' : 'Address', style: Theme.of(context).textTheme.titleMedium,)
                 ],
               ),
               const SizedBox(height: MSizes.md),
-              Text('We use your location to find the closest outlet to serve you.', style: Theme.of(context).textTheme.bodySmall,),
+              Text(widget.isCheckout? 'Confirm where we are delivering to ' : 'We use your location to find the closest outlet to serve you.', style: Theme.of(context).textTheme.bodySmall,),
               const SizedBox(height: MSizes.spaceBtwItems),
 
               Expanded(
@@ -126,6 +128,16 @@ class _AddressState extends State<Address> {
                   );
                 }),
               ),
+              if (widget.isCheckout)
+                Obx(
+                      () =>
+                      SizedBox(
+                        child: ElevatedButton(
+                            onPressed: () => controller.addresses.isEmpty? null : controller.confirmAddress(),
+                          child: Text('Continue'),
+                        ),
+                      ),
+                )
             ],
           ),
         ),

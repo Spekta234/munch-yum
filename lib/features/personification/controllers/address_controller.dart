@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/data/repositories/address_repository.dart';
+import 'package:munch_yum/features/shop/screens/checkout/payment_method.dart';
 import 'package:munch_yum/utils/snackbar/snack_bar.dart';
 
 import '../../../data/repositories/authentication_repository.dart';
@@ -83,6 +84,14 @@ class AddressController extends GetxController {
     } catch (e) {
       MSnackBar.errorSnackBar(title: 'Error deleting address', message: e.toString());
     }
+  }
+
+  void confirmAddress() {
+    if (selectedAddress.value == null) {
+      MSnackBar.errorSnackBar(title: 'No address selected', message: 'Please select a new delivery address to continue');
+      return;
+    }
+    Get.to(() => PaymentMethodScreen());
   }
 
 }

@@ -12,6 +12,7 @@ import 'package:munch_yum/features/shop/controllers/offers_controller.dart';
 import '../data/repositories/category_repository.dart';
 import '../data/repositories/menu_item_repository.dart';
 import '../data/repositories/user_repository.dart';
+import '../features/shop/controllers/checkout_controller.dart';
 import '../features/shop/controllers/home_controller.dart';
 import '../features/shop/controllers/menu_item_controller.dart';
 
@@ -30,5 +31,6 @@ class GeneralBindings extends Bindings {
     Get.lazyPut (() => HomeController(), fenix: true );
     Get.put(AddressController());
     Get.put(AddressRepository());
+    Get.put(CheckoutController());
   }
 }
