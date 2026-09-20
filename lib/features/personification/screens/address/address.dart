@@ -23,8 +23,7 @@ class _AddressState extends State<Address> {
   @override
   void initState() {
     super.initState();
-    controller.fetchAddresses();
-  }
+    controller.fetchAddresses();  }
 
 
   @override

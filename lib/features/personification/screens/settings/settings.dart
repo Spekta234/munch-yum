@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/data/repositories/authentication_repository.dart';
 import 'package:munch_yum/features/personification/screens/address/address.dart';
@@ -11,6 +12,7 @@ import 'package:munch_yum/features/personification/screens/profile/profile.dart'
 import 'package:munch_yum/features/personification/screens/settings/widgets/settings_header.dart';
 import 'package:munch_yum/features/personification/screens/settings/widgets/settings_sections.dart';
 import 'package:munch_yum/features/personification/screens/support/support.dart';
+import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 import 'package:munch_yum/features/shop/screens/orders/orders_screen.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 
@@ -30,7 +32,7 @@ class Settings extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(onPressed: () => mBack(), icon: Icon(Icons.arrow_back_ios_new), iconSize: 24,),
-              MSettingsHeader(name: 'Okey', phoneNumber: '+234092038482943'),
+              Obx(() => MSettingsHeader(name: HomeController.instance.user.value.firstName, phoneNumber: '+2340120384829')),
               const SizedBox(height: MSizes.spaceBtwItems),
               Text('My Account', style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w500)),
               const SizedBox(height: MSizes.spaceBtwItems,),
