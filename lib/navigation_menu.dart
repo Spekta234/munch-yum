@@ -198,6 +198,7 @@ class NavigationMenu extends StatelessWidget {
 }
 
 class NavigationController extends GetxController {
+  static NavigationController get instance => Get.find();
   final Rx<int> selectedIndex = 0.obs;
 
   final screens = [
@@ -207,4 +208,25 @@ class NavigationController extends GetxController {
     const LoyaltyProgramScreen(),
     const SupportScreen(),
   ];
+
+  void goToHome() {
+    selectedIndex.value = 0;
+  }
+
+  void goToOffers() {
+    selectedIndex.value = 1;
+  }
+
+  void goToCart() {
+    selectedIndex.value = 2;
+  }
+
+  void goToLoyalty() {
+    selectedIndex.value = 3;
+  }
+
+  void goToSupport() {
+    selectedIndex.value = 4;
+  }
+
 }

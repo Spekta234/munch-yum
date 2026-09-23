@@ -129,13 +129,21 @@ class _AddressState extends State<Address> {
               ),
               if (widget.isCheckout)
                 Obx(
-                      () =>
-                      SizedBox(
-                        child: ElevatedButton(
-                            onPressed: () => controller.addresses.isEmpty? null : controller.confirmAddress(),
-                          child: Text('Continue'),
-                        ),
-                      ),
+                      () {
+                        final canConfirmAddress = controller.addresses.isEmpty;
+
+                        if (canConfirmAddress) {
+                          return const SizedBox.shrink();
+                        }
+
+                        return SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => controller.confirmAddress(),
+                            child: Text('Continue'),
+                          ),
+                        );
+                      }
                 )
             ],
           ),

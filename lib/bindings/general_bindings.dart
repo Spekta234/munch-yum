@@ -8,6 +8,7 @@ import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/controllers/category_controller.dart';
 import 'package:munch_yum/features/shop/controllers/menu_details_controller.dart';
 import 'package:munch_yum/features/shop/controllers/offers_controller.dart';
+import 'package:munch_yum/navigation_menu.dart';
 
 import '../data/repositories/category_repository.dart';
 import '../data/repositories/menu_item_repository.dart';
@@ -32,5 +33,6 @@ class GeneralBindings extends Bindings {
     Get.put(AddressController());
     Get.put(AddressRepository());
     Get.put(CheckoutController());
+    Get.put(NavigationController());
   }
 }

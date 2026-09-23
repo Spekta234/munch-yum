@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
+import 'package:munch_yum/features/shop/models/cart_item_model.dart';
 
 class CheckoutController extends GetxController {
   static CheckoutController get instance => Get.find();
@@ -24,7 +26,7 @@ class CheckoutController extends GetxController {
         return 0;
     }
   }
-  double get orderModelPrice {
+  double get orderModePrice {
     switch (orderMode.value) {
       case 'Delivery':
         return 2000;
@@ -35,8 +37,15 @@ class CheckoutController extends GetxController {
     }
   }
 
+  double get serviceCharge => 222;
 
+  double get discount => 0;
 
+  double get subtotal {
+    return CartController.instance.cartItem.fold(0 , (total, item) => total + (item.price * item.quantity));
+  }
+
+  double get total => packagingPrice + orderModePrice + serviceCharge + subtotal - discount;
 
   final recipientName = TextEditingController();
   final recipientPhoneNo = TextEditingController();
@@ -47,4 +56,18 @@ class CheckoutController extends GetxController {
 
 
   void selectMethod(String method) => selectedPaymentMethod.value = method;
+
+  void resetCheckout() {
+    orderingFor.value = 'Myself';
+    packagingType.value = 'Branded nylon';
+    orderMode.value = '';
+    deliveryTime.value = 'Instant delivery';
+    selectedTime.value = '';
+    selectedDate.value = '';
+    selectedPaymentMethod.value = '';
+    recipientName.clear();
+    recipientPhoneNo.clear();
+    specialNote.clear();
+    couponCode.clear();
+  }
 }

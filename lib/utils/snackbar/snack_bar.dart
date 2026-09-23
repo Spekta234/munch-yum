@@ -27,6 +27,24 @@ class MSnackBar {
       ),
     );
   }
+  static void warningToast({required String message}) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(
+      SnackBar(
+        elevation: 0,
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.transparent,
+        content: Container(
+          padding: const EdgeInsets.all(12.0),
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: MColors.pendingBackground,
+          ),
+          child: Center(child: Text(message, style: Theme.of(Get.context!).textTheme.labelLarge!.apply(color: Colors.black))),
+        ),
+      ),
+    );
+  }
 
   static void successSnackBar({required String title, String message = '', int duration = 3}) {
     Get.snackbar(
