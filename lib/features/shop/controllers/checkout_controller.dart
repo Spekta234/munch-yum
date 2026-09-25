@@ -2,11 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/models/cart_item_model.dart';
+import 'package:munch_yum/utils/enums/enums.dart';
+
+import '../../../data/repositories/authentication_repository.dart';
+import '../../../data/repositories/order_repository.dart';
+import '../../../utils/helpers/helper_function.dart';
+import '../../../utils/snackbar/snack_bar.dart';
+import '../models/order_model.dart';
+import '../screens/checkout/payment_method.dart';
 
 class CheckoutController extends GetxController {
   static CheckoutController get instance => Get.find();
 
   /// Variables
+  RxBool isLoading = false.obs;
   final RxString orderingFor = 'Myself'.obs;
   final RxString packagingType = 'Branded nylon'.obs;
   final RxString orderMode = ''.obs;
@@ -57,6 +66,7 @@ class CheckoutController extends GetxController {
 
   void selectMethod(String method) => selectedPaymentMethod.value = method;
 
+  // Reset checkout
   void resetCheckout() {
     orderingFor.value = 'Myself';
     packagingType.value = 'Branded nylon';
@@ -70,4 +80,64 @@ class CheckoutController extends GetxController {
     specialNote.clear();
     couponCode.clear();
   }
+
+
+  // Helper functions for enum conversions
+  OrderMode _mapOrderMode(String value) {
+    return value == 'Delivery' ? OrderMode.delivery : OrderMode.pickup;
+  }
+
+  OrderingFor _mapOrderingFor(String value) {
+    return value == 'Someone else' ? OrderingFor.someoneElse : OrderingFor.myself;
+  }
+
+  Future<void> placeOrder(String deliveryAddress) async {
+    try {
+      isLoading.value = true;
+      final userId = AuthenticationRepository.instance.authUser?.uid ?? '';
+      final orderId = MHelperFunctions.generateOrderId();
+
+
+      final order = OrderModel(
+          id: '',
+          orderId: orderId,
+          userId: userId,
+          recipientName: orderingFor.value == 'Someone else' ? recipientName.text.trim() : null,
+          recipientPhoneNo: orderingFor.value == 'Someone else' ? recipientPhoneNo.text.trim() : null,
+          paymentStatus: PaymentStatus.pending,
+          specialNote: specialNote.text.trim().isEmpty ? null : specialNote.text.trim(),
+          scheduledDateTime: deliveryTime.value == 'Later' && selectedDate.value.isNotEmpty
+              ? DateTime.now()
+              : null,
+          orderDate: DateTime.now(),
+          orderMode: _mapOrderMode(orderMode.value),
+          orderingFor: _mapOrderingFor(orderingFor.value),
+          packagingType: packagingType.value,
+          deliveryAddress: deliveryAddress,
+          couponCode: null,
+          subtotal: subtotal,
+          packagingFee: packagingPrice,
+          deliveryFee: orderModePrice,
+          serviceCharge: serviceCharge,
+          discount: discount,
+          total: total,
+          items: CartController.instance.cartItem
+      );
+
+      await OrderRepository.instance.createOrder(order);
+
+      isLoading.value = false;
+      MSnackBar.customToast(message: 'Order Placed');
+
+      CartController.instance.clearCart();
+      resetCheckout();
+
+      Get.to(() => const PaymentMethodScreen());
+    } catch (e) {
+      MSnackBar.errorSnackBar(title: 'Error placing order', message: e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 }

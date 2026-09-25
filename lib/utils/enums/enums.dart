@@ -9,3 +9,4 @@ enum PaymentStatus { pending, successful, failed }
 enum OrderMode { delivery, pickup }
 
 enum OrderingFor { myself, someoneElse}
+

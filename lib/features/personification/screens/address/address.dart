@@ -139,8 +139,11 @@ class _AddressState extends State<Address> {
                         return SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () => controller.confirmAddress(),
-                            child: Text('Continue'),
+                            onPressed: controller.isLoading.value ? null : () => controller.confirmAddress(),
+                            child: controller.isLoading.value ? const  SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),) : Text('Continue'),
                           ),
                         );
                       }

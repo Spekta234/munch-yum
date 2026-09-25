@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
 
 class MHelperFunctions {
   static Color? getColor(String value) {
@@ -103,5 +104,12 @@ class MHelperFunctions {
     }
     return wrappedList;
   }
+
+  static String generateOrderId() {
+   final random = Random().nextInt(9000) + 1000;
+   return 'MY-$random';
+  }
+
+
 
 }

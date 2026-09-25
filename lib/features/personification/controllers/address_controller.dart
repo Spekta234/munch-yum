@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/data/repositories/address_repository.dart';
+import 'package:munch_yum/data/repositories/order_repository.dart';
+import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
+import 'package:munch_yum/features/shop/controllers/checkout_controller.dart';
+import 'package:munch_yum/features/shop/models/order_model.dart';
 import 'package:munch_yum/features/shop/screens/checkout/payment_method.dart';
+import 'package:munch_yum/utils/enums/enums.dart';
+import 'package:munch_yum/utils/helpers/helper_function.dart';
 import 'package:munch_yum/utils/snackbar/snack_bar.dart';
 
 import '../../../data/repositories/authentication_repository.dart';
@@ -86,12 +92,19 @@ class AddressController extends GetxController {
     }
   }
 
-  void confirmAddress() {
+
+
+
+
+  // Confirm address and process order (Place order)
+  Future<void> confirmAddress() async {
     if (selectedAddress.value == null) {
       MSnackBar.errorSnackBar(title: 'No address selected', message: 'Please select a new delivery address to continue');
       return;
     }
-    Get.to(() => PaymentMethodScreen());
+
+    await CheckoutController.instance.placeOrder(selectedAddress.value!.address);
+    Get.to(() => const PaymentMethodScreen());
   }
 
 }

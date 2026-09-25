@@ -7,6 +7,7 @@ import 'package:munch_yum/features/personification/controllers/address_controlle
 import 'package:munch_yum/features/personification/screens/address/address.dart';
 import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/controllers/checkout_controller.dart';
+import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 import 'package:munch_yum/features/shop/screens/checkout/payment_method.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/checkbox_row.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/coupon_code.dart';
@@ -320,18 +321,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(right: MSizes.md, left: MSizes.md, bottom: MSizes.lg, top: MSizes.xs ),
-        child: Obx(
-          () {
-            final canCheckout = controller.orderMode.value.isNotEmpty;
-            return ElevatedButton(
-              onPressed: () {
-                canCheckout ? Get.to(Address(isCheckout: true)) : MSnackBar.warningToast(message: 'Please select order mode')  ;
+        child: Obx(() {
+          final canCheckout = controller.orderMode.value.isNotEmpty;
+          return SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: controller.isLoading.value
+                  ? null
+                  : () async {
+                if (!canCheckout) {
+                  MSnackBar.warningToast(message: 'Please select order mode');
+                  return;
+                }
+                if (controller.orderMode.value == 'Pick up') {
+                  await controller.placeOrder(HomeController.instance.user.value.selectedOutlet);
+                  Get.to(() => const PaymentMethodScreen());
+                } else {
+                  Get.to(() => const Address(isCheckout: true));
+                }
               },
-              child:
-              Text('Checkout'),
-            );
-          }
-        ),
+              child: controller.isLoading.value
+                  ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                  : const Text('Checkout'),
+            ),
+          );
+        }),
       ),
     );
   }
