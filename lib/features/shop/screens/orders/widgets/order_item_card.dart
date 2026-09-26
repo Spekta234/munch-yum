@@ -4,21 +4,26 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/texts/menu_price_text.dart';
 import 'package:munch_yum/common/texts/menu_title_text.dart';
+import 'package:munch_yum/features/shop/models/order_model.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/required_badge.dart';
 
 import '../../../../../common/images/m_rounded_image.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/image_strings.dart';
 import '../../../../../utils/constants/sizes.dart';
+import '../../../controllers/order_controller.dart';
 import '../order_details.dart';
 import 'address_date_row.dart';
 import 'order_status_badge.dart';
 
 class MOrderItemCard extends StatelessWidget {
-  const MOrderItemCard({super.key});
+  const MOrderItemCard({super.key, required this.order});
+
+  final OrderModel order;
 
   @override
   Widget build(BuildContext context) {
+    final controller = OrderController.instance;
     return GestureDetector(
       onTap: () => Get.to(() => OrderDetails()),
       child: Container(
@@ -56,7 +61,7 @@ class MOrderItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child: MMenuTitleText(title: 'Phyllo Sandwich', smallSize: true,)),
+                      Expanded(child: MMenuTitleText(title: '' , smallSize: true,)),
                       MOrderStatusBadge(status: 'Payment Pending',)
                     ],
                   ),

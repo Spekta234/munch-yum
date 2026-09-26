@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 
+import '../enums/enums.dart';
+
 class MHelperFunctions {
   static Color? getColor(String value) {
     /// Define your product specific colors here and it will match the attribute colors and show specific
@@ -111,5 +113,45 @@ class MHelperFunctions {
   }
 
 
+  // Helper function to parse the date and time
+  static DateTime? parseScheduledDateTime(String dateStr, String timeStr) {
+    if (dateStr.isEmpty || timeStr.isEmpty) return null; // nothing to parse yet
+
+    // Parse the date part: "24 Oct 2026"
+    final dateParts = dateStr.split(' '); // ['24', 'Oct', '2026']
+    final day = int.parse(dateParts[0]);
+    final year = int.parse(dateParts[2]);
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    final month = months.indexOf(dateParts[1]) + 1; // find "Oct"'s position, +1 for 1-based months
+
+    // Parse the time part: "2:00 PM"
+    final timeParts = timeStr.split(' '); // ['2:00', 'PM']
+    final period = timeParts[1]; // 'AM' or 'PM'
+
+    final hourMinute = timeParts[0].split(':'); // ['2', '00']
+    int hour = int.parse(hourMinute[0]);
+    final minute = int.parse(hourMinute[1]);
+
+    // Convert 12-hour to 24-hour
+    if (period == 'AM' && hour == 12) {
+      hour = 0; // midnight
+    } else if (period == 'PM' && hour != 12) {
+      hour += 12; // any PM hour except noon itself
+    }
+    // 1AM–11AM and 12PM need no change — they fall through untouched
+
+    return DateTime(year, month, day, hour, minute);
+  }
+
+
+  // Helper functions for enum conversions
+  static OrderMode mapOrderMode(String value) {
+    return value == 'Delivery' ? OrderMode.delivery : OrderMode.pickup;
+  }
+
+  static OrderingFor mapOrderingFor(String value) {
+    return value == 'Someone else' ? OrderingFor.someoneElse : OrderingFor.myself;
+  }
 
 }

@@ -82,14 +82,6 @@ class CheckoutController extends GetxController {
   }
 
 
-  // Helper functions for enum conversions
-  OrderMode _mapOrderMode(String value) {
-    return value == 'Delivery' ? OrderMode.delivery : OrderMode.pickup;
-  }
-
-  OrderingFor _mapOrderingFor(String value) {
-    return value == 'Someone else' ? OrderingFor.someoneElse : OrderingFor.myself;
-  }
 
   Future<void> placeOrder(String deliveryAddress) async {
     try {
@@ -107,11 +99,11 @@ class CheckoutController extends GetxController {
           paymentStatus: PaymentStatus.pending,
           specialNote: specialNote.text.trim().isEmpty ? null : specialNote.text.trim(),
           scheduledDateTime: deliveryTime.value == 'Later' && selectedDate.value.isNotEmpty
-              ? DateTime.now()
+              ? MHelperFunctions.parseScheduledDateTime(selectedDate.value, selectedTime.value)
               : null,
           orderDate: DateTime.now(),
-          orderMode: _mapOrderMode(orderMode.value),
-          orderingFor: _mapOrderingFor(orderingFor.value),
+          orderMode: MHelperFunctions.mapOrderMode(orderMode.value),
+          orderingFor: MHelperFunctions.mapOrderingFor(orderingFor.value),
           packagingType: packagingType.value,
           deliveryAddress: deliveryAddress,
           couponCode: null,
