@@ -103,8 +103,10 @@ class AddressController extends GetxController {
       return;
     }
 
-    await CheckoutController.instance.placeOrder(selectedAddress.value!.address);
-    Get.to(() => const PaymentMethodScreen());
+    final order = await CheckoutController.instance.placeOrder(selectedAddress.value!.address);
+    if (order!= null) {
+      Get.to(() => PaymentMethodScreen(order: order));
+    }
   }
 
 }

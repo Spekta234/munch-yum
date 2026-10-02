@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_paystack_max/flutter_paystack_max.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
+import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 import 'package:munch_yum/features/shop/models/cart_item_model.dart';
 import 'package:munch_yum/utils/enums/enums.dart';
 
@@ -15,6 +18,7 @@ class CheckoutController extends GetxController {
   static CheckoutController get instance => Get.find();
 
   /// Variables
+  RxBool isProcessingPayment = false.obs;
   RxBool isLoading = false.obs;
   final RxString orderingFor = 'Myself'.obs;
   final RxString packagingType = 'Branded nylon'.obs;
@@ -83,11 +87,12 @@ class CheckoutController extends GetxController {
 
 
 
-  Future<void> placeOrder(String deliveryAddress) async {
+  Future<OrderModel?> placeOrder(String deliveryAddress) async {
     try {
       isLoading.value = true;
       final userId = AuthenticationRepository.instance.authUser?.uid ?? '';
       final orderId = MHelperFunctions.generateOrderId();
+
 
 
       final order = OrderModel(
@@ -117,19 +122,73 @@ class CheckoutController extends GetxController {
       );
 
       await OrderRepository.instance.createOrder(order);
-
-      isLoading.value = false;
       MSnackBar.customToast(message: 'Order Placed');
 
       CartController.instance.clearCart();
       resetCheckout();
 
-      Get.to(() => const PaymentMethodScreen());
+      return order;
     } catch (e) {
       MSnackBar.errorSnackBar(title: 'Error placing order', message: e.toString());
+      return null;
     } finally {
       isLoading.value = false;
     }
   }
+
+
+  /// Paystack transaction request
+  PaystackTransactionRequest createPaystackRequest(OrderModel order) {
+    return  PaystackTransactionRequest(
+      reference: order.orderId,
+      secretKey: dotenv.env['PAYSTACK_SECRET_KEY']!,
+      email: HomeController.instance.user.value.email,
+      amount: (order.total * 100).roundToDouble(),
+      currency: PaystackCurrency.ngn,
+      channel: [
+        PaystackPaymentChannel.card,
+        PaystackPaymentChannel.bankTransfer,
+      ],
+    );
+  }
+
+  /// Process Payment
+  Future<void> processPayment(OrderModel order, BuildContext context) async {
+    try{
+      isProcessingPayment.value = true;
+      
+      final request = createPaystackRequest(order);
+      
+      final initializedTransaction = await PaymentService.initializeTransaction(request);
+      if (!initializedTransaction.status) {
+        MSnackBar.errorSnackBar(title: 'Payment failed to start', message: initializedTransaction.message);
+        return;
+      }
+
+      final response = await PaymentService.showPaymentModal(
+        context,
+        callbackUrl: 'https://standard.paystack.co/close',
+        transaction: initializedTransaction,
+      ).then((_) async {
+        return await PaymentService.verifyTransaction(
+          initializedTransaction.data?.reference ?? request.reference,
+          paystackSecretKey: dotenv.env['PAYSTACK_SECRET_KEY']!,
+        );
+      });
+
+      if (response.status) {
+        print('Payment Status: ${response.status}');
+
+      } else {
+        MSnackBar.errorSnackBar(title: 'Payment failed', message: response.message);
+      }
+      
+    } catch (e) {
+      MSnackBar.errorSnackBar(title: 'Payment error', message: e.toString());
+    } finally {
+      isProcessingPayment.value = false;
+    }
+  }
+
 
 }

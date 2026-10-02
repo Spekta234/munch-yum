@@ -19,6 +19,11 @@ class CartItemModel {
     this.category
   });
 
+
+  double get unitPrice => hasDiscount ? discountPrice : price;
+  double get lineTotal => unitPrice * quantity;
+
+
   /// Empty helper
   static CartItemModel empty() => CartItemModel(itemId: '', quantity: 0);
 

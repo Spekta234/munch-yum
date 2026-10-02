@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/features/shop/controllers/checkout_controller.dart';
+import 'package:munch_yum/features/shop/models/order_model.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/payment_option.dart';
 import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 import 'package:munch_yum/utils/helpers/navigation_helpers.dart';
 
 class PaymentMethodScreen extends StatelessWidget {
-  const PaymentMethodScreen({super.key});
+  const PaymentMethodScreen({super.key, required this.order});
+
+  final OrderModel order;
 
   @override
   Widget build(BuildContext context) {

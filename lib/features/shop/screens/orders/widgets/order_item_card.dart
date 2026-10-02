@@ -4,6 +4,8 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:munch_yum/common/texts/menu_price_text.dart';
 import 'package:munch_yum/common/texts/menu_title_text.dart';
+import 'package:munch_yum/features/personification/screens/support/support.dart';
+import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/models/order_model.dart';
 import 'package:munch_yum/features/shop/screens/checkout/widgets/required_badge.dart';
 
@@ -11,6 +13,7 @@ import '../../../../../common/images/m_rounded_image.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/image_strings.dart';
 import '../../../../../utils/constants/sizes.dart';
+import '../../../../../utils/enums/enums.dart';
 import '../../../controllers/order_controller.dart';
 import '../order_details.dart';
 import 'address_date_row.dart';
@@ -21,11 +24,23 @@ class MOrderItemCard extends StatelessWidget {
 
   final OrderModel order;
 
+  String get statusLabel {
+    switch (order.paymentStatus) {
+      case PaymentStatus.pending:
+        return  'Payment Pending';
+      case PaymentStatus.failed :
+        return 'Payment Failed';
+      case PaymentStatus.successful :
+        return 'Payment Successful';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = OrderController.instance;
+
     return GestureDetector(
-      onTap: () => Get.to(() => OrderDetails()),
+      onTap: () => Get.to(() => OrderDetails(order: order,)),
       child: Container(
         height: 140,
         decoration: BoxDecoration(
@@ -39,7 +54,8 @@ class MOrderItemCard extends StatelessWidget {
               height: 140,
               width: 130,
               child: MRoundedImage(
-                imageUrl: MImages.phylloSandwich,
+                isNetworkImage: true,
+                imageUrl: order.items.first.image!,
                 margin: EdgeInsets.only(right: 2),
                 fit: BoxFit.cover,
                 applyImageRadius: false,
@@ -61,20 +77,20 @@ class MOrderItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child: MMenuTitleText(title: '' , smallSize: true,)),
-                      MOrderStatusBadge(status: 'Payment Pending',)
+                      Expanded(child: MMenuTitleText(title: order.items.first.title , smallSize: true,)),
+                      MOrderStatusBadge(status: statusLabel,)
                     ],
                   ),
                   const SizedBox(height: MSizes.xs),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      MMenuPriceText(price: '21,050'),
-                      Text('6 items', style: Theme.of(context).textTheme.labelSmall,)
+                      MMenuPriceText(price: order.total.toStringAsFixed(0)),
+                      Text('${order.items.length} items', style: Theme.of(context).textTheme.labelSmall,)
                     ],
                   ),
                   SizedBox(height: MSizes.spaceBtwItems,),
-                  MAddressDateRow(address: '18, Charles street, beside shoprite, GRA enugu', date: '1, May 2026',),
+                  MAddressDateRow(address: order.deliveryAddress, date: order.formattedDate,),
                   SizedBox(height: MSizes.sm,),
                   Row(
                     children: [
@@ -82,7 +98,7 @@ class MOrderItemCard extends StatelessWidget {
                         child: SizedBox(
                           height: 35,
                           child: OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () => Get.to(() => SupportScreen(showBackButton: true)),
                             icon: Icon(Iconsax.messages, size: 16),
                             label: Text('Get Help'),
                             style: OutlinedButton.styleFrom(
@@ -100,7 +116,7 @@ class MOrderItemCard extends StatelessWidget {
                         child: SizedBox(
                           height: 35,
                           child: ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () => CartController.instance.reorder(order.items),
                             icon: Icon(Iconsax.shopping_cart, size: 16),
                             label: Text('Reorder'),
                             style: ElevatedButton.styleFrom(

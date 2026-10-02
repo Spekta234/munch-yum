@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:munch_yum/features/shop/controllers/menu_item_controller.dart';
 import 'package:munch_yum/features/shop/models/cart_item_model.dart';
 import 'package:munch_yum/features/shop/models/menu_item_model.dart';
 import 'package:munch_yum/utils/local_storage/storage_utility.dart';
@@ -115,5 +116,39 @@ class CartController extends GetxController {
     cartItem.clear();
     updateCartTotals();
     await saveCartItems();
+  }
+
+  void reorder(List<CartItemModel> oldItems) {
+    int unavailable = 0;
+
+    for (final old in oldItems) {
+      // 1. find the CURRENT version of this item on the menu
+      final menuItem = MenuItemController.instance.menuItems
+          .firstWhereOrNull((m) => m.id == old.itemId);
+
+      if (menuItem == null) {
+        // no longer on the menu
+        unavailable++;
+        continue;
+      }
+
+      // 2. add it if it isn't in the cart already
+      final alreadyInCart = cartItem.any((c) => c.itemId == menuItem.id);
+      if (!alreadyInCart) {
+        addToCart(menuItem);
+      }
+
+      // 3. bring quantity up to what they ordered before
+      final extra = alreadyInCart ? old.quantity : old.quantity - 1;
+      for (int i = 0; i < extra; i++) {
+        increaseQuantity(menuItem.id);
+      }
+    }
+
+    if (unavailable > 0) {
+      MSnackBar.warningSnackBar(title: 'Some items unavailable', message: '$unavailable item(s) are no longer on the menu');
+    } else {
+      MSnackBar.customToast(message: 'Your previous order has been added to your cart');
+    }
   }
 }

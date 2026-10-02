@@ -38,6 +38,8 @@ dependencies:
   firebase_core: ^4.10.0
   firebase_auth: ^6.5.3
   cloud_firestore: ^6.6.0
+  flutter_dotenv: ^6.0.1
+  flutter_paystack_max: ^1.0.6
 
 
   # Product Specific
@@ -74,6 +76,7 @@ flutter:
     - assets/images/menu/
     - assets/images/offers/
     - assets/images/loyalty/
+    - .env
 
 
   #------------------- LOCAL FONTS ----------------#

@@ -7,6 +7,7 @@ import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../navigation_menu.dart';
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/enums/enums.dart';
 import '../../../../utils/helpers/navigation_helpers.dart';
 import '../../../authentication/screens/login/widgets/logo_avatar.dart';
 
@@ -61,6 +62,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                            borderRadius: BorderRadius.circular(30),
                          ),
                          child: TextField(
+                           controller: controller.searchController,
+                           onChanged: (value) => controller.searchQuery.value = value,
                            decoration: InputDecoration(
                              contentPadding: EdgeInsets.symmetric(
                                vertical: 16,
@@ -84,7 +87,19 @@ class _OrdersScreenState extends State<OrdersScreen> {
                          color: Colors.transparent,
                          shape: BoxShape.circle,
                        ),
-                       child: Icon(Icons.filter_list, color: Colors.black),
+                       child: PopupMenuButton<OrderFilter>(
+                         color: Colors.white,
+                         icon: Icon(Icons.filter_list, color: Colors.black),
+                         onSelected: (filter) {
+                           controller.selectedFilter.value = filter;
+                         },
+                         itemBuilder: (context) => [
+                           PopupMenuItem(value: OrderFilter.all, child: Text('All Orders')),
+                           PopupMenuItem(value: OrderFilter.ongoing, child: Text('Ongoing Orders')),
+                           PopupMenuItem(value: OrderFilter.delivered, child: Text('Delivered Orders')),
+                           PopupMenuItem(value: OrderFilter.unsuccessful, child: Text('Unsuccessful Orders')),
+                         ],
+                       ),
                      ),
                    ],
                  ),
@@ -129,6 +144,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                        );
                      }
 
+                     if (controller.displayedOrders.isEmpty) {
+                       return Center(
+                         child: Text('No orders found', style: Theme.of(context).textTheme.bodySmall),
+                       );
+                     }
+
                      return  SingleChildScrollView(
                        child: Column(
                          children: [
@@ -136,8 +157,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                              separatorBuilder: (context, index) => const SizedBox(height: MSizes.md),
                              shrinkWrap: true,
                              physics: const NeverScrollableScrollPhysics(),
-                             itemCount: controller.orders.length,
-                             itemBuilder: (context, index) =>  MOrderItemCard(order: controller.orders[index],),
+                             itemCount: controller.displayedOrders.length,
+                             itemBuilder: (context, index) =>  MOrderItemCard(order: controller.displayedOrders[index],),
                            )
                          ],
                        ),

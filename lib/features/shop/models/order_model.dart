@@ -50,6 +50,7 @@ class OrderModel {
     required this.items,
   });
 
+
   String get formattedDate => MHelperFunctions.getFormattedDate(orderDate);
   String get formattedDeliveryDate => scheduledDateTime != null? MHelperFunctions.getFormattedDate(scheduledDateTime!) : '';
 

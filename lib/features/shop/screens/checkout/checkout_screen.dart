@@ -334,8 +334,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   return;
                 }
                 if (controller.orderMode.value == 'Pick up') {
-                  await controller.placeOrder(HomeController.instance.user.value.selectedOutlet);
-                  Get.to(() => const PaymentMethodScreen());
+                 final order = await controller.placeOrder(HomeController.instance.user.value.selectedOutlet);
+                  if (order != null) {
+                    Get.to(() =>  PaymentMethodScreen(order: order,));
+                  }
                 } else {
                   Get.to(() => const Address(isCheckout: true));
                 }
