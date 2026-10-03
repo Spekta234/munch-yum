@@ -13,6 +13,7 @@ import 'package:munch_yum/features/personification/screens/settings/widgets/sett
 import 'package:munch_yum/features/personification/screens/settings/widgets/settings_sections.dart';
 import 'package:munch_yum/features/personification/screens/support/support.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
+import 'package:munch_yum/features/shop/screens/checkout/payment_successful.dart';
 import 'package:munch_yum/features/shop/screens/orders/orders_screen.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
 

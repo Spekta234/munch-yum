@@ -8,6 +8,8 @@ import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 import 'package:munch_yum/utils/helpers/navigation_helpers.dart';
 
+import '../../../../utils/snackbar/snack_bar.dart';
+
 class PaymentMethodScreen extends StatelessWidget {
   const PaymentMethodScreen({super.key, required this.order});
 
@@ -73,12 +75,18 @@ class PaymentMethodScreen extends StatelessWidget {
                     () => SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: controller.selectedPaymentMethod.value.isEmpty
+                    onPressed: controller.selectedPaymentMethod.value.isEmpty || controller.isProcessingPayment.value
                         ? null
-                        : () {
-                      // TODO: branch by controller.selectedPaymentMethod.value — Paystack flow goes here first
+                        : () async {
+                      if (controller.selectedPaymentMethod.value == 'paystack') {
+                        await controller.processPayment(order, context);
+                      } else {
+                        MSnackBar.warningToast(message: 'Coming soon');
+                      }
                     },
-                    child: const Text('Continue'),
+                    child: controller.isProcessingPayment.value
+                        ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                        : const Text('Continue'),
                   ),
                 ),
               ),

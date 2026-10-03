@@ -4,7 +4,9 @@ import 'package:flutter_paystack_max/flutter_paystack_max.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
+import 'package:munch_yum/features/shop/controllers/order_controller.dart';
 import 'package:munch_yum/features/shop/models/cart_item_model.dart';
+import 'package:munch_yum/features/shop/screens/checkout/payment_successful.dart';
 import 'package:munch_yum/utils/enums/enums.dart';
 
 import '../../../data/repositories/authentication_repository.dart';
@@ -121,7 +123,8 @@ class CheckoutController extends GetxController {
           items: CartController.instance.cartItem
       );
 
-      await OrderRepository.instance.createOrder(order);
+      final newOrderId =  await OrderRepository.instance.createOrder(order);
+      order.id = newOrderId;
       MSnackBar.customToast(message: 'Order Placed');
 
       CartController.instance.clearCart();
@@ -177,7 +180,9 @@ class CheckoutController extends GetxController {
       });
 
       if (response.status) {
-        print('Payment Status: ${response.status}');
+        await OrderController.instance.updateOrderPaymentStatus(order.id, PaymentStatus.successful);
+        MSnackBar.successSnackBar(title: 'Payment successful', message: 'Your order has been paid for');
+        Get.to(() => PaymentSuccessScreen(order: order));
 
       } else {
         MSnackBar.errorSnackBar(title: 'Payment failed', message: response.message);
