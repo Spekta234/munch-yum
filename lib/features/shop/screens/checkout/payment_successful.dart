@@ -105,7 +105,7 @@ class PaymentSuccessScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          order.total.toStringAsFixed(2),
+                          '₦${order.total.toStringAsFixed(2)}',
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                             fontWeight: FontWeight.w800,

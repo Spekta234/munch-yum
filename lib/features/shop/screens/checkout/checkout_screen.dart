@@ -38,12 +38,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final controller = CheckoutController.instance;
 
 
-  late final Worker _cartEmptyWorker; // CHANGED: keep a handle so we can dispose it
-
+  late final Worker _cartEmptyWorker;
   @override
   void initState() {
     super.initState();
-    _cartEmptyWorker = ever(CartController.instance.cartItem, (_) { // CHANGED: capture the Worker
+    _cartEmptyWorker = ever(CartController.instance.cartItem, (_) {
       if (CartController.instance.cartItem.isEmpty) {
         controller.resetCheckout();
         mBack();
@@ -52,7 +51,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   @override
-  void dispose() { // CHANGED: new — cancels the listener when this screen closes
+  void dispose() {
     _cartEmptyWorker.dispose();
     super.dispose();
   }
@@ -326,6 +325,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           return SizedBox(
             width: double.infinity,
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(disabledBackgroundColor: MColors.primary),
               onPressed: controller.isLoading.value
                   ? null
                   : () async {

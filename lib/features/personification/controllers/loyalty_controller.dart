@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:munch_yum/utils/enums/enums.dart';
 
 import '../../../data/repositories/authentication_repository.dart';
 import '../../../data/repositories/user_repository.dart';
@@ -15,11 +16,7 @@ class LoyaltyController extends GetxController {
   final selectedGender = ''.obs;
   final RxBool hasAgreed = false.obs;
   final loyaltyFormKey = GlobalKey<FormState>();
-  final firstName = TextEditingController();
-  final lastName = TextEditingController();
-  final email = TextEditingController();
   final outletCode = TextEditingController();
-  final gender = ''.obs;
   final isLoading = false.obs;
 
   void updateDOB(){
@@ -55,7 +52,12 @@ class LoyaltyController extends GetxController {
       isLoading.value = true;
 
       final userId = AuthenticationRepository.instance.authUser!.uid;
-      await UserRepository.instance.activateLoyalty(userId);
+      await UserRepository.instance.activateLoyalty(
+          userId,
+          gender: selectedGender.value,
+          dob: dob.value,
+          outletCode: outletCode.text.trim().isEmpty ? null  : outletCode.text.trim()
+      );
 
       isLoading.value = false;
       MSnackBar.successSnackBar(title: 'Success', message: 'Loyalty program activated!');
@@ -66,6 +68,8 @@ class LoyaltyController extends GetxController {
       MSnackBar.errorSnackBar(title: 'Oh Snap', message: e.toString());
     }
   }
+
+
 
 
 }

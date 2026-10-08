@@ -30,6 +30,26 @@ class LoyaltyRegistrationScreen extends StatelessWidget {
           ),
         ),
       ),
+        // bottomNavigationBar: SafeArea(
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(16),
+        //     child: Obx(() {
+        //       final controller = LoyaltyController.instance;
+        //       return SizedBox(
+        //         width: double.infinity,
+        //         child: ElevatedButton(
+        //           onPressed: controller.hasAgreed.value &&
+        //               !controller.isLoading.value
+        //               ? () => controller.activateLoyalty()
+        //               : null,
+        //           child: controller.isLoading.value
+        //               ? const CircularProgressIndicator(color: Colors.white)
+        //               : const Text('Activate program'),
+        //         ),
+        //       );
+        //     }),
+        //   ),
+        // )
     );
   }
 }

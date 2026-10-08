@@ -24,6 +24,7 @@ class OrderModel {
   double serviceCharge;
   double discount;
   double total;
+  int redeemedPoints;
   List<CartItemModel> items;
   
   OrderModel({
@@ -47,6 +48,7 @@ class OrderModel {
     required this.serviceCharge,
     required this.discount,
     required this.total,
+    this.redeemedPoints = 0,
     required this.items,
   });
 
@@ -75,6 +77,7 @@ class OrderModel {
       'ServiceCharge' : serviceCharge,
       'Discount' : discount,
       'Total' : total,
+      'RedeemedPoints' : redeemedPoints,
       'Items' : items.map((items) => items.toJson()).toList(),
     };
   }
@@ -103,6 +106,7 @@ class OrderModel {
         serviceCharge: data['ServiceCharge'] as double,
         discount: data['Discount'] as double,
         total: data['Total'] as double,
+        redeemedPoints: (data ['RedeemedPoints'] as int?) ?? 0,
         items: (data['Items'] as List<dynamic>).map((itemData) => CartItemModel.fromJson(itemData as Map<String, dynamic>)).toList(),
     );
   }

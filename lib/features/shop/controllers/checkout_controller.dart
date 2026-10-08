@@ -5,21 +5,21 @@ import 'package:get/get.dart';
 import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 import 'package:munch_yum/features/shop/controllers/order_controller.dart';
-import 'package:munch_yum/features/shop/models/cart_item_model.dart';
 import 'package:munch_yum/features/shop/screens/checkout/payment_successful.dart';
 import 'package:munch_yum/utils/enums/enums.dart';
 
 import '../../../data/repositories/authentication_repository.dart';
 import '../../../data/repositories/order_repository.dart';
+import '../../../data/repositories/user_repository.dart';
 import '../../../utils/helpers/helper_function.dart';
 import '../../../utils/snackbar/snack_bar.dart';
 import '../models/order_model.dart';
-import '../screens/checkout/payment_method.dart';
 
 class CheckoutController extends GetxController {
   static CheckoutController get instance => Get.find();
 
   /// Variables
+  RxInt redeemedPoints = 0.obs;
   RxBool isProcessingPayment = false.obs;
   RxBool isLoading = false.obs;
   final RxString orderingFor = 'Myself'.obs;
@@ -54,7 +54,12 @@ class CheckoutController extends GetxController {
 
   double get serviceCharge => 222;
 
-  double get discount => 0;
+  double get discount {
+    final raw = (redeemedPoints.value ~/ 20) * 3000.0;
+    return raw > subtotal ? subtotal : raw;
+  }
+
+  bool get canRedeem => HomeController.instance.user.value.loyaltyPoints >= 20 && subtotal >= 3000;
 
   double get subtotal {
     return CartController.instance.cartItem.fold(0 , (total, item) => total + (item.price * item.quantity));
@@ -72,6 +77,9 @@ class CheckoutController extends GetxController {
 
   void selectMethod(String method) => selectedPaymentMethod.value = method;
 
+  void toggleRedeem() => redeemedPoints.value = redeemedPoints.value == 0 ? 20 : 0;
+
+
   // Reset checkout
   void resetCheckout() {
     orderingFor.value = 'Myself';
@@ -85,6 +93,7 @@ class CheckoutController extends GetxController {
     recipientPhoneNo.clear();
     specialNote.clear();
     couponCode.clear();
+    redeemedPoints.value = 0;
   }
 
 
@@ -120,6 +129,7 @@ class CheckoutController extends GetxController {
           serviceCharge: serviceCharge,
           discount: discount,
           total: total,
+          redeemedPoints: redeemedPoints.value,
           items: CartController.instance.cartItem
       );
 
@@ -147,19 +157,24 @@ class CheckoutController extends GetxController {
       secretKey: dotenv.env['PAYSTACK_SECRET_KEY']!,
       email: HomeController.instance.user.value.email,
       amount: (order.total * 100).roundToDouble(),
+
       currency: PaystackCurrency.ngn,
       channel: [
         PaystackPaymentChannel.card,
         PaystackPaymentChannel.bankTransfer,
       ],
+
     );
   }
+
+
 
   /// Process Payment
   Future<void> processPayment(OrderModel order, BuildContext context) async {
     try{
       isProcessingPayment.value = true;
-      
+
+
       final request = createPaystackRequest(order);
       
       final initializedTransaction = await PaymentService.initializeTransaction(request);
@@ -179,8 +194,13 @@ class CheckoutController extends GetxController {
         );
       });
 
-      if (response.status) {
+      if (response.status && response.data?.status == PaystackTransactionStatus.success) {
         await OrderController.instance.updateOrderPaymentStatus(order.id, PaymentStatus.successful);
+
+
+        final pointsEarned = (order.total / 500).floor();
+        await UserRepository.instance.applyLoyaltyChange(order.userId, earned: pointsEarned, redeemed: order.redeemedPoints);
+
         MSnackBar.successSnackBar(title: 'Payment successful', message: 'Your order has been paid for');
         Get.to(() => PaymentSuccessScreen(order: order));
 

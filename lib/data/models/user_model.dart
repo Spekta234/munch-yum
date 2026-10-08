@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../utils/enums/enums.dart';
+
 class UserModel {
   /// Model class representing user data
   final String id;
@@ -11,9 +13,12 @@ class UserModel {
   final String gender;
   final String dateOfBirth;
   final int loyaltyPoints;
-  final String loyaltyTier;
+  final int lifeTimePoints;
   final bool hasSelectedLocation;
   final bool hasActivatedLoyalty;
+  final String? loyaltyOutletCode;
+
+
 
   /// Constructor to initialize the user model
   UserModel({
@@ -26,9 +31,10 @@ class UserModel {
     required this.gender,
     required this.dateOfBirth,
     required this.loyaltyPoints,
-    required this.loyaltyTier,
     required this.hasSelectedLocation,
     required this.hasActivatedLoyalty,
+    this.loyaltyOutletCode,
+    required this.lifeTimePoints,
   });
 
 
@@ -43,6 +49,17 @@ class UserModel {
     return [first, last];
   }
 
+
+  /// Getter for loyalty tier
+  LoyaltyTier get tier {
+    if (loyaltyPoints >= 300) return LoyaltyTier.platinum;
+    if (loyaltyPoints >= 200) return LoyaltyTier.diamond;
+    if (loyaltyPoints >= 100) return LoyaltyTier.gold;
+    if (loyaltyPoints >= 50) return LoyaltyTier.silver;
+    if (loyaltyPoints >= 20) return LoyaltyTier.bronze;
+    return LoyaltyTier.ruby;
+  }
+
   /// Static function to create a user model
   static UserModel empty() => UserModel(
     id: '',
@@ -54,7 +71,8 @@ class UserModel {
     gender: '',
     dateOfBirth: '',
     loyaltyPoints: 0,
-    loyaltyTier: '',
+    lifeTimePoints: 0,
+    loyaltyOutletCode: '',
     hasSelectedLocation: false,
     hasActivatedLoyalty: false,
   );
@@ -70,9 +88,10 @@ class UserModel {
       'Gender': gender,
       'DateOfBirth': dateOfBirth,
       'LoyaltyPoints': loyaltyPoints,
-      'LoyaltyTier': loyaltyTier,
+      'LifetimePoints' : lifeTimePoints,
       'HasSelectedLocation': hasSelectedLocation,
       'HasActivatedLoyalty': hasActivatedLoyalty,
+      'LoyaltyOutletCode' : loyaltyOutletCode,
     };
   }
 
@@ -91,9 +110,11 @@ class UserModel {
         gender: data['Gender'] ?? "",
         dateOfBirth: data['DateOfBirth'] ?? "",
         loyaltyPoints: data['LoyaltyPoints'] ?? 0,
-        loyaltyTier: data['LoyaltyTier'] ?? "",
+        lifeTimePoints: data['LifetimePoints'] ?? 0,
         hasSelectedLocation: data['HasSelectedLocation'] ?? false,
         hasActivatedLoyalty: data['HasActivatedLoyalty'] ?? false,
+        loyaltyOutletCode: data['LoyaltyOutletCode'] ?? "",
+
       );
     } else {
       return UserModel.empty();

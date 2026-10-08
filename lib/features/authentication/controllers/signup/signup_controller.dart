@@ -54,9 +54,9 @@ class SignupController extends GetxController {
        gender: '',
        dateOfBirth: '',
        loyaltyPoints: 0,
-       loyaltyTier: '',
        hasSelectedLocation: false,
        hasActivatedLoyalty: false,
+       lifeTimePoints: 0,
      );
 
      await userRepository.saveUserRecord(newUser);

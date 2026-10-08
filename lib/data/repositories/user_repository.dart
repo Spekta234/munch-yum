@@ -77,16 +77,36 @@ class UserRepository extends GetxController {
     }
   }
 
-  Future<void> activateLoyalty(String userId) async {
-    try{
-      await _db.collection("Users").doc(userId).update({'HasActivatedLoyalty': true});
-    } on FirebaseException catch (e) {
-      throw MFirebaseException(e.code).message;
+  Future<void> activateLoyalty(String userId, {
+    required String gender,
+    required String dob,
+    String? outletCode,
+  }) async {
+    try {
+      await _db.collection("Users").doc(userId).update({
+        'HasActivatedLoyalty' : true,
+        'Gender' : gender,
+        'DateOfBirth' : dob,
+        'LoyaltyOutletCode' : outletCode,
+        'LoyaltyPoints' : 0,
+      });
     } catch (e) {
-      throw 'Something went wrong, Try again';
+      throw 'Something went wrong. Try again';
     }
   }
 
-
+  Future<void> applyLoyaltyChange(String userId, {required int earned, required int redeemed}) async {
+    try {
+      await _db.collection("Users").doc(userId).update({
+        'LoyaltyPoints': FieldValue.increment(earned - redeemed),
+        'LifetimePoints' : FieldValue.increment(earned),
+      });
+    } catch (e) {
+      throw 'Something went wrong. Try again';
+    }
+  }
 
 }
+
+
+

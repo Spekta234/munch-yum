@@ -8,6 +8,7 @@ import 'package:munch_yum/utils/constants/image_strings.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 import 'package:munch_yum/utils/helpers/navigation_helpers.dart';
 
+import '../../../../utils/constants/colors.dart';
 import '../../../../utils/snackbar/snack_bar.dart';
 
 class PaymentMethodScreen extends StatelessWidget {
@@ -75,6 +76,7 @@ class PaymentMethodScreen extends StatelessWidget {
                     () => SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(disabledBackgroundColor: MColors.primary),
                     onPressed: controller.selectedPaymentMethod.value.isEmpty || controller.isProcessingPayment.value
                         ? null
                         : () async {

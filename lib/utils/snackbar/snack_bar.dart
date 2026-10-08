@@ -53,7 +53,7 @@ class MSnackBar {
       isDismissible: true,
       shouldIconPulse: true,
       colorText: Colors.white,
-      backgroundColor: MColors.primary,
+      backgroundColor: MColors.success,
       snackPosition: SnackPosition.BOTTOM,
       duration: Duration(seconds: duration),
       margin: const EdgeInsets.all(10),

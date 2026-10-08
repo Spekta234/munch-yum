@@ -6,92 +6,96 @@ import '../../../features/personification/controllers/loyalty_controller.dart';
 import '../../../utils/constants/sizes.dart';
 
 class DOBBottomSheet extends StatelessWidget {
-  const DOBBottomSheet({super.key});
+  const DOBBottomSheet({super.key, required this.isLoyalty});
+
+  final bool isLoyalty;
 
   @override
   Widget build(BuildContext context) {
-    final controller = ProfileController.instance;
+    final dynamic controller = isLoyalty ? LoyaltyController.instance : ProfileController.instance;
 
     return Padding(
       padding: EdgeInsets.all(MSizes.lg),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Center(
-            child: Text(
-              'Select Month and Day',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                fontWeight: FontWeight.w600,
+      child: Obx(
+        () => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Center(
+              child: Text(
+                'Select Month and Day',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: MSizes.spaceBtwSections),
-          Center(
-            child: Obx(() => Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: DropdownButton<String>(
-                    value: controller.selectedMonth.value.isEmpty
-                        ? null
-                        : controller.selectedMonth.value,
-                    hint: Text('Month'),
-                    isExpanded: true,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    underline: Container(
-                      height: 1,
-                      color: Colors.grey.shade300,
+            SizedBox(height: MSizes.spaceBtwSections),
+            Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: DropdownButton<String>(
+                      value: controller.selectedMonth.value.isEmpty
+                          ? null
+                          : controller.selectedMonth.value,
+                      hint: Text('Month'),
+                      isExpanded: true,
+                      icon: Icon(Icons.keyboard_arrow_down),
+                      underline: Container(
+                        height: 1,
+                        color: Colors.grey.shade300,
+                      ),
+                      items: _generateMonths()
+                          .map((month) => DropdownMenuItem(
+                        value: month,
+                        child: Text(month),
+                      ))
+                          .toList(),
+                      onChanged:(value) => controller.onMonthChanged(value!),
                     ),
-                    items: _generateMonths()
-                        .map((month) => DropdownMenuItem(
-                      value: month,
-                      child: Text(month),
-                    ))
-                        .toList(),
-                    onChanged:(value) => controller.onMonthChanged(value!),
                   ),
-                ),
-                SizedBox(width: MSizes.spaceBtwItems),
-                SizedBox(
-                  width: 100,
-                  child: DropdownButton<String>(
-                    value: controller.selectedDay.value.isEmpty
-                        ? null
-                        : controller.selectedDay.value,
-                    hint: Text('Day'),
-                    isExpanded: true,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    underline: Container(
-                      height: 1,
-                      color: Colors.grey.shade300,
+                  SizedBox(width: MSizes.spaceBtwItems),
+                  SizedBox(
+                    width: 100,
+                    child: DropdownButton<String>(
+                      value: controller.selectedDay.value.isEmpty
+                          ? null
+                          : controller.selectedDay.value,
+                      hint: Text('Day'),
+                      isExpanded: true,
+                      icon: Icon(Icons.keyboard_arrow_down),
+                      underline: Container(
+                        height: 1,
+                        color: Colors.grey.shade300,
+                      ),
+                      items: _generateDays(controller.maxDays)
+                          .map((day) => DropdownMenuItem(
+                        value: day,
+                        child: Text(day),
+                      ))
+                          .toList(),
+                      onChanged: (value) =>
+                      controller.selectedDay.value = value!,
                     ),
-                    items: _generateDays(controller.maxDays)
-                        .map((day) => DropdownMenuItem(
-                      value: day,
-                      child: Text(day),
-                    ))
-                        .toList(),
-                    onChanged: (value) =>
-                    controller.selectedDay.value = value!,
                   ),
-                ),
-              ],
-            )),
-          ),
-          SizedBox(height: MSizes.spaceBtwSections),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                controller.updateDOB();
-                Navigator.pop(context);
-              },
-              child: Text('Done'),
+                ],
+              )
             ),
-          ),
-          SizedBox(height: MSizes.md),
-        ],
+            SizedBox(height: MSizes.spaceBtwSections),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  controller.updateDOB();
+                  Navigator.pop(context);
+                },
+                child: Text('Done'),
+              ),
+            ),
+            SizedBox(height: MSizes.md),
+          ],
+        ),
       ),
     );
   }

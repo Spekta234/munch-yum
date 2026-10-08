@@ -156,9 +156,10 @@ class LoginForm extends StatelessWidget {
             () => SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(disabledBackgroundColor: MColors.primary),
                 onPressed: controller.isLoading.value ? null : () => controller.emailAndPasswordSignIn(),
                 child: controller.isLoading.value
-                    ? const CircularProgressIndicator(color: Colors.white)
+                    ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2,)
                     : Text('Sign in'),
               ),
             ),

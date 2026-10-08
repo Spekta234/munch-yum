@@ -134,7 +134,7 @@ class ProfileInfo extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                   ),
-                  builder: (context) => const DOBBottomSheet(),
+                  builder: (context) => const DOBBottomSheet(isLoyalty: false,),
                 );
               } : null,
               controller: TextEditingController(
