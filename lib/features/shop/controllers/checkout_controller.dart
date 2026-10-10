@@ -198,8 +198,13 @@ class CheckoutController extends GetxController {
         await OrderController.instance.updateOrderPaymentStatus(order.id, PaymentStatus.successful);
 
 
-        final pointsEarned = (order.total / 500).floor();
-        await UserRepository.instance.applyLoyaltyChange(order.userId, earned: pointsEarned, redeemed: order.redeemedPoints);
+        try {
+          final pointsEarned = (order.total / 500).floor();
+          await UserRepository.instance.applyLoyaltyChange(order.userId, earned: pointsEarned, redeemed: order.redeemedPoints);
+          await HomeController.instance.fetchUserData();
+        } catch (e) {
+          MSnackBar.warningSnackBar(title: 'Points not updated', message: 'Your payment went through, but loyalty points could not be updated.');
+        }
 
         MSnackBar.successSnackBar(title: 'Payment successful', message: 'Your order has been paid for');
         Get.to(() => PaymentSuccessScreen(order: order));

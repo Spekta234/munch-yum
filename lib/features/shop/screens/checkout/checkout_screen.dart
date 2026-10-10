@@ -274,6 +274,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               const MCouponCode(),
                               const SizedBox(height: MSizes.spaceBtwItems),
 
+                              /// Spend loyalty point checkbox
+                              if (controller.canRedeem)
+                                MCheckboxRow(
+                                  title: 'Use 20 Loyalty Points',
+                                  price: '-₦3000',
+                                  isSelected: controller.redeemedPoints.value > 0,
+                                  onTap: () => controller.toggleRedeem(),
+                                ),
+
                               /// Summary and total
                               Column(
                                 children: [
@@ -281,6 +290,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   MSummaryRow(title: 'Packaging', amount: '₦${controller.packagingPrice.toStringAsFixed(2)}'),
                                   MSummaryRow(title: 'Delivery', amount: '₦${controller.orderModePrice.toStringAsFixed(2)}'),
                                   MSummaryRow(title: 'Service charge', amount: '₦${controller.serviceCharge.toStringAsFixed(2)}'),
+                                  if (controller.discount > 0)
+                                    MSummaryRow(title: 'Loyalty Discount', amount: '-₦${controller.discount.toStringAsFixed(2)}'),
                                   Divider(),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),

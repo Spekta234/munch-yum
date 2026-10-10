@@ -351,14 +351,14 @@ class LoyaltyRegistrationForm extends StatelessWidget {
                       ? MColors.primary
                       : Colors.grey.shade300,
                   disabledBackgroundColor: Colors.grey.shade300,
-                  disabledForegroundColor: Colors.grey,
+                  disabledForegroundColor: MColors.primary,
                   side: BorderSide.none,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
                 child: controller.isLoading.value
-                    ? const CircularProgressIndicator(color: Colors.white)
+                    ? const CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
                     : const Text('Activate program'),
               ),
             ),

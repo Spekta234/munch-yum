@@ -5,9 +5,9 @@ import '../../../../../utils/constants/image_strings.dart';
 
 class MRewardTierCard extends StatelessWidget {
   final String title;
-  final double currentPoints; // ← replaces pointsText
+  final double currentPoints;
   final double maxPoints;
-  final double progressValue; // Between 0.0 and 1.0
+  final double progressValue;
   final bool isLocked;
   final Widget? leadingWidget;
   final String? trailingImage;
@@ -86,7 +86,7 @@ class MRewardTierCard extends StatelessWidget {
                       backgroundColor: Colors.pink.shade50,
                       backgroundImage: trailingImage != null
                           ? AssetImage(trailingImage!)
-                          : null, // Add your tiny trailing asset here
+                          : null,
                     )
                   ],
                 ),

@@ -5,7 +5,9 @@ import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
+import '../../../../utils/enums/enums.dart';
 import '../../../../utils/helpers/navigation_helpers.dart';
+import '../../../shop/controllers/home_controller.dart';
 
 class LoyaltyHistory extends StatelessWidget {
   const LoyaltyHistory({super.key});
@@ -28,82 +30,78 @@ class LoyaltyHistory extends StatelessWidget {
               const SizedBox(height: MSizes.spaceBtwItems),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundImage: AssetImage(MImages.loyaltyAvatar),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Okechukwu Maxwell', style: Theme.of(context).textTheme.titleLarge!
-                                    .copyWith(fontWeight: FontWeight.w600),),
-                                Row(
-                                  children: [
-                                    Image(image: AssetImage(MImages.lb), width: 20, height: 20),
-                                    SizedBox(width: 4),
-                                    Text('Ruby Cruncher', style: Theme.of(context)
-                                        .textTheme
-                                        .labelSmall!
-                                        .copyWith(color: MColors.darkerGrey),),
-                                  ],
-                                ),
-                                SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: LinearProgressIndicator(
-                                          value: 0.0,
-                                          minHeight: 6,
-                                          backgroundColor: Colors.pink.withOpacity(0.15),
-                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
+                  child: Obx(() {
+                    final user = HomeController.instance.user.value;
+                    final reached = LoyaltyTier.values
+                        .where((t) => user.lifeTimePoints >= t.minPoints)
+                        .toList()
+                        .reversed;
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(radius: 24, backgroundImage: AssetImage(MImages.loyaltyAvatar)),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(user.fullName, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w600)), // CHANGED
+                                  Row(
+                                    children: [
+                                      Image(image: AssetImage(MImages.lb), width: 20, height: 20),
+                                      const SizedBox(width: 4),
+                                      Text(user.tier.label, style: Theme.of(context).textTheme.labelSmall!.copyWith(color: MColors.darkerGrey)), // CHANGED
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(10),
+                                          child: LinearProgressIndicator(
+                                            value: user.tierProgress,
+                                            minHeight: 6,
+                                            backgroundColor: Colors.pink.withOpacity(0.15),
+                                            valueColor: const AlwaysStoppedAnimation<Color>(Colors.pink),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 6),
-                                    CircleAvatar(
-                                      radius: 8,
-                                      backgroundColor: Colors.pink.shade50,
-                                      backgroundImage: AssetImage(MImages.category3
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 4),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text('0/20 points', style: Theme.of(context).textTheme.labelSmall),
-                                ),
-
-                              ],
+                                      const SizedBox(width: 6),
+                                      CircleAvatar(radius: 8, backgroundColor: Colors.pink.shade50, backgroundImage: AssetImage(MImages.category3)),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(user.tierProgressLabel, style: Theme.of(context).textTheme.labelSmall),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: MSizes.spaceBtwItems),
+                        Text('Level history', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w500)),
+                        const SizedBox(height: MSizes.spaceBtwItems),
+                        for (final t in reached)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: MRewardTierCard(
+                              title: t.label,
+                              progressValue: ((user.lifeTimePoints - t.minPoints) / (t.maxPoints - t.minPoints)).clamp(0.0, 1.0),
+                              currentPoints: user.lifeTimePoints.clamp(0, t.maxPoints).toDouble(),
+                              maxPoints: t.maxPoints.toDouble(),
+                              leadingWidget: CircleAvatar(radius: 20, backgroundImage: AssetImage(MImages.loyaltyAvatar)),
+                              trailingImage: MImages.category3,
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: MSizes.spaceBtwItems),
-                      Text('Level history', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w500)),
-                      const SizedBox(height: MSizes.spaceBtwItems),
-                      MRewardTierCard(
-                        title: 'Ruby Cruncher',
-                        progressValue: 0.0,
-                        currentPoints: 0,
-                        maxPoints: 20,
-                        leadingWidget: CircleAvatar(
-                          radius: 20,
-                          backgroundImage: AssetImage(MImages.loyaltyAvatar),
-                        ),
-                        trailingImage: MImages.category3,
-                      )
-                    ],
-                  ),
+                      ],
+                    );
+                  }),
                 ),
               ),
             ],

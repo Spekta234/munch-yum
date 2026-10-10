@@ -6,6 +6,7 @@ import '../../../data/repositories/authentication_repository.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../navigation_menu.dart';
 import '../../../utils/snackbar/snack_bar.dart';
+import '../../shop/controllers/home_controller.dart';
 
 class LoyaltyController extends GetxController {
   static LoyaltyController get instance => Get.find();
@@ -58,9 +59,11 @@ class LoyaltyController extends GetxController {
           dob: dob.value,
           outletCode: outletCode.text.trim().isEmpty ? null  : outletCode.text.trim()
       );
+      await HomeController.instance.fetchUserData();
 
       isLoading.value = false;
       MSnackBar.successSnackBar(title: 'Success', message: 'Loyalty program activated!');
+      NavigationController.instance.goToLoyalty();
       Get.offAll(() => const NavigationMenu());
 
     } catch (e) {

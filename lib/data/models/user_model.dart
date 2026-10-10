@@ -60,6 +60,18 @@ class UserModel {
     return LoyaltyTier.ruby;
   }
 
+  /// Getter for loyalt tier progress tracker
+  double get tierProgress {
+    final t = tier;
+    return ((lifeTimePoints - t.minPoints) / (t.maxPoints - t.minPoints)).clamp(0.0, 1.0);
+  }
+
+  /// Getter for the total numbers of points displayed in the Loyalty program screen
+  String get tierProgressLabel => tier == LoyaltyTier.platinum
+      ? '$lifeTimePoints points'
+      : '$lifeTimePoints/ ${tier.maxPoints} points';
+
+
   /// Static function to create a user model
   static UserModel empty() => UserModel(
     id: '',
