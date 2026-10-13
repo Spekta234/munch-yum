@@ -1,3 +1,5 @@
+import '../constants/image_strings.dart';
+
 /// List of enums
 
 enum LocationSearchState { loading, found, notFound }
@@ -33,6 +35,18 @@ extension LoyaltyTierX on LoyaltyTier {
     LoyaltyTier.ruby => 20, LoyaltyTier.bronze => 50, LoyaltyTier.silver => 100,
     LoyaltyTier.gold => 200, LoyaltyTier.diamond => 300, LoyaltyTier.platinum => 500,
   };
+
+
+  String get avatar => switch (this) {
+    LoyaltyTier.ruby => MImages.loyaltyAvatar,
+    LoyaltyTier.bronze => MImages.loyaltyAvatar2,
+    LoyaltyTier.silver => MImages.loyaltyAvatar3,
+    LoyaltyTier.gold => MImages.loyaltyAvatar4,
+    LoyaltyTier.diamond => MImages.loyaltyAvatar5,
+    LoyaltyTier.platinum => MImages.loyaltyAvatar6,
+  };
+
+
 
 }
 

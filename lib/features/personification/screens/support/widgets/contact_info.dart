@@ -6,13 +6,14 @@ import '../../../../../utils/constants/colors.dart';
 
 class MContactInfo extends StatelessWidget {
   const MContactInfo({
-    super.key, required this.child, required this.contact, required this.contactInfo, this.hasCopy = false,
+    super.key, required this.child, required this.contact, required this.contactInfo, this.hasCopy = false,  this.onTap,
   });
 
   final Widget child;
   final String contact;
   final String contactInfo;
   final bool hasCopy;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class MContactInfo extends StatelessWidget {
                   text: TextSpan(
                     text: '$contactInfo ',
                     style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Colors.black, fontWeight: FontWeight.w500, decoration: TextDecoration.underline),
-                    recognizer: TapGestureRecognizer()..onTap = () {},
+                    recognizer: TapGestureRecognizer()..onTap = onTap,
                   ),
                 )
               ],
@@ -47,7 +48,7 @@ class MContactInfo extends StatelessWidget {
           ],
         ),
         if(hasCopy)
-          IconButton(onPressed: (){}, icon: Icon(Iconsax.copy5, color: MColors.primary, size: 28,))
+          IconButton(onPressed: onTap, icon: Icon(Iconsax.copy5, color: MColors.primary, size: 28,))
       ],
     );
   }

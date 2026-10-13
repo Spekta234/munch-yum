@@ -67,7 +67,7 @@ class LoyaltyProgramScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: 27,
-                              backgroundImage: AssetImage(MImages.loyaltyAvatar),
+                              backgroundImage: AssetImage(user.tier.avatar),
                               backgroundColor: Colors.transparent,
                             ),
                             const SizedBox(width: 10),
@@ -146,7 +146,7 @@ class LoyaltyProgramScreen extends StatelessWidget {
                               trailingImage: MImages.category3,
                               isLocked: life < t.minPoints,
                               leadingWidget: life >= t.minPoints
-                                  ? CircleAvatar(radius: 20, backgroundImage: AssetImage(MImages.loyaltyAvatar), backgroundColor: Colors.transparent)
+                                  ? CircleAvatar(radius: 20, backgroundImage: AssetImage(t.avatar), backgroundColor: Colors.transparent)
                                   : null,
                               currentPoints: life >= t.minPoints ? life.clamp(0, t.maxPoints).toDouble() : 0.0,
                               maxPoints: t.maxPoints.toDouble(),

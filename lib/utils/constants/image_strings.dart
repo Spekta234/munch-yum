@@ -73,5 +73,10 @@ class MImages {
   static const String loyaltyIntro = "assets/images/loyalty/loyalty-intro.png";
   static const String loyaltyIntro2 = "assets/images/loyalty/loyalty-intro2.png";
   static const String loyaltyAvatar = "assets/images/loyalty/loyalty-avatar.jpg";
+  static const String loyaltyAvatar2 = "assets/images/loyalty/loyalt-avatar-bronze.jpg";
+  static const String loyaltyAvatar3 = "assets/images/loyalty/loyalt-avatar-silver.jpg";
+  static const String loyaltyAvatar4 = "assets/images/loyalty/loyalt-avatar-gold.jpg";
+  static const String loyaltyAvatar5 = "assets/images/loyalty/loyalt-avatar-diamond.jpg";
+  static const String loyaltyAvatar6 = "assets/images/loyalty/loyalt-avatar-platnium.jpg";
   static const String lb = "assets/images/loyalty/lb.png";
 }

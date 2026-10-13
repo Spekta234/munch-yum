@@ -42,7 +42,7 @@ class LoyaltyHistory extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            CircleAvatar(radius: 24, backgroundImage: AssetImage(MImages.loyaltyAvatar)),
+                            CircleAvatar(radius: 24, backgroundImage: AssetImage(user.tier.avatar)),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Column(
@@ -53,7 +53,7 @@ class LoyaltyHistory extends StatelessWidget {
                                     children: [
                                       Image(image: AssetImage(MImages.lb), width: 20, height: 20),
                                       const SizedBox(width: 4),
-                                      Text(user.tier.label, style: Theme.of(context).textTheme.labelSmall!.copyWith(color: MColors.darkerGrey)), // CHANGED
+                                      Text(user.tier.label, style: Theme.of(context).textTheme.labelSmall!.copyWith(color: MColors.darkerGrey)),
                                     ],
                                   ),
                                   const SizedBox(height: 8),
@@ -95,7 +95,7 @@ class LoyaltyHistory extends StatelessWidget {
                               progressValue: ((user.lifeTimePoints - t.minPoints) / (t.maxPoints - t.minPoints)).clamp(0.0, 1.0),
                               currentPoints: user.lifeTimePoints.clamp(0, t.maxPoints).toDouble(),
                               maxPoints: t.maxPoints.toDouble(),
-                              leadingWidget: CircleAvatar(radius: 20, backgroundImage: AssetImage(MImages.loyaltyAvatar)),
+                              leadingWidget: CircleAvatar(radius: 20, backgroundImage: AssetImage(t.avatar)),
                               trailingImage: MImages.category3,
                             ),
                           ),

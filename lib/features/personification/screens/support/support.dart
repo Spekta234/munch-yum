@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -9,14 +10,60 @@ import 'package:munch_yum/features/authentication/screens/login/widgets/logo_ava
 import 'package:munch_yum/features/personification/screens/settings/settings.dart';
 import 'package:munch_yum/features/personification/screens/support/widgets/contact_info.dart';
 import 'package:munch_yum/utils/constants/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/navigation_helpers.dart';
+import '../../../../utils/snackbar/snack_bar.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key, this.showBackButton = false});
 
   final bool showBackButton;
+
+  Future<void> _launchEmail() async {
+    final Uri emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: 'okechukwuonoh49@gmail.com'
+    );
+
+    if (await launchUrl (emailLaunchUri)) {
+      MSnackBar.customToast(message: 'redirecting....');
+    } else {
+      MSnackBar.warningToast(message: 'Could not redirect to email host');
+    }
+
+  }
+
+  Future<void> _copyToClipboard(BuildContext context, String textToCopy) async {
+    await Clipboard.setData(
+      ClipboardData(text: textToCopy),
+    );
+
+    if (context.mounted) {
+      MSnackBar.customToast(message: 'Copied to Clipboard!');
+    }
+  }
+  
+  void _launchWhatsapp({
+    required BuildContext context,
+    required String phoneNumber,
+    required String message,
+  }) async {
+    final cleanPhone = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+
+    final Uri whatsappUri = Uri.parse(
+      'https://wa.me{Uri.encodedComponent(message)}',
+    );
+
+    if (await canLaunchUrl(whatsappUri)) {
+      await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+    } else {
+      if (context.mounted) {
+        MSnackBar.customToast(message: 'Could not open Whatsapp, make sure its installed in your device');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +104,10 @@ class SupportScreen extends StatelessWidget {
                      ),
                      SizedBox(height: screenHeight * 0.12),
                      MContactInfo(
+                       onTap: () => _launchWhatsapp(
+                         context: context,
+                         phoneNumber: '+234 810 986 5251',
+                         message: 'Hello MunchYum Manager! I need help with.... ',),
                        contact: 'Whatsapp',
                        contactInfo: '+234 906 342 9394',
                        child: FaIcon(FontAwesomeIcons.whatsappSquare, size: 20,
@@ -64,12 +115,14 @@ class SupportScreen extends StatelessWidget {
                      ),
                      const SizedBox(height: MSizes.spaceBtwItems),
                      MContactInfo(
+                       onTap: _launchEmail,
                        contact: 'Email',
                        contactInfo: 'customercare@munchyumonline.com',
                        child: Icon(Icons.mark_email_unread_rounded, size: 20, color: Colors.green.shade900,),
                      ),
                      const SizedBox(height: MSizes.spaceBtwItems),
                      MContactInfo(
+                         onTap: () => _copyToClipboard(context, '+234 906 342 9394'),
                          contact: 'Phone number',
                          contactInfo: '+234 906 342 9394',
                          hasCopy: true,
@@ -77,6 +130,7 @@ class SupportScreen extends StatelessWidget {
                      ),
                      const SizedBox(height: MSizes.spaceBtwItems),
                      MContactInfo(
+                         onTap: () => _copyToClipboard(context, '+234 806 342 7994'),
                          contact: 'Phone number',
                          contactInfo: '+234 806 342 7994',
                          hasCopy: true,
