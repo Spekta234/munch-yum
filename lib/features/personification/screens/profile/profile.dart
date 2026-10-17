@@ -5,18 +5,34 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
 import 'package:munch_yum/features/personification/screens/profile/widgets/profile_avatar.dart';
 import 'package:munch_yum/features/personification/screens/profile/widgets/profile_info.dart';
+import 'package:munch_yum/features/shop/controllers/home_controller.dart';
+import 'package:munch_yum/utils/enums/enums.dart';
 
 import '../../../../common/widgets/avatar_bottomsheet/avatar_bottomsheet.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/navigation_helpers.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final controller = ProfileController.instance;
+
+
+  @override
+  void initState() {
+    super.initState();
+    controller.isEditing.value = false;
+    controller.loadFromUser();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final controller = ProfileController.instance;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -36,10 +52,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     Spacer(),
                     TextButton(
-                        onPressed: () {
-                          controller.toggleEdit();
-
-                        },
+                        onPressed: () => controller.toggleEdit(),
                         child: Obx(
                           () => Text( controller.isEditing.value ? 'Cancel' : 'Edit Profile', style: Theme.of(context).textTheme.labelSmall!.apply(
                             color: MColors.primary,
@@ -50,7 +63,9 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: MSizes.spaceBtwItems),
-                MProfileAvatar(name: 'Spekta', level: 'Ruby Cruncher'),
+                Obx(() => MProfileAvatar(
+                    name: HomeController.instance.user.value.firstName, level: HomeController.instance.user.value.tier.label)
+                ),
                 const SizedBox(height: MSizes.spaceBtwSections),
                 const ProfileInfo()
               ],

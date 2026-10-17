@@ -169,6 +169,7 @@ class LoyaltyRegistrationForm extends StatelessWidget {
 
           Obx(
                 () => DropdownButtonFormField<String>(
+                  validator:  (value) => value == null ? 'Please select a gender' : null,
               value: controller.selectedGender.value.isEmpty
                   ? null
                   : controller.selectedGender.value,
@@ -216,6 +217,7 @@ class LoyaltyRegistrationForm extends StatelessWidget {
           Obx(
                 () => TextFormField(
               readOnly: true,
+              validator:  (value) => (value == null || value.trim().isEmpty) ? 'Please select your date of birth' : null,
               onTap: () {
                 showModalBottomSheet(
                   showDragHandle: false,

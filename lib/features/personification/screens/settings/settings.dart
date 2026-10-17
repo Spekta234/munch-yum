@@ -43,6 +43,7 @@ class Settings extends StatelessWidget {
                 onPressed: () => mBack(),
                 icon: Icon(Icons.arrow_back_ios_new),
                 iconSize: 24,
+                constraints: BoxConstraints(),
               ),
               Obx(
                 () => MSettingsHeader(

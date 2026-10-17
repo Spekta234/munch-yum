@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:munch_yum/features/personification/controllers/loyalty_controller.dart';
 import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
+import 'package:munch_yum/utils/constants/colors.dart';
+import 'package:munch_yum/utils/validators/validation.dart';
 
 import '../../../../../common/custom_shapes/bottom_sheets/dob_bottomsheet.dart';
 import '../../../../../utils/constants/sizes.dart';
@@ -16,13 +18,16 @@ class ProfileInfo extends StatelessWidget {
     final controller = ProfileController.instance;
     return Obx(
       () => Form(
+        key: controller.profileFormKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('First Name'),
             const SizedBox(height: 6),
             TextFormField(
-              enabled: controller.isEditing.value,
+              controller: controller.firstName,
+              readOnly: !controller.isEditing.value,
+              validator: (value) => MValidator.validateEmptyText('First name' , value),
               decoration: InputDecoration(
                 hintText: 'Enter your first name',
                 hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
@@ -45,7 +50,9 @@ class ProfileInfo extends StatelessWidget {
             Text('Last name'),
             const SizedBox(height: 6),
             TextFormField(
-              enabled: controller.isEditing.value,
+              controller: controller.lastName,
+              readOnly: !controller.isEditing.value,
+              validator: (value) => MValidator.validateEmptyText('Last name' , value),
               decoration: InputDecoration(
                 hintText: 'Enter your last name',
                 hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
@@ -68,9 +75,11 @@ class ProfileInfo extends StatelessWidget {
             Text('Phone Number'),
             const SizedBox(height: 6),
             TextFormField(
-              enabled: controller.isEditing.value,
+              controller: controller.phoneNo,
+              readOnly: !controller.isEditing.value,
+              validator: (value) => MValidator.validatePhoneNumber(value),
               decoration: InputDecoration(
-                hintText: 'Enter your last name',
+                hintText: 'Enter your phone number',
                 hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 focusedBorder: OutlineInputBorder(
@@ -91,15 +100,15 @@ class ProfileInfo extends StatelessWidget {
             Text('Gender'),
             const SizedBox(height: 6),
             DropdownButtonFormField<String>(
-              key: UniqueKey(),
-              value: null,
+              key: ValueKey(controller.selectedGender.value),
+              value: controller.selectedGender.value.isEmpty ? null : controller.selectedGender.value,
               disabledHint: Text(
-                'Select a Gender', // ← shows this when disabled
+                'Select a Gender',
                 style: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.grey),
               ),
               icon: Icon(Icons.keyboard_arrow_down_outlined, color: Colors.black,),
               decoration: InputDecoration(
-                enabled: controller.isEditing.value,
+                enabled: controller.canEditLoyaltyFields,
                 hintText: 'Select a Gender',
                 hintStyle: Theme.of(context).textTheme.labelSmall!.apply(color: Colors.grey),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(28)),
@@ -117,16 +126,19 @@ class ProfileInfo extends StatelessWidget {
                 value: gender,
                 child: Text(gender),
               )).toList(),
-              onChanged: controller.isEditing.value
-                  ? (value) {} : null,
+              onChanged: controller.canEditLoyaltyFields
+                  ? (value) => controller.selectedGender.value = value!
+                  : null,
 
             ),
             SizedBox(height: MSizes.spaceBtwItems),
             Text('Date of birth'),
             const SizedBox(height: 6),
             Obx(() => TextFormField(
+              key: ValueKey(controller.dob.value),
+              initialValue: controller.dob.value,
               readOnly: true,
-              onTap: controller.isEditing.value ? ()  {
+              onTap: controller.canEditLoyaltyFields ? ()  {
                 showModalBottomSheet(
                   showDragHandle: false,
                   context: context,
@@ -137,11 +149,8 @@ class ProfileInfo extends StatelessWidget {
                   builder: (context) => const DOBBottomSheet(isLoyalty: false,),
                 );
               } : null,
-              controller: TextEditingController(
-                text: controller.dob.value,
-              ),
               decoration: InputDecoration(
-                enabled: controller.isEditing.value,
+                enabled: controller.canEditLoyaltyFields,
                 hintText: 'DD/MM',
                 hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
                 suffixIcon: Icon(Icons.calendar_month_outlined, color: Colors.black,),
@@ -161,7 +170,8 @@ class ProfileInfo extends StatelessWidget {
             Text('Email'),
             const SizedBox(height: 6),
             TextFormField(
-              enabled: controller.isEditing.value,
+              readOnly: true,
+              controller: controller.email,
               decoration: InputDecoration(
                 hintText: 'Enter your email',
                 hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
@@ -187,8 +197,15 @@ class ProfileInfo extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Update'),
+                  style: ElevatedButton.styleFrom(
+                    disabledBackgroundColor: MColors.primary
+                  ),
+                  onPressed:  controller.isLoading.value ? null : () => controller.updateProfile(),
+                  child: controller.isLoading.value ? const  SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),) :
+                  Text('Update'),
                 ),
               ),
             )

@@ -44,8 +44,8 @@ class SupportScreen extends StatelessWidget {
       MSnackBar.customToast(message: 'Copied to Clipboard!');
     }
   }
-  
-  void _launchWhatsapp({
+
+  Future<void> _launchWhatsapp({
     required BuildContext context,
     required String phoneNumber,
     required String message,
@@ -53,14 +53,17 @@ class SupportScreen extends StatelessWidget {
     final cleanPhone = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
 
     final Uri whatsappUri = Uri.parse(
-      'https://wa.me{Uri.encodedComponent(message)}',
+      'https://wa.me/$cleanPhone?text=${Uri.encodeComponent(message)}',
     );
 
-    if (await canLaunchUrl(whatsappUri)) {
-      await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
-    } else {
+    try {
+      final opened = await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+      if (!opened && context.mounted) {
+        MSnackBar.customToast(message: 'Could not open WhatsApp, make sure it is installed on your device');
+      }
+    } catch (e) {
       if (context.mounted) {
-        MSnackBar.customToast(message: 'Could not open Whatsapp, make sure its installed in your device');
+        MSnackBar.customToast(message: 'Could not open WhatsApp, make sure it is installed on your device');
       }
     }
   }

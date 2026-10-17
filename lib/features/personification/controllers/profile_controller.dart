@@ -1,11 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:munch_yum/data/repositories/user_repository.dart';
+import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/local_storage/storage_utility.dart';
+import '../../../utils/snackbar/snack_bar.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get instance => Get.find();
 
+  RxBool isLoading = false.obs;
   final _storage = MLocalStorage.instance();
   final Rx<String> selectedAvatar = ''.obs;
   final List<String> avatars = [
@@ -23,6 +28,15 @@ class ProfileController extends GetxController {
   final RxString selectedDay = ''.obs;
   final RxString dob = ''.obs;
   final RxBool isEditing = false.obs;
+  final firstName = TextEditingController();
+  final lastName = TextEditingController();
+  final phoneNo = TextEditingController();
+  final email = TextEditingController();
+  final RxString selectedGender = ''.obs;
+  GlobalKey<FormState> profileFormKey = GlobalKey<FormState>();
+
+
+
 
   @override
   void onInit() {
@@ -62,6 +76,78 @@ class ProfileController extends GetxController {
     }
   }
 
-  ///
-  void toggleEdit() => isEditing.value = !isEditing.value;
+
+  bool get canEditLoyaltyFields =>
+      isEditing.value && HomeController.instance.user.value.hasActivatedLoyalty;
+
+
+
+  void toggleEdit() {
+    if (isEditing.value) loadFromUser();
+    isEditing.value = !isEditing.value;
+  }
+
+  void loadFromUser() {
+    final user = HomeController.instance.user.value;
+
+    if(user.id.isEmpty) return;
+
+    firstName.text = user.firstName;
+    lastName.text = user.lastName;
+    phoneNo.text = user.phoneNumber;
+
+    final hasLoyalty = user.hasActivatedLoyalty;
+    selectedGender.value = hasLoyalty ? user.gender : '';
+    email.text = user.email;
+
+
+
+
+    final savedDob = hasLoyalty ? user.dateOfBirth : '';
+    dob.value = savedDob;
+    selectedDay.value = '';
+    selectedMonth.value = '';
+    if(savedDob.isNotEmpty) {
+     final parts = savedDob.split(' ');
+     if (parts.length == 2) {
+       selectedDay.value = parts[0];
+       selectedMonth.value = parts[1];
+     }
+    }
+  }
+
+  Future<void> updateProfile() async {
+    try {
+      if (!profileFormKey.currentState!.validate()) return;
+
+      final hasLoyalty = HomeController.instance.user.value.hasActivatedLoyalty;
+
+      final dobComplete = dob.value.trim().split(' ').length == 2;
+      if (hasLoyalty && (selectedGender.value.isEmpty || !dobComplete)) {
+        MSnackBar.warningSnackBar(title: 'Incomplete details', message: 'Please select your gender and date of birth');
+        return;
+      }
+
+      isLoading.value = true;
+
+      final info = <String, dynamic>{
+        'FirstName': firstName.text.trim(),
+        'LastName': lastName.text.trim(),
+        'PhoneNumber': phoneNo.text.trim(),
+        if (hasLoyalty) 'Gender': selectedGender.value,
+        if (hasLoyalty) 'DateOfBirth': dob.value,
+      };
+      await UserRepository.instance.updateSingleField(info);
+      await HomeController.instance.fetchUserData();
+
+      toggleEdit();
+      MSnackBar.successSnackBar(title: 'Profile updated', message: 'Your details have been saved');
+    } catch (e) {
+      MSnackBar.errorSnackBar(title: 'Update failed', message: e.toString()); 
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+
 }

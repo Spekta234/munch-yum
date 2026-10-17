@@ -106,6 +106,40 @@ class UserRepository extends GetxController {
     }
   }
 
+
+  Future<void> updateSingleField(Map<String, dynamic> json) async {
+    try {
+      final userId = AuthenticationRepository.instance.authUser?.uid;
+      await _db.collection('Users').doc(userId).update(json);
+    } on FirebaseAuthException catch (e) {
+      throw MFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const MFormatException().message;
+    } on PlatformException catch (e) {
+      throw MPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
+
+  Future<void> deleteUser(String userId) async {
+    try {
+      await _db.collection('Users').doc(userId).delete();
+    } on FirebaseAuthException catch (e) {
+      throw MFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const MFormatException().message;
+    } on PlatformException catch (e) {
+      throw MPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
+
 }
 
 
