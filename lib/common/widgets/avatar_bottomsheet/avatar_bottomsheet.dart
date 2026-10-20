@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 
 import '../../../utils/constants/colors.dart';
@@ -9,7 +10,7 @@ class AvatarBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = HomeController.instance; 
+    final controller = ProfileController.instance;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(

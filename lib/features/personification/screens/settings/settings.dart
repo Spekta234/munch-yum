@@ -111,7 +111,34 @@ class Settings extends StatelessWidget {
               MSettingsSections(
                 icon: Iconsax.logout5,
                 title: 'Logout',
-                onTap: () => AuthenticationRepository.instance.logout(),
+                onTap: () {
+                  showDialog(context: context,
+                      builder: (BuildContext context) {
+                   return AlertDialog(
+                     backgroundColor: Colors.white,
+                     title: const Text('Logout'),
+                     content: const Text('Are you sure you want to logout from your account?'),
+                     actions: [
+                       TextButton(
+                         onPressed: () => Navigator.pop(context),
+                         child: const Text('No', style: TextStyle(color: MColors.black)),
+                       ),
+                       TextButton(
+                         onPressed: () async {
+                           Navigator.pop(context);
+                           try {
+                             await AuthenticationRepository.instance.logout();
+                           } catch (e) {
+                             MSnackBar.errorSnackBar(title: 'Logout failed', message: e.toString());
+                           }
+                         },
+                         child: const Text('Yes', style: TextStyle(color: MColors.primary)),
+                       )
+                     ],
+                   );
+                  }
+                  );
+                },
                 showArrow: false,
               ),
               const SizedBox(height: MSizes.spaceBtwSections),

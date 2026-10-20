@@ -43,7 +43,6 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     // load saved avatar when controller starts
-    selectedAvatar.value = _storage.readData('selectedAvatar') ?? '';
     startBannerAutoScroll();
     fetchUserData();
     super.onInit();
@@ -60,10 +59,10 @@ class HomeController extends GetxController {
 
 
   // selected avatar
-  void onAvatarSelected(String avatar) {
-    selectedAvatar.value = avatar;
-    _storage.writeData('selectedAvatar', avatar);
-  }
+  // void onAvatarSelected(String avatar) {
+  //   selectedAvatar.value = avatar;
+  //   _storage.writeData('selectedAvatar', avatar);
+  // }
 
   // auto scroll
   void startBannerAutoScroll() {

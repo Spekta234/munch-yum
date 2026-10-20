@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/common/widgets/avatar_bottomsheet/avatar_bottomsheet.dart';
+import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 
 import '../../../../../utils/constants/colors.dart';
@@ -40,9 +41,9 @@ class MHomeHeader extends StatelessWidget {
             child: Obx(
               () => CircleAvatar(
                 radius: 27,
-                backgroundImage: controller.selectedAvatar.value.isEmpty
+                backgroundImage: ProfileController.instance.selectedAvatar.value.isEmpty
                     ? AssetImage(MImages.chickenAvatar)
-                    : AssetImage(controller.selectedAvatar.value),
+                    : AssetImage(ProfileController.instance.selectedAvatar.value),
                 backgroundColor: Colors.transparent,
               ),
             ),

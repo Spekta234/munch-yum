@@ -38,12 +38,6 @@ class ProfileController extends GetxController {
 
 
 
-  @override
-  void onInit() {
-    // load saved avatar when controller starts
-    selectedAvatar.value = _storage.readData('selectedAvatar') ?? '';
-    super.onInit();
-  }
 
   // selected avatar
   void onAvatarSelected(String avatar) {
@@ -143,10 +137,18 @@ class ProfileController extends GetxController {
       toggleEdit();
       MSnackBar.successSnackBar(title: 'Profile updated', message: 'Your details have been saved');
     } catch (e) {
-      MSnackBar.errorSnackBar(title: 'Update failed', message: e.toString()); 
+      MSnackBar.errorSnackBar(title: 'Update failed', message: e.toString());
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void resetAvatar() {
+    selectedAvatar.value = '';
+  }
+
+  void loadAvatar() {
+    selectedAvatar.value = _storage.readData('selectedAvatar') ?? '';
   }
 
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 
 import '../../../../../common/widgets/avatar_bottomsheet/avatar_bottomsheet.dart';
@@ -14,7 +15,7 @@ class MSettingsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = HomeController.instance;
+    final controller = ProfileController.instance;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Row(

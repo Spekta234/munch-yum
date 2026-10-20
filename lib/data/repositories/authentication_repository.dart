@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:munch_yum/features/authentication/screens/login/login.dart';
 import 'package:munch_yum/features/authentication/screens/signup/verify_email.dart';
+import 'package:munch_yum/features/personification/controllers/loyalty_controller.dart';
+import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
+import 'package:munch_yum/features/shop/controllers/cart_controller.dart';
+import 'package:munch_yum/features/shop/controllers/checkout_controller.dart';
+import 'package:munch_yum/features/shop/controllers/order_controller.dart';
 import 'package:munch_yum/navigation_menu.dart';
 import 'package:munch_yum/utils/exceptions/firebase_auth_exceptions.dart';
 import 'package:munch_yum/utils/exceptions/firebase_exceptions.dart';
@@ -41,6 +47,9 @@ class AuthenticationRepository extends GetxController {
       if (user.emailVerified) {
         // initialize user specific storage
         await MLocalStorage.init(user.uid);
+        if (Get.isRegistered<ProfileController>()) {
+          ProfileController.instance.loadAvatar();
+        }
 
         // Fetch user document from Firestore to check hasSelectedLocation
         final userDoc = await FirebaseFirestore.instance
@@ -143,9 +152,28 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
+
+
+
+
+  void _safeReset(VoidCallback reset, String name) { // CHANGED: new helper
+    try {
+      reset();
+    } catch (e) {
+      debugPrint('Logout reset "$name" failed: $e'); // tells you exactly which one broke
+    }
+  }
+
   /// Logout
   Future<void> logout() async {
     try{
+      _safeReset(() => CartController.instance.clearCart(), 'cart');
+      _safeReset(() =>  CheckoutController.instance.resetCheckout(), 'checkout');
+      _safeReset(() => OrderController.instance.resetOrder(), 'orders');
+      _safeReset(() => LoyaltyController.instance.resetLoyaltyFields(), 'loyalty');
+      _safeReset(() => ProfileController.instance.resetAvatar(), 'Avatar');
+
+      _safeReset(() => NavigationController.instance.goToHome(), 'navigation');
       await _auth.signOut();
       Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException catch (e){
@@ -158,6 +186,7 @@ class AuthenticationRepository extends GetxController {
       throw MPlatformException(e.code).message;
     }
     catch (e) {
+      debugPrint('Logout failed: $e');
       throw 'Something went wrong, Try again';
     }
   }

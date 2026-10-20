@@ -12,7 +12,7 @@ class LoyaltyRegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoyaltyController());
+    final controller = LoyaltyController.instance;
     return Scaffold(
       body: Padding(padding: MSpacingStyles.paddingWithAppBarHeight,
         child: SingleChildScrollView(

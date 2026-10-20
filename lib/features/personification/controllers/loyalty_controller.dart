@@ -72,7 +72,14 @@ class LoyaltyController extends GetxController {
     }
   }
 
-
+  void resetLoyaltyFields() {
+    outletCode.clear();
+    selectedGender.value = '';
+    hasAgreed.value = false;
+    dob.value = '';
+    selectedDay.value = '';
+    selectedMonth.value = '';
+  }
 
 
 }

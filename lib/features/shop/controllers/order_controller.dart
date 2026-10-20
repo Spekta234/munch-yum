@@ -70,5 +70,12 @@ class OrderController extends GetxController {
     }
   }
 
+  void resetOrder() {
+    selectedFilter.value = OrderFilter.all;
+    searchQuery.value = '';
+    searchController.clear();
+    orders.clear();
+  }
+
 }
 
