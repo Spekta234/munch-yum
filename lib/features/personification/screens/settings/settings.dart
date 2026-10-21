@@ -121,7 +121,7 @@ class Settings extends StatelessWidget {
                      actions: [
                        TextButton(
                          onPressed: () => Navigator.pop(context),
-                         child: const Text('No', style: TextStyle(color: MColors.black)),
+                         child: const Text('No', style: TextStyle(color: MColors.black )),
                        ),
                        TextButton(
                          onPressed: () async {

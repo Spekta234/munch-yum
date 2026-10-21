@@ -64,7 +64,7 @@ class AvatarBottomSheet extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: controller.selectedAvatar.value == controller.avatars[index]
+                        color: HomeController.instance.user.value.avatar == controller.avatars[index]
                             ? MColors.primary
                             : Colors.grey.shade300,
                         width: 2,

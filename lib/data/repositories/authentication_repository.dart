@@ -47,9 +47,6 @@ class AuthenticationRepository extends GetxController {
       if (user.emailVerified) {
         // initialize user specific storage
         await MLocalStorage.init(user.uid);
-        if (Get.isRegistered<ProfileController>()) {
-          ProfileController.instance.loadAvatar();
-        }
 
         // Fetch user document from Firestore to check hasSelectedLocation
         final userDoc = await FirebaseFirestore.instance
@@ -171,7 +168,7 @@ class AuthenticationRepository extends GetxController {
       _safeReset(() =>  CheckoutController.instance.resetCheckout(), 'checkout');
       _safeReset(() => OrderController.instance.resetOrder(), 'orders');
       _safeReset(() => LoyaltyController.instance.resetLoyaltyFields(), 'loyalty');
-      _safeReset(() => ProfileController.instance.resetAvatar(), 'Avatar');
+
 
       _safeReset(() => NavigationController.instance.goToHome(), 'navigation');
       await _auth.signOut();

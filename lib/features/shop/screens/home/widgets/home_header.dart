@@ -39,13 +39,16 @@ class MHomeHeader extends StatelessWidget {
               );
             },
             child: Obx(
-              () => CircleAvatar(
-                radius: 27,
-                backgroundImage: ProfileController.instance.selectedAvatar.value.isEmpty
-                    ? AssetImage(MImages.chickenAvatar)
-                    : AssetImage(ProfileController.instance.selectedAvatar.value),
-                backgroundColor: Colors.transparent,
-              ),
+              () {
+                final avatar = HomeController.instance.user.value.avatar;
+                return CircleAvatar(
+                  radius: 27,
+                  backgroundImage: avatar.isEmpty
+                      ? AssetImage(MImages.chickenAvatar)
+                      : AssetImage(avatar),
+                  backgroundColor: Colors.transparent,
+                );
+              }
             ),
           ),
           SizedBox(width: 5),

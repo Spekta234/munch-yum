@@ -12,7 +12,6 @@ class ProfileController extends GetxController {
 
   RxBool isLoading = false.obs;
   final _storage = MLocalStorage.instance();
-  final Rx<String> selectedAvatar = ''.obs;
   final List<String> avatars = [
     MImages.chickenAvatar,
     MImages.ava1,
@@ -40,9 +39,13 @@ class ProfileController extends GetxController {
 
 
   // selected avatar
-  void onAvatarSelected(String avatar) {
-    selectedAvatar.value = avatar;
-    _storage.writeData('selectedAvatar', avatar);
+  Future<void> onAvatarSelected(String avatar) async {
+    try {
+    await UserRepository.instance.updateSingleField({'Avatar' : avatar});
+      await HomeController.instance.fetchUserData();
+    } catch (e) {
+      MSnackBar.errorSnackBar(title: 'Could not save avatar', message: e.toString());
+    }
   }
 
   void updateDOB(){
@@ -141,14 +144,6 @@ class ProfileController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-  }
-
-  void resetAvatar() {
-    selectedAvatar.value = '';
-  }
-
-  void loadAvatar() {
-    selectedAvatar.value = _storage.readData('selectedAvatar') ?? '';
   }
 
 

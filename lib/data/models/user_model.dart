@@ -18,6 +18,7 @@ class UserModel {
   final bool hasSelectedLocation;
   final bool hasActivatedLoyalty;
   final String? loyaltyOutletCode;
+  final String avatar;
 
 
 
@@ -36,6 +37,7 @@ class UserModel {
     required this.hasActivatedLoyalty,
     this.loyaltyOutletCode,
     required this.lifeTimePoints,
+    required this.avatar,
   });
 
 
@@ -88,6 +90,7 @@ class UserModel {
     loyaltyOutletCode: '',
     hasSelectedLocation: false,
     hasActivatedLoyalty: false,
+    avatar: '',
   );
 
   /// Convert model to JSON structure for storing data in Firebase.
@@ -105,6 +108,7 @@ class UserModel {
       'HasSelectedLocation': hasSelectedLocation,
       'HasActivatedLoyalty': hasActivatedLoyalty,
       'LoyaltyOutletCode' : loyaltyOutletCode,
+      'Avatar' : avatar,
     };
   }
 
@@ -127,6 +131,7 @@ class UserModel {
         hasSelectedLocation: data['HasSelectedLocation'] ?? false,
         hasActivatedLoyalty: data['HasActivatedLoyalty'] ?? false,
         loyaltyOutletCode: data['LoyaltyOutletCode'] ?? "",
+        avatar: data['Avatar'] ?? '',
 
       );
     } else {
