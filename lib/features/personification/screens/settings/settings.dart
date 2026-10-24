@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:munch_yum/common/widgets/bottomsheets/re-auth_buttomsheet.dart';
 import 'package:munch_yum/data/repositories/authentication_repository.dart';
 import 'package:munch_yum/features/personification/screens/address/address.dart';
 import 'package:munch_yum/features/personification/screens/address/enter_address.dart';
@@ -19,6 +20,7 @@ import 'package:munch_yum/utils/constants/colors.dart';
 import 'package:munch_yum/utils/snackbar/snack_bar.dart';
 
 
+import '../../../../navigation_menu.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/navigation_helpers.dart';
 
@@ -80,7 +82,10 @@ class Settings extends StatelessWidget {
               MSettingsSections(
                 icon: Iconsax.discount_shape5,
                 title: 'Loyalty',
-                onTap: () => Get.to(() => LoyaltyProgramScreen()),
+                onTap: () {
+                  Get.offAll(() => const NavigationMenu());
+                  NavigationController.instance.goToHome();
+                },
               ),
               const SizedBox(height: MSizes.spaceBtwSections),
               Text(
@@ -145,7 +150,8 @@ class Settings extends StatelessWidget {
               MSettingsSections(
                 icon: Iconsax.close_circle5,
                 title: 'Delete Account',
-                onTap: () {},
+                onTap: () {
+                },
                 showArrow: true,
                 titleColor: MColors.primary,
               ),

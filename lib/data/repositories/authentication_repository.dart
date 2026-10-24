@@ -153,24 +153,18 @@ class AuthenticationRepository extends GetxController {
 
 
 
-  void _safeReset(VoidCallback reset, String name) { // CHANGED: new helper
-    try {
-      reset();
-    } catch (e) {
-      debugPrint('Logout reset "$name" failed: $e'); // tells you exactly which one broke
-    }
-  }
+
 
   /// Logout
   Future<void> logout() async {
     try{
-      _safeReset(() => CartController.instance.clearCart(), 'cart');
-      _safeReset(() =>  CheckoutController.instance.resetCheckout(), 'checkout');
-      _safeReset(() => OrderController.instance.resetOrder(), 'orders');
-      _safeReset(() => LoyaltyController.instance.resetLoyaltyFields(), 'loyalty');
+      CartController.instance.clearCart();
+      CheckoutController.instance.resetCheckout();
+      OrderController.instance.resetOrder();
+     LoyaltyController.instance.resetLoyaltyFields();
 
 
-      _safeReset(() => NavigationController.instance.goToHome(), 'navigation');
+     NavigationController.instance.goToHome();
       await _auth.signOut();
       Get.offAll(() => const LoginScreen());
     } on FirebaseAuthException catch (e){
@@ -188,5 +182,28 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
+  Future<void> reAuthenticateWithEmailAndPassword(String password) async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw 'No user is signed in';
+    }
+
+    try {
+      final email = user.email;
+      if (email == null) throw 'No email on this account';
+      AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+      await _auth.currentUser!.reauthenticateWithCredential(credential);
+    } on FirebaseAuthException catch (e){
+      throw MFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const MFormatException().message;
+    } on PlatformException catch (e) {
+      throw MPlatformException(e.code).message;
+    }  catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
 
 }

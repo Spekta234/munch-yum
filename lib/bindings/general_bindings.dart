@@ -40,5 +40,6 @@ class GeneralBindings extends Bindings {
     Get.put(OrderRepository());
     Get.put(OrderController());
     Get.put(LoyaltyController());
+    Get.put(LoyaltyController());
   }
 }
