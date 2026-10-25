@@ -151,8 +151,21 @@ class Settings extends StatelessWidget {
                 icon: Iconsax.close_circle5,
                 title: 'Delete Account',
                 onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    showDragHandle: false,
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    builder: (context) =>
+                        ReAuthBottomSheet(
+                          title: 'Delete Account',
+                          subTitle: 'In order to delete your account you must provide your password below for security',
+                        )
+                  );
                 },
-                showArrow: true,
+                showArrow: false,
                 titleColor: MColors.primary,
               ),
             ],

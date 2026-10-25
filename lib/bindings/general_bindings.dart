@@ -3,6 +3,7 @@ import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:munch_yum/data/repositories/address_repository.dart';
 import 'package:munch_yum/data/repositories/order_repository.dart';
+import 'package:munch_yum/features/authentication/controllers/re-auth_controller.dart';
 import 'package:munch_yum/features/personification/controllers/address_controller.dart';
 import 'package:munch_yum/features/personification/controllers/loyalty_controller.dart';
 import 'package:munch_yum/features/personification/controllers/profile_controller.dart';
@@ -40,6 +41,6 @@ class GeneralBindings extends Bindings {
     Get.put(OrderRepository());
     Get.put(OrderController());
     Get.put(LoyaltyController());
-    Get.put(LoyaltyController());
+    Get.put(ReAuthController());
   }
 }

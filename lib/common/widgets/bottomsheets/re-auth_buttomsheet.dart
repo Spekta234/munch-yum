@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:munch_yum/features/authentication/controllers/re-auth_controller.dart';
 import 'package:munch_yum/features/authentication/controllers/signup/signup_controller.dart';
 import 'package:munch_yum/utils/constants/sizes.dart';
 
 import '../../../utils/validators/validation.dart';
 
 class ReAuthBottomSheet extends StatelessWidget {
-  const ReAuthBottomSheet ({super.key});
+  const ReAuthBottomSheet ({super.key, required this.title, required this.subTitle});
+
+  final String title;
+  final String subTitle;
+
 
   @override
   Widget build(BuildContext context) {
+    final controller = ReAuthController.instance;
     return Padding(
-      padding: const EdgeInsets.only(
+      padding: EdgeInsets.only(
         top: MSizes.md,
-        bottom: 50,
+        bottom: MediaQuery.of(context).viewInsets.bottom,
         left: MSizes.md,
         right: MSizes.md,
       ),
@@ -25,23 +32,82 @@ class ReAuthBottomSheet extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'Delete Account',
+                  title,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: MSizes.spaceBtwItems),
                 Text(
-                  'In order to delete your account you must provide your password below for security',
+                  subTitle,
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ],
             ),
           ),
           SizedBox(height: MSizes.spaceBtwSections),
-          Form(
-            child: TextFormField(
-              
+          Obx(
+              () => TextFormField(
+                controller: controller.password,
+                validator: (value) => MValidator.validatePassword(value),
+                obscureText: controller.hidePassword.value,
+                onChanged: (value) => controller.hasPassword.value = value.isNotEmpty,
+                decoration: InputDecoration(
+                  hintText: 'Enter your password',
+                  hintStyle: Theme.of(context).textTheme.labelLarge!.apply(color: Colors.grey),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  suffixIcon: IconButton(
+                      onPressed: () =>
+                      controller.hidePassword.value = !controller.hidePassword.value,
+                      icon: Icon(controller.hidePassword.value ? Iconsax.eye_slash : Iconsax.eye)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+              ),
             ),
+          const SizedBox(height: MSizes.spaceBtwSections),
+          Obx(
+            () {
+              final canProceed = controller.hasPassword.value == false; 
+              
+              return SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: canProceed ? null : controller.isLoading.value ? null : () async {
+                    final reAuth = await controller.reAuthUser();
+                    if (reAuth == true) {
+                      Navigator.pop(context);
+
+                    } else {
+
+                    }
+                  },
+                  child: controller.isLoading.value ? const  SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),) : Text('Continue'),
+                ),
+              );
+            }
           ),
+          const SizedBox(height: MSizes.spaceBtwItems),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Cancel'),
+            ),
+          )
         ],
       ),
     );

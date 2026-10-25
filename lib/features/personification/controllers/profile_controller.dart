@@ -146,5 +146,10 @@ class ProfileController extends GetxController {
     }
   }
 
+  Future<void> deleteAccount() async {
+
+  }
+
+
 
 }
