@@ -140,6 +140,29 @@ class UserRepository extends GetxController {
     }
   }
 
+  Future<void> deleteUserAddresses(String userId) async {
+    try {
+     final collectionRef = _db.collection('Users').doc(userId).collection('Addresses');
+
+     final snapshot = await collectionRef.get();
+
+     final batch = _db.batch();
+     for (var doc in snapshot.docs) {
+       batch.delete(doc.reference);
+     }
+
+     await batch.commit();
+    } on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const MFormatException().message;
+    } on PlatformException catch (e) {
+      throw MPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
+
 }
 
 

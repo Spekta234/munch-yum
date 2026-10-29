@@ -1,8 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:munch_yum/common/widgets/bottomsheets/re-auth_buttomsheet.dart';
 import 'package:munch_yum/data/repositories/user_repository.dart';
+import 'package:munch_yum/features/authentication/controllers/re-auth_controller.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 
+import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/local_storage/storage_utility.dart';
 import '../../../utils/snackbar/snack_bar.dart';
@@ -146,10 +151,59 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> deleteAccount() async {
+  Future<void> deleteAccount(BuildContext context) async {
 
+    final confirmed = await showDialog<bool>(context: context, builder: (dialogContext) {
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        title: const Text('Delete your account'),
+        content: const Text('Are you sure you want to delete your account? This can\'t be undone'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('No', style: TextStyle(color: MColors.black )),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(dialogContext, true);
+            },
+            child: const Text('Yes', style: TextStyle(color: MColors.primary)),
+          )
+        ],
+      );
+
+    }
+    );
+
+    if (confirmed != true) return;
+    if (!context.mounted) return;
+
+    final verified =   await Get.bottomSheet<bool>(
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      ReAuthBottomSheet(
+        title: 'Confirm your password to proceed',
+        subTitle: 'In order to delete your account, you must provide your password so we know it\'s really you.',),
+    ).whenComplete(() => ReAuthController.instance.resetForm());
+
+    if (verified != true) return;
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      MSnackBar.errorSnackBar(title: 'Error', message: 'No user is signed in');
+      return;
+    }
+    final userId = user.uid;
+
+    try {
+      // CHANGED: await it, because it's a Future
+      await UserRepository.instance.deleteUserAddresses(userId);
+      print('addresses deleted');
+
+      // NOT YET: deleteUserOrders, deleteUser, then the Auth delete LAST
+    } catch (e) {
+      // CHANGED: your repository throws a String, so show it and stop
+      MSnackBar.errorSnackBar(title: 'An error occurred', message: e.toString());
+      return;
+    }
   }
-
-
-
-}
+  }
