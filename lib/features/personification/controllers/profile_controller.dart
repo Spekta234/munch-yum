@@ -200,6 +200,9 @@ class ProfileController extends GetxController {
       print('addresses deleted');
 
       // NOT YET: deleteUserOrders, deleteUser, then the Auth delete LAST
+
+      await UserRepository.instance.deleteUserOrders(userId);
+      print('Orders deleted');
     } catch (e) {
       // CHANGED: your repository throws a String, so show it and stop
       MSnackBar.errorSnackBar(title: 'An error occurred', message: e.toString());

@@ -124,22 +124,6 @@ class UserRepository extends GetxController {
     }
   }
 
-  Future<void> deleteUser(String userId) async {
-    try {
-      await _db.collection('Users').doc(userId).delete();
-    } on FirebaseAuthException catch (e) {
-      throw MFirebaseAuthException(e.code).message;
-    } on FirebaseException catch (e) {
-      throw MFirebaseException(e.code).message;
-    } on FormatException catch (_) {
-      throw const MFormatException().message;
-    } on PlatformException catch (e) {
-      throw MPlatformException(e.code).message;
-    } catch (e) {
-      throw 'Something went wrong, Try again';
-    }
-  }
-
   Future<void> deleteUserAddresses(String userId) async {
     try {
      final collectionRef = _db.collection('Users').doc(userId).collection('Addresses');
@@ -163,6 +147,51 @@ class UserRepository extends GetxController {
     }
   }
 
+  Future<void> deleteUserOrders(String userId) async {
+    try {
+      final collectionRef = _db.collection('Users').doc(userId).collection('Orders');
+
+      final snapshot = await collectionRef.get();
+
+      var batch = _db.batch();
+      int count = 0;
+
+      for (var doc in snapshot.docs) {
+        batch.delete(doc.reference);
+        count ++;
+        if (count == 2) {
+          await batch.commit();
+          batch = _db.batch();
+          count = 0;
+        }
+      }
+
+      if (count > 0) await batch.commit();
+
+    } on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const MFormatException().message;
+    } on PlatformException catch (e) {
+      throw MPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
+
+  Future<void> removeUserRecord(String userId) async {
+    try {
+      await _db.collection('Users').doc(userId).delete();
+    }on FirebaseException catch (e) {
+      throw MFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const MFormatException().message;
+    } on PlatformException catch (e) {
+      throw MPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong, Try again';
+    }
+  }
 }
 
 
