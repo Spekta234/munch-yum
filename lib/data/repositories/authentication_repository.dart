@@ -21,6 +21,7 @@ import 'package:munch_yum/utils/local_storage/storage_utility.dart';
 
 import '../../features/authentication/screens/location/location.dart';
 import '../../features/authentication/screens/onboarding/onboarding.dart';
+import '../../features/personification/controllers/profile_controller.dart';
 
 
 class AuthenticationRepository extends GetxController {
@@ -156,19 +157,16 @@ class AuthenticationRepository extends GetxController {
 
 
 
-  /// Logout
   Future<void> logout() async {
-    try{
-      CartController.instance.clearCart();
-      CheckoutController.instance.resetCheckout();
-      OrderController.instance.resetOrder();
-     LoyaltyController.instance.resetLoyaltyFields();
-
-
-     NavigationController.instance.goToHome();
+    try {
+      try {
+        await ProfileController.instance.resetAllState();
+      } catch (e) {
+        debugPrint('Reset failed: $e');
+      }
       await _auth.signOut();
       Get.offAll(() => const LoginScreen());
-    } on FirebaseAuthException catch (e){
+    } on FirebaseAuthException catch (e) {
       throw MFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
       throw MFirebaseException(e.code).message;
@@ -176,8 +174,7 @@ class AuthenticationRepository extends GetxController {
       throw const MFormatException().message;
     } on PlatformException catch (e) {
       throw MPlatformException(e.code).message;
-    }
-    catch (e) {
+    } catch (e) {
       debugPrint('Logout failed: $e');
       throw 'Something went wrong, Try again';
     }
@@ -207,15 +204,7 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  Future<void> resetAllState() async {
-    await CartController.instance.clearCart();
-    CheckoutController.instance.resetCheckout();
-    OrderController.instance.resetOrder();
-    LoyaltyController.instance.resetLoyaltyFields();
 
-
-    NavigationController.instance.goToHome();
-  }
 
   Future<void> deleteUser() async {
     final user = _auth.currentUser;

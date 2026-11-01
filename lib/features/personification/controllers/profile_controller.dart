@@ -7,10 +7,17 @@ import 'package:munch_yum/data/repositories/user_repository.dart';
 import 'package:munch_yum/features/authentication/controllers/re-auth_controller.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 
+import '../../../data/repositories/authentication_repository.dart';
+import '../../../navigation_menu.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/local_storage/storage_utility.dart';
 import '../../../utils/snackbar/snack_bar.dart';
+import '../../authentication/screens/login/login.dart';
+import '../../shop/controllers/cart_controller.dart';
+import '../../shop/controllers/checkout_controller.dart';
+import '../../shop/controllers/order_controller.dart';
+import 'loyalty_controller.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get instance => Get.find();
@@ -118,6 +125,18 @@ class ProfileController extends GetxController {
     }
   }
 
+  Future<void> resetAllState() async {
+    await CartController.instance.clearCart();
+    CheckoutController.instance.resetCheckout();
+    OrderController.instance.resetOrder();
+    LoyaltyController.instance.resetLoyaltyFields();
+
+
+    NavigationController.instance.goToHome();
+  }
+
+
+
   Future<void> updateProfile() async {
     try {
       if (!profileFormKey.currentState!.validate()) return;
@@ -176,7 +195,6 @@ class ProfileController extends GetxController {
     );
 
     if (confirmed != true) return;
-    if (!context.mounted) return;
 
     final verified =   await Get.bottomSheet<bool>(
       isScrollControlled: true,
@@ -195,18 +213,32 @@ class ProfileController extends GetxController {
     final userId = user.uid;
 
     try {
-      // CHANGED: await it, because it's a Future
+
       await UserRepository.instance.deleteUserAddresses(userId);
       print('addresses deleted');
 
-      // NOT YET: deleteUserOrders, deleteUser, then the Auth delete LAST
-
       await UserRepository.instance.deleteUserOrders(userId);
       print('Orders deleted');
+
+      await UserRepository.instance.removeUserRecord(userId);
+      print('user doc deleted');
+
+      await AuthenticationRepository.instance.deleteUser();
+      print('auth deleted');
     } catch (e) {
-      // CHANGED: your repository throws a String, so show it and stop
       MSnackBar.errorSnackBar(title: 'An error occurred', message: e.toString());
       return;
     }
+
+
+    try {
+      await resetAllState();
+    } catch (e) {
+      debugPrint('Reset failed: $e');
+    }
+
+    MSnackBar.customToast(message: 'Account deleted');
+
+    Get.offAll(() => const LoginScreen());
   }
   }
