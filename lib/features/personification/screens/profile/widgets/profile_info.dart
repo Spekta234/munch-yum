@@ -201,7 +201,8 @@ class ProfileInfo extends StatelessWidget {
                     disabledBackgroundColor: MColors.primary
                   ),
                   onPressed:  controller.isLoading.value ? null : () => controller.updateProfile(),
-                  child: controller.isLoading.value ? const  SizedBox(
+                  child: controller.isLoading.value ? const
+                  SizedBox(
                     height: 20,
                     width: 20,
                     child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),) :

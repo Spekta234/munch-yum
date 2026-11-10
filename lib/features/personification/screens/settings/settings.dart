@@ -100,7 +100,10 @@ class Settings extends StatelessWidget {
                 MSettingsSections(
                   icon: Iconsax.messages5,
                   title: 'Support',
-                  onTap: () => Get.to(() => SupportScreen()),
+                  onTap: () {
+                    Get.offAll(() => const NavigationMenu());
+                    NavigationController.instance.goToSupport();
+                  }
                 ),
                 const SizedBox(height: MSizes.lg),
                 MSettingsSections(

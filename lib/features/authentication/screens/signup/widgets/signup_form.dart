@@ -171,7 +171,12 @@ class SignupForm extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () => controller.isLoading.value? null : controller.signup(),
                 child: controller.isLoading.value
-                    ? const CircularProgressIndicator(color: Colors.white,)
+                    ? SizedBox(
+                     height: 20,
+                     width: 20,
+                      child: const CircularProgressIndicator(
+                      color: Colors.white, strokeWidth: 2),
+                    )
                     : Text('Sign up'),
               ),
             ),

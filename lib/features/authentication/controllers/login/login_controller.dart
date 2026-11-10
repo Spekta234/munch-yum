@@ -40,7 +40,6 @@ class LoginController extends GetxController {
      // Save data if remember me is selected
      if (rememberMe.value) {
        storage.write('Remember_Me_Email', email.text.trim());
-       storage.write('Remember_Me_Password', password.text.trim());
      }
 
 
@@ -60,5 +59,16 @@ class LoginController extends GetxController {
      // Error to user
      MSnackBar.errorSnackBar(title: 'Oh Snap', message: e.toString());
    }
+  }
+
+  Future<void> clearRememberMe() async {
+
+   await storage.remove('Remember_Me_Email');
+   await storage.remove('Remember_Me_Password');
+
+
+    rememberMe.value = false;
+    email.clear();
+    password.clear();
   }
 }

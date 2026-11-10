@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:munch_yum/common/widgets/bottomsheets/re-auth_buttomsheet.dart';
 import 'package:munch_yum/data/repositories/user_repository.dart';
+import 'package:munch_yum/features/authentication/controllers/login/login_controller.dart';
 import 'package:munch_yum/features/authentication/controllers/re-auth_controller.dart';
 import 'package:munch_yum/features/shop/controllers/home_controller.dart';
 
@@ -215,16 +216,12 @@ class ProfileController extends GetxController {
     try {
 
       await UserRepository.instance.deleteUserAddresses(userId);
-      print('addresses deleted');
 
       await UserRepository.instance.deleteUserOrders(userId);
-      print('Orders deleted');
 
       await UserRepository.instance.removeUserRecord(userId);
-      print('user doc deleted');
 
       await AuthenticationRepository.instance.deleteUser();
-      print('auth deleted');
     } catch (e) {
       MSnackBar.errorSnackBar(title: 'An error occurred', message: e.toString());
       return;
@@ -233,6 +230,7 @@ class ProfileController extends GetxController {
 
     try {
       await resetAllState();
+      await LoginController.instance.clearRememberMe();
     } catch (e) {
       debugPrint('Reset failed: $e');
     }
